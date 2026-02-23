@@ -1,0 +1,63 @@
+/**
+ * Tailwind CSS v4 Configuration
+ * 
+ * Note: Errors about "@theme", "@apply", or "@utility" in your IDE are likely because
+ * the IDE's CSS language server has not yet been updated to support Tailwind v4 syntax.
+ * However, these are valid rules in Tailwind v4 and will compile correctly via Vite.
+ */
+
+@import "tailwindcss";
+
+@theme {
+    /* Brand Colors */
+    --color-primary: #00675D;
+    /* Dark Teal */
+    --color-secondary: #F9D783;
+    /* Yellow Active/Hover from image */
+    --color-accent-deep: #008000;
+    /* Deep Green from logo image */
+    --color-accent-fresh: #80FF00;
+    /* Bright Green from logo image */
+    --color-accent-lime: #D9ED92;
+    --color-dark: #1E1A1A;
+    --color-light: #F5F5F5;
+
+    /* Custom Gradients */
+    --bg-gradient-logo: linear-gradient(135deg, #008000 0%, #CCFF00 100%);
+    --bg-gradient-surface: linear-gradient(180deg, #FFFFFF 0%, #F5F5F5 100%);
+
+    /* Typography */
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+/* Base Styles */
+@layer base {
+    body {
+        @apply bg-light text-dark font-sans scroll-smooth;
+    }
+}
+
+/* Custom Utilities */
+@utility text-gradient-logo {
+    background: var(--bg-gradient-logo);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+@utility glass-primary {
+    background: rgba(0, 103, 93, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@utility glass-white {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+@utility text-outline-white {
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+    color: transparent;
+}
