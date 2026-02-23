@@ -38,7 +38,7 @@ export default function Contact() {
         <MainLayout lang={lang} onLangChange={setLang}>
             <Head title={t.title} />
 
-            <section className="relative pt-40 pb-20 bg-primary text-white overflow-hidden">
+            <section className="relative pt-32 pb-16 bg-primary text-white overflow-hidden text-center">
                 <div className="absolute inset-0 z-0">
                     <img
                         src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=2000"

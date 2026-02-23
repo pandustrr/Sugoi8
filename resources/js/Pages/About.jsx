@@ -53,7 +53,7 @@ export default function About() {
             <Head title={t.title} />
 
             {/* Hero Section */}
-            <section className="relative pt-40 pb-20 bg-primary text-white overflow-hidden">
+            <section className="relative pt-32 pb-16 bg-primary text-white overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <img
                         src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=2000"
@@ -74,12 +74,12 @@ export default function About() {
             </section>
 
             {/* Stats Section */}
-            <section className="py-16 md:py-24 bg-dark text-white">
+            <section className="py-10 md:py-14 bg-primary/95 text-white border-y border-white/5">
                 <Container>
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
                         {t.stats.map((stat, i) => (
                             <div key={i} className="text-center group">
-                                <p className="text-5xl md:text-7xl lg:text-8xl font-black text-secondary mb-4 group-hover:scale-105 transition-transform">
+                                <p className="text-4xl md:text-5xl lg:text-6xl font-black text-secondary mb-3 group-hover:scale-105 transition-transform">
                                     {stat.value}
                                 </p>
                                 <p className="text-[10px] md:text-xs font-black uppercase tracking-widest text-white/40">

@@ -39,7 +39,7 @@ export default function Portfolio() {
         <MainLayout lang={lang} onLangChange={setLang}>
             <Head title={t.title} />
 
-            <section className="relative pt-40 pb-20 bg-primary text-white overflow-hidden">
+            <section className="relative pt-32 pb-16 bg-primary text-white overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <img
                         src="https://images.unsplash.com/photo-1551817958-c1995a75cf2d?auto=format&fit=crop&q=80&w=2000"
@@ -50,7 +50,7 @@ export default function Portfolio() {
                 </div>
                 <Container className="relative z-10">
                     <span className="text-secondary font-black uppercase tracking-[0.3em] text-[10px] md:text-xs mb-6 block">{t.subtitle}</span>
-                    <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase mb-8 md:mb-12 leading-none">
+                    <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase mb-6 md:mb-10 leading-none">
                         {t.title}
                     </h1>
                     <p className="text-xl md:text-2xl text-white/40 max-w-2xl font-medium leading-relaxed">

@@ -47,6 +47,8 @@ const translations = {
         aboutDesc2: "We believe that every event is an opportunity to tell a unique story. Through strategic management and cutting-edge production, we deliver results that resonate and inspire.",
         aboutExp: "Years of Experience",
         aboutEvents: "Successful Events",
+        aboutPartners: "Global Partners",
+        aboutMinds: "Creative Minds",
         servicesTag: "WHAT WE DO",
         servicesTitle: "INTEGRATED SERVICE",
         servicesDesc: "We bridge creativity and technology to deliver unforgettable moments.",
@@ -91,6 +93,8 @@ const translations = {
         aboutDesc2: "Kami percaya setiap acara adalah kesempatan untuk menceritakan kisah unik. Melalui manajemen strategis dan produksi mutakhir, kami memberikan hasil yang berkesan dan menginspirasi.",
         aboutExp: "Tahun Pengalaman",
         aboutEvents: "Acara Berhasil",
+        aboutPartners: "Mitra Global",
+        aboutMinds: "Pikiran Kreatif",
         servicesTag: "APA YANG KAMI LAKUKAN",
         servicesTitle: "LAYANAN TERPADU",
         servicesDesc: "Kami menjembatani kreativitas dan teknologi untuk memberikan momen yang tak terlupakan.",
@@ -158,7 +162,7 @@ export default function Welcome() {
                             {t.heroTag}
                         </div>
 
-                        <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter text-white leading-[0.85] mb-8 uppercase">
+                        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-white leading-[0.85] mb-8 uppercase">
                             <span className="block opacity-20 text-outline-white mb-2 underline decoration-primary decoration-4 sm:decoration-8 underline-offset-3">SUGOI 8</span>
                             <span className="block italic">{t.heroTitle1}</span>
                             <span className="block text-secondary">{t.heroTitle2}</span>
@@ -186,7 +190,7 @@ export default function Welcome() {
             </section>
 
             {/* 2. About Section */}
-            <section id="about" className="py-24 md:py-40 bg-white overflow-hidden">
+            <section id="about" className="py-16 md:py-24 bg-white overflow-hidden">
                 <Container>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
                         <div className="relative">
@@ -204,14 +208,22 @@ export default function Welcome() {
                                 <p>{t.aboutDesc1}</p>
                                 <p>{t.aboutDesc2}</p>
                             </div>
-                            <div className="grid grid-cols-2 gap-8 md:gap-10 mt-12 md:mt-16">
+                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 mt-12 md:mt-16">
                                 <div>
-                                    <p className="text-4xl md:text-5xl font-black text-primary mb-2">10+</p>
+                                    <p className="text-3xl md:text-4xl font-black text-primary mb-2">10+</p>
                                     <p className="text-[10px] md:text-xs font-black uppercase tracking-widest text-dark/40">{t.aboutExp}</p>
                                 </div>
                                 <div>
-                                    <p className="text-4xl md:text-5xl font-black text-secondary mb-2">500+</p>
+                                    <p className="text-3xl md:text-4xl font-black text-secondary mb-2">500+</p>
                                     <p className="text-[10px] md:text-xs font-black uppercase tracking-widest text-dark/40">{t.aboutEvents}</p>
+                                </div>
+                                <div className="hidden lg:block">
+                                    <p className="text-3xl md:text-4xl font-black text-primary mb-2">120+</p>
+                                    <p className="text-[10px] md:text-xs font-black uppercase tracking-widest text-dark/40">{t.aboutPartners}</p>
+                                </div>
+                                <div className="hidden lg:block">
+                                    <p className="text-3xl md:text-4xl font-black text-secondary mb-2">50+</p>
+                                    <p className="text-[10px] md:text-xs font-black uppercase tracking-widest text-dark/40">{t.aboutMinds}</p>
                                 </div>
                             </div>
                         </div>
