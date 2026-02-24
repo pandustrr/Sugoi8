@@ -12,6 +12,7 @@ import {
 
 export default function Contact() {
     const [lang, setLang] = useState('en');
+    const [darkMode, setDarkMode] = useState(false);
 
     const t = {
         en: {
@@ -20,7 +21,8 @@ export default function Contact() {
             desc: "Have a vision? We have the expertise to bring it to life. Let's start a conversation today.",
             formTitle: "Send a Message",
             office: "Our HQ",
-            officeDesc: "Jakarta, Indonesia",
+            officeDesc: "Jl. Piere Tendean, Sumber Beringin, Karangrejo, Kec. Sumbersari, Kab. Jember, Jawa Timur 68124",
+            phone: "0859-5446-4539",
             btn: "Submit Message"
         },
         id: {
@@ -29,13 +31,14 @@ export default function Contact() {
             desc: "Punya visi? Kami punya keahlian untuk mewujudkannya. Mari mulai percakapan hari ini.",
             formTitle: "Kirim Pesan",
             office: "Kantor Pusat",
-            officeDesc: "Jakarta, Indonesia",
+            officeDesc: "Jl. Piere Tendean, Sumber Beringin, Karangrejo, Kec. Sumbersari, Kab. Jember, Jawa Timur 68124",
+            phone: "0859-5446-4539",
             btn: "Kirim Pesan"
         }
     }[lang];
 
     return (
-        <MainLayout lang={lang} onLangChange={setLang}>
+        <MainLayout lang={lang} onLangChange={setLang} darkMode={darkMode} onDarkModeToggle={setDarkMode}>
             <Head title={t.title} />
 
             <section className="relative pt-32 pb-16 bg-primary text-white overflow-hidden text-center">
@@ -75,11 +78,20 @@ export default function Contact() {
                                 </div>
                                 <div className="flex gap-6 md:gap-8 border-b border-dark/5 pb-8 md:pb-10">
                                     <div className="w-12 h-12 md:w-16 md:h-16 bg-light rounded-xl md:rounded-2xl flex items-center justify-center shrink-0">
+                                        <PhoneIcon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] md:text-xs font-black uppercase tracking-widest text-dark/40 mb-1 md:mb-2">Telepon / WhatsApp</p>
+                                        <a href="https://wa.me/6285954464539" target="_blank" rel="noopener noreferrer" className="text-xl md:text-2xl font-black text-dark hover:text-primary transition-colors">{t.phone}</a>
+                                    </div>
+                                </div>
+                                <div className="flex gap-6 md:gap-8 border-b border-dark/5 pb-8 md:pb-10">
+                                    <div className="w-12 h-12 md:w-16 md:h-16 bg-light rounded-xl md:rounded-2xl flex items-center justify-center shrink-0">
                                         <MapPinIcon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
                                     </div>
                                     <div>
                                         <p className="text-[10px] md:text-xs font-black uppercase tracking-widest text-dark/40 mb-1 md:mb-2">{t.office}</p>
-                                        <p className="text-xl md:text-2xl font-black text-dark">{t.officeDesc}</p>
+                                        <p className="text-xl md:text-2xl font-black text-dark leading-snug">{t.officeDesc}</p>
                                     </div>
                                 </div>
                             </div>

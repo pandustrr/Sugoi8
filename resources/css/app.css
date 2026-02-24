@@ -45,10 +45,10 @@
 }
 
 @utility glass-primary {
-    background: rgba(0, 103, 93, 0.95);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(0, 103, 93, 0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 @utility glass-white {
@@ -60,4 +60,15 @@
 @utility text-outline-white {
     -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
     color: transparent;
+}
+
+/* Marquee animation */
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
 }

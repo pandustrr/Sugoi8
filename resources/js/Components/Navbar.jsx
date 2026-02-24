@@ -9,12 +9,14 @@ import {
     CalendarIcon,
     TicketIcon,
     PresentationChartBarIcon,
-    WrenchScrewdriverIcon
+    WrenchScrewdriverIcon,
+    SunIcon,
+    MoonIcon
 } from '@heroicons/react/24/outline';
 import Container from './UI/Container';
 import Button from './UI/Button';
 
-export default function Navbar({ lang = 'en', onLangChange }) {
+export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkModeToggle }) {
     const { url } = usePage();
     const [isScrolled, setIsScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -77,10 +79,29 @@ export default function Navbar({ lang = 'en', onLangChange }) {
             viewAll: 'Lihat Semua Solusi',
             searchPlace: 'Cari layanan, portofolio, atau berita...',
             searchTitle: 'Pencarian Cepat'
+        },
+        jp: {
+            home: 'ホーム',
+            about: '会社概要',
+            services: 'サービス',
+            portfolio: '実績',
+            partners: 'パートナー',
+            contact: 'お問い合わせ',
+            eo: 'イベント企画',
+            eoDesc: '企画・制作・プロデュース。',
+            show: 'ショーマネジメント',
+            showDesc: 'タレント & ステージ管理。',
+            mice: 'MICEサービス',
+            miceDesc: '法人向け & ギャザリング。',
+            prod: '制作 & 機材',
+            prodDesc: '音響、照明、サポート。',
+            viewAll: 'すべてのサービスを見る',
+            searchPlace: 'サービス、実績、ニュースを検索...',
+            searchTitle: 'クイック検索'
         }
     };
 
-    const cur = t[lang];
+    const cur = t[lang] || t['en'];
 
     const eoServices = [
         { name: 'Event Planner', href: '/services' },
@@ -114,13 +135,18 @@ export default function Navbar({ lang = 'en', onLangChange }) {
     return (
         <>
             <header
-                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${isScrolled ? 'glass-primary shadow-lg py-3' : 'bg-primary py-5'
+                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${isScrolled
+                    ? 'glass-primary shadow-lg py-3'
+                    : 'bg-primary/80 backdrop-blur-md py-5'
                     }`}
             >
                 <Container className="flex items-center justify-between">
                     <div className="flex lg:flex-1">
                         <Link href="/" className="flex items-center gap-2 group">
-                            <span className="text-xl md:text-2xl font-black tracking-tighter text-white uppercase italic">SUGOI</span>
+                            <div className="flex flex-col leading-none">
+                                <span className="text-xl md:text-2xl font-black tracking-tighter text-white uppercase italic">SUGOI</span>
+                                <span className="text-[10px] font-bold tracking-widest text-[#8AB27F] uppercase">Management</span>
+                            </div>
                             <div className="relative w-7 h-7 md:w-8 md:h-8 flex items-center justify-center bg-gradient-logo rounded-lg shadow-lg group-hover:rotate-360 transition-all duration-700">
                                 <span className="text-white font-black text-lg leading-none">8</span>
                             </div>
@@ -218,36 +244,68 @@ export default function Navbar({ lang = 'en', onLangChange }) {
                             </Menu>
                         </div>
 
-                        <div className="ml-4 border-l border-white/20 pl-4 flex items-center gap-2">
-                            <button
-                                onClick={() => onLangChange('id')}
-                                className={`text-[10px] font-black px-2 py-1 rounded-md transition-all ${lang === 'id' ? 'bg-secondary text-dark shadow-lg' : 'text-white/40 hover:text-white'}`}
-                            >
-                                ID
-                            </button>
-                            <button
-                                onClick={() => onLangChange('en')}
-                                className={`text-[10px] font-black px-2 py-1 rounded-md transition-all ${lang === 'en' ? 'bg-secondary text-dark shadow-lg' : 'text-white/40 hover:text-white'}`}
-                            >
-                                EN
-                            </button>
+                        <div className="ml-4 border-l border-white/20 pl-4 flex items-center gap-1">
+                            {[
+                                { code: 'id', label: 'ID' },
+                                { code: 'en', label: 'EN' },
+                                { code: 'jp', label: 'JP' },
+                            ].map(({ code, label }) => (
+                                <button
+                                    key={code}
+                                    onClick={() => onLangChange(code)}
+                                    className={`text-[10px] font-black px-2 py-1 rounded-md transition-all ${lang === code ? 'bg-secondary text-dark shadow-lg' : 'text-white/40 hover:text-white'}`}
+                                >
+                                    {label}
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className={`flex items-center transition-all duration-500 overflow-hidden ${searchOpen ? 'max-w-[300px] ml-4' : 'max-w-0 ml-0'}`}>
+                            <div className="relative">
+                                <input
+                                    type="text"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    placeholder={cur.searchPlace}
+                                    className={`bg-white border border-white/20 rounded-xl px-4 py-2 text-[10px] font-bold text-primary placeholder:text-primary/30 outline-none focus:ring-2 focus:ring-secondary/50 w-64 transition-all ${searchOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+                                />
+                                {searchQuery.length >= 1 && (
+                                    <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-dark/5 p-4 z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-300">
+                                        <p className="text-[9px] font-black uppercase tracking-widest text-dark/30 mb-3 px-2">Results for "{searchQuery}"</p>
+                                        <div className="space-y-1">
+                                            {[cur.eo, cur.show, cur.mice].map((item, i) => (
+                                                <Link key={i} href="/services" className="block px-3 py-2 rounded-xl hover:bg-primary/5 text-[11px] font-bold text-dark transition-colors">
+                                                    {item}
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
 
                         <button
-                            onClick={() => setSearchOpen(true)}
-                            className="ml-4 text-white/50 hover:text-white p-2 transition-colors"
+                            onClick={() => setSearchOpen(!searchOpen)}
+                            className={`ml-2 p-2 transition-all duration-300 ${searchOpen ? 'text-secondary' : 'text-white/50 hover:text-white'}`}
                         >
                             <MagnifyingGlassIcon className="w-4 h-4" />
                         </button>
+
+                        {/* <button
+                            onClick={() => onDarkModeToggle(!darkMode)}
+                            className="ml-4 text-white/50 hover:text-white p-2 transition-all duration-300"
+                        >
+                            {darkMode ? <SunIcon className="w-4 h-4 animate-spin-slow" /> : <MoonIcon className="w-4 h-4" />}
+                        </button> */}
                     </nav>
 
                     <div className="hidden lg:flex lg:flex-1 lg:justify-end">
                         <Button
                             variant="secondary"
-                            href="/contact"
-                            className="px-8 py-3 text-[10px] font-black tracking-[0.2em] shadow-xl shadow-secondary/20 transition-all hover:scale-105 active:scale-95"
+                            href="/about#contact"
+                            className="px-8 py-3 text-[10px] font-black tracking-[0.2em] shadow-xl shadow-secondary/20 transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
                         >
-                            {cur.contact}
+                            {cur.contact} <span className="text-base leading-none">→</span>
                         </Button>
                     </div>
 
@@ -349,86 +407,6 @@ export default function Navbar({ lang = 'en', onLangChange }) {
                 </Transition>
             </header>
 
-            {/* Simple Search Modal */}
-            <Transition show={searchOpen} as={Fragment}>
-                <div className="relative z-100">
-                    <Transition.Child
-                        as={Fragment}
-                        enter="duration-300 ease-out"
-                        enterFrom="opacity-0"
-                        enterTo="opacity-100"
-                        leave="duration-200 ease-in"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                    >
-                        <div className="fixed inset-0 bg-dark/40 backdrop-blur-md transition-opacity" onClick={() => setSearchOpen(false)} />
-                    </Transition.Child>
-
-                    <div className="fixed inset-0 z-10 overflow-y-auto">
-                        <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                            <Transition.Child
-                                as={Fragment}
-                                enter="duration-300 ease-out"
-                                enterFrom="opacity-0 translate-y-8 sm:translate-y-0 sm:scale-95"
-                                enterTo="opacity-100 translate-y-0 sm:scale-100"
-                                leave="duration-200 ease-in"
-                                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                                leaveTo="opacity-0 translate-y-8 sm:translate-y-0 sm:scale-95"
-                            >
-                                <div className="relative transform overflow-hidden rounded-[40px] bg-white p-8 md:p-10 text-left shadow-2xl transition-all w-full max-w-xl mx-4">
-                                    <div className="flex items-center justify-between mb-8">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 bg-primary/5 rounded-xl flex items-center justify-center">
-                                                <MagnifyingGlassIcon className="w-5 h-5 text-primary" />
-                                            </div>
-                                            <p className="font-black text-[10px] uppercase tracking-[0.2em] text-dark">{cur.searchTitle}</p>
-                                        </div>
-                                        <button
-                                            onClick={() => setSearchOpen(false)}
-                                            className="p-2 text-dark/10 hover:text-dark transition-colors"
-                                        >
-                                            <XMarkIcon className="w-6 h-6" />
-                                        </button>
-                                    </div>
-                                    <div className="relative">
-                                        <input
-                                            autoFocus
-                                            type="text"
-                                            value={searchQuery}
-                                            onChange={(e) => setSearchQuery(e.target.value)}
-                                            placeholder={cur.searchPlace}
-                                            className="w-full bg-light border-2 border-transparent focus:border-primary/20 rounded-2xl py-5 px-8 font-bold text-dark placeholder:text-dark/20 outline-none transition-all text-lg"
-                                        />
-                                    </div>
-                                    <div className="mt-10">
-                                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-dark/20 mb-6 flex items-center gap-4">
-                                            Quick Access
-                                            <span className="h-px bg-dark/5 flex-1" />
-                                        </p>
-                                        <div className="grid grid-cols-2 gap-3">
-                                            {[
-                                                { label: 'Events', link: '/services' },
-                                                { label: 'Portfolios', link: '/portfolio' },
-                                                { label: 'Expertise', link: '/services' },
-                                                { label: 'Connect', link: '/contact' }
-                                            ].map((item) => (
-                                                <Link
-                                                    key={item.label}
-                                                    href={item.link}
-                                                    onClick={() => setSearchOpen(false)}
-                                                    className="p-4 bg-light hover:bg-white hover:shadow-lg border border-transparent hover:border-primary/10 rounded-2xl text-left transition-all group"
-                                                >
-                                                    <p className="text-[10px] font-black uppercase tracking-widest text-dark/40 group-hover:text-primary transition-colors">{item.label}</p>
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            </Transition.Child>
-                        </div>
-                    </div>
-                </div>
-            </Transition>
         </>
     );
 }

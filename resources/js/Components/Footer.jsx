@@ -53,7 +53,7 @@ export default function Footer() {
                         <div className="space-y-6">
                             <div>
                                 <p className="text-[10px] font-black uppercase tracking-widest text-secondary mb-2">Location</p>
-                                <p className="text-sm font-bold text-white/60">Jakarta, Indonesia</p>
+                                <p className="text-sm font-bold text-white/60">Kab. Jember, Jawa Timur</p>
                             </div>
                             <div>
                                 <p className="text-[10px] font-black uppercase tracking-widest text-secondary mb-2">Inquiries</p>

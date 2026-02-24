@@ -7,6 +7,7 @@ import { HandRaisedIcon } from '@heroicons/react/24/outline';
 
 export default function Partners() {
     const [lang, setLang] = useState('en');
+    const [darkMode, setDarkMode] = useState(false);
 
     const t = {
         en: {
@@ -31,30 +32,68 @@ export default function Partners() {
     ];
 
     return (
-        <MainLayout lang={lang} onLangChange={setLang}>
+        <MainLayout lang={lang} onLangChange={setLang} darkMode={darkMode} onDarkModeToggle={setDarkMode}>
             <Head title={t.title} />
 
-            <section className="relative pt-32 pb-16 bg-primary text-white overflow-hidden">
+            <section className="relative min-h-[480px] pt-32 pb-16 bg-primary text-white overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <img
-                        src="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80&w=2000"
-                        className="w-full h-full object-cover opacity-10 grayscale"
+                        src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=2000"
+                        className="w-full h-full object-cover opacity-50 grayscale"
                         alt="Partners Background"
                     />
-                    <div className="absolute inset-0 bg-linear-to-b from-primary via-primary/80 to-primary/40" />
+                    <div className="absolute inset-0 bg-linear-to-b from-primary/40 via-primary/10 to-transparent" />
+                </div>
+
+                {/* Decorative Elements */}
+                <div className="absolute inset-0 z-0 pointer-events-none">
+                    {/* Architectural Mesh */}
+                    <div className="absolute inset-0 opacity-[0.05]" style={{
+                        backgroundImage: 'linear-gradient(rgba(255,255,255,0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.2) 1px, transparent 1px)',
+                        backgroundSize: '100px 100px'
+                    }} />
+
+                    {/* Collaboration Orbs */}
+                    <div className="absolute top-1/2 right-1/4 w-64 h-64 bg-secondary/20 rounded-full blur-[90px] -translate-y-1/2" />
+                    <div className="absolute top-1/4 right-0 w-80 h-80 bg-white/5 rounded-full blur-[100px] translate-x-1/2" />
+
+                    {/* Decorative Slant */}
+                    <div className="absolute bottom-0 right-0 w-full h-1/2 bg-linear-to-t from-black/20 to-transparent skew-y-[-2deg] origin-bottom-right" />
                 </div>
                 <Container className="relative z-10">
-                    <div className="max-w-4xl">
-                        <span className="text-secondary font-black uppercase tracking-[0.3em] text-[10px] md:text-xs mb-6 block">{t.subtitle}</span>
-                        <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase mb-6 md:mb-10 leading-none">
-                            {t.title}
-                        </h1>
-                        <p className="text-xl md:text-2xl text-white/40 font-medium leading-relaxed max-w-2xl">
-                            {t.desc}
-                        </p>
-                    </div>
+                    <span className="text-secondary font-black uppercase tracking-[0.3em] text-[10px] md:text-xs mb-6 block">{t.subtitle}</span>
+                    <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase mb-6 md:mb-10 leading-none">
+                        {t.title}
+                    </h1>
+                    <p className="text-xl md:text-2xl text-white/40 font-medium leading-relaxed max-w-2xl">
+                        {t.desc}
+                    </p>
                 </Container>
             </section>
+
+            {/* ── MARQUEE STRIP ── */}
+            <div className="bg-secondary py-3 overflow-hidden">
+                <div className="flex items-center whitespace-nowrap" style={{ animation: 'marquee 25s linear infinite' }}>
+                    {Array(2).fill(null).map((_, gi) => (
+                        <span key={gi} className="flex items-center gap-8 px-8 shrink-0">
+                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Event Organizer</span>
+                            <span className="text-dark/40 text-lg">✦</span>
+                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Show Management</span>
+                            <span className="text-dark/40 text-lg">✦</span>
+                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">MICE Services</span>
+                            <span className="text-dark/40 text-lg">✦</span>
+                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Production</span>
+                            <span className="text-dark/40 text-lg">✦</span>
+                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Event Branding</span>
+                            <span className="text-dark/40 text-lg">✦</span>
+                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Talent Handling</span>
+                            <span className="text-dark/40 text-lg">✦</span>
+                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Sugoi 8 Management</span>
+                            <span className="text-dark/40 text-lg">✦</span>
+                        </span>
+                    ))}
+                </div>
+            </div>
 
             <section className="py-24 md:py-32 bg-white">
                 <Container>

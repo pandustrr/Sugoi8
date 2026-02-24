@@ -13,6 +13,7 @@ import {
 
 export default function Services() {
     const [lang, setLang] = useState('en');
+    const [darkMode, setDarkMode] = useState(false);
 
     const content = {
         en: {
@@ -82,30 +83,73 @@ export default function Services() {
     const t = content[lang];
 
     return (
-        <MainLayout lang={lang} onLangChange={setLang}>
+        <MainLayout lang={lang} onLangChange={setLang} darkMode={darkMode} onDarkModeToggle={setDarkMode}>
             <Head title={t.title} />
 
-            <section className="relative pt-32 pb-16 bg-primary text-white overflow-hidden">
+            <section className="relative min-h-[480px] pt-32 pb-16 bg-primary text-white overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <img
-                        src="https://images.unsplash.com/photo-1540575861501-7c037137b204?auto=format&fit=crop&q=80&w=2000"
-                        className="w-full h-full object-cover opacity-10 grayscale"
+                        src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&q=80&w=2000"
+                        className="w-full h-full object-cover opacity-50 grayscale"
                         alt="Services Background"
                     />
-                    <div className="absolute inset-0 bg-linear-to-b from-primary via-primary/80 to-primary/40" />
+                    <div className="absolute inset-0 bg-linear-to-b from-primary/40 via-primary/10 to-transparent" />
+                </div>
+
+                {/* Decorative Elements */}
+                <div className="absolute inset-0 z-0 pointer-events-none">
+                    {/* Logic Grid */}
+                    <div className="absolute inset-0 opacity-[0.1]" style={{
+                        backgroundImage: 'radial-gradient(circle, white 0.5px, transparent 0.5px)',
+                        backgroundSize: '24px 24px'
+                    }} />
+
+                    {/* Energy Orbs */}
+                    <div className="absolute top-1/4 left-1/2 w-96 h-96 bg-secondary/10 rounded-full blur-[110px] -translate-x-1/2" />
+                    <div className="absolute -bottom-10 right-10 w-64 h-64 bg-accent-fresh/5 rounded-full blur-[70px]" />
+
+                    {/* Floating Service Badge (large ghost) */}
+                    <div className="absolute right-[-5rem] top-1/2 -translate-y-1/2 text-[20rem] font-black text-white/[0.02] uppercase leading-none select-none tracking-tighter">
+                        PRO
+                    </div>
+
+                    {/* Left vertical accent */}
+                    <div className="absolute left-10 top-0 w-px h-full bg-linear-to-b from-white/10 via-transparent to-white/10 hidden md:block" />
                 </div>
                 <Container className="relative z-10">
-                    <div className="max-w-4xl">
-                        <span className="text-secondary font-black uppercase tracking-[0.3em] text-[10px] md:text-xs mb-6 block">{t.subtitle}</span>
-                        <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase mb-6 md:mb-10 text-white leading-none">
-                            {t.title}
-                        </h1>
-                        <p className="text-xl md:text-2xl text-white/40 font-medium leading-relaxed max-w-2xl">
-                            {t.desc}
-                        </p>
-                    </div>
+                    <span className="text-secondary font-black uppercase tracking-[0.3em] text-[10px] md:text-xs mb-6 block">{t.subtitle}</span>
+                    <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase mb-6 md:mb-10 text-white leading-none">
+                        {t.title}
+                    </h1>
+                    <p className="text-xl md:text-2xl text-white/40 font-medium leading-relaxed max-w-2xl">
+                        {t.desc}
+                    </p>
                 </Container>
             </section>
+
+            {/* ── MARQUEE STRIP ── */}
+            <div className="bg-secondary py-3 overflow-hidden">
+                <div className="flex items-center whitespace-nowrap" style={{ animation: 'marquee 25s linear infinite' }}>
+                    {Array(2).fill(null).map((_, gi) => (
+                        <span key={gi} className="flex items-center gap-8 px-8 shrink-0">
+                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Event Organizer</span>
+                            <span className="text-dark/40 text-lg">✦</span>
+                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Show Management</span>
+                            <span className="text-dark/40 text-lg">✦</span>
+                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">MICE Services</span>
+                            <span className="text-dark/40 text-lg">✦</span>
+                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Production</span>
+                            <span className="text-dark/40 text-lg">✦</span>
+                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Event Branding</span>
+                            <span className="text-dark/40 text-lg">✦</span>
+                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Talent Handling</span>
+                            <span className="text-dark/40 text-lg">✦</span>
+                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Sugoi 8 Management</span>
+                            <span className="text-dark/40 text-lg">✦</span>
+                        </span>
+                    ))}
+                </div>
+            </div>
 
             <section className="pb-24 md:pb-40 bg-white">
                 <Container>
