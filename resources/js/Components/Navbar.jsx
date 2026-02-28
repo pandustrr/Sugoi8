@@ -152,212 +152,216 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
     return (
         <>
             <header
-                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${isScrolled
-                    ? 'glass-primary shadow-lg py-3'
-                    : 'bg-primary/80 backdrop-blur-md py-5'
-                    }`}
+                className="fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-in-out px-4 md:px-8 py-6"
             >
-                <Container className="flex items-center justify-between">
-                    <div className="flex lg:flex-1">
-                        <Link href="/" className="flex items-center gap-2 group">
-                            <div className="flex flex-col leading-none">
-                                <span className="text-xl md:text-2xl font-black tracking-tight text-white uppercase">SUGOI</span>
-                                <span className="text-[10px] font-bold tracking-[0.3em] text-white uppercase">Management</span>
-                            </div>
-                            <div className="relative w-8 h-8 md:w-9 md:h-9 flex items-center justify-center bg-gradient-logo rounded-lg shadow-lg">
-                                <span className="text-white font-black text-xl md:text-2xl leading-none">8</span>
-                            </div>
-                        </Link>
-                    </div>
-
-                    <nav className="hidden lg:flex items-center gap-x-4">
-                        {navLinks.map((link) => (
-                            <Link
-                                key={link.name}
-                                href={link.href}
-                                className={`px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 ${isActive(link.href) ? 'text-secondary' : 'text-white/70 hover:text-secondary'
-                                    }`}
-                            >
-                                {link.name}
+                <div className={`mx-auto max-w-7xl transition-all duration-700 glass-navbar shadow-2xl ${isScrolled
+                    ? 'rounded-[32px] px-8 py-3 scale-[0.98]'
+                    : 'rounded-[40px] px-10 py-5 scale-100'
+                    }`}>
+                    <div className="flex items-center justify-between">
+                        <div className="flex lg:flex-1">
+                            <Link href="/" className="flex items-center gap-2 group">
+                                <div className="flex flex-col leading-none">
+                                    <span className="text-xl md:text-2xl font-black tracking-tight text-white uppercase">SUGOI</span>
+                                    <span className="text-[10px] font-bold tracking-[0.3em] text-white uppercase">Management</span>
+                                </div>
+                                <div className="relative w-8 h-8 md:w-9 md:h-9 flex items-center justify-center bg-gradient-logo rounded-lg shadow-lg">
+                                    <span className="text-white font-black text-xl md:text-2xl leading-none">8</span>
+                                </div>
                             </Link>
-                        ))}
+                        </div>
 
-                        <div
-                            className="relative"
-                            onMouseEnter={handleServicesEnter}
-                            onMouseLeave={handleServicesLeave}
-                        >
-                            <Link
-                                href="/services"
-                                className={`group flex items-center px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 outline-none ${isActive('/services') ? 'text-secondary' : 'text-white/70 hover:text-secondary'}`}
-                            >
-                                {cur.services}
-                                <ChevronDownIcon className={`ml-1 w-3 h-3 transition-transform duration-300 ${isServicesOpen ? 'rotate-180' : ''}`} />
-                            </Link>
+                        <nav className="hidden lg:flex items-center gap-x-4">
+                            {navLinks.map((link) => (
+                                <Link
+                                    key={link.name}
+                                    href={link.href}
+                                    className={`px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 ${isActive(link.href) ? 'text-secondary' : 'text-white/70 hover:text-secondary'
+                                        }`}
+                                >
+                                    {link.name}
+                                </Link>
+                            ))}
 
-                            <Transition
-                                show={isServicesOpen}
-                                as={Fragment}
-                                enter="transition ease-out duration-300"
-                                enterFrom="opacity-0 translate-y-2 scale-95"
-                                enterTo="opacity-100 translate-y-0 scale-100"
-                                leave="transition ease-in duration-200"
-                                leaveFrom="opacity-100 translate-y-0 scale-100"
-                                leaveTo="opacity-0 translate-y-2 scale-95"
+                            <div
+                                className="relative"
+                                onMouseEnter={handleServicesEnter}
+                                onMouseLeave={handleServicesLeave}
                             >
-                                <div className="absolute left-0 mt-0 pt-4 w-[640px] max-w-xl z-50">
-                                    <div className="rounded-[32px] bg-white shadow-2xl ring-1 ring-black/5 overflow-hidden">
-                                        <div className="p-8 grid grid-cols-2 gap-8">
-                                            <div>
-                                                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-dark/5">
-                                                    <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center">
-                                                        <CalendarIcon className="w-5 h-5 text-primary" />
+                                <Link
+                                    href="/services"
+                                    className={`group flex items-center px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 outline-none ${isActive('/services') ? 'text-secondary' : 'text-white/70 hover:text-secondary'}`}
+                                >
+                                    {cur.services}
+                                    <ChevronDownIcon className={`ml-1 w-3 h-3 transition-transform duration-300 ${isServicesOpen ? 'rotate-180' : ''}`} />
+                                </Link>
+
+                                <Transition
+                                    show={isServicesOpen}
+                                    as={Fragment}
+                                    enter="transition ease-out duration-300"
+                                    enterFrom="opacity-0 translate-y-2 scale-95"
+                                    enterTo="opacity-100 translate-y-0 scale-100"
+                                    leave="transition ease-in duration-200"
+                                    leaveFrom="opacity-100 translate-y-0 scale-100"
+                                    leaveTo="opacity-0 translate-y-2 scale-95"
+                                >
+                                    <div className="absolute left-0 mt-0 pt-4 w-[640px] max-w-xl z-50">
+                                        <div className="rounded-[32px] bg-white shadow-2xl ring-1 ring-black/5 overflow-hidden">
+                                            <div className="p-8 grid grid-cols-2 gap-8">
+                                                <div>
+                                                    <div className="flex items-center gap-3 mb-6 pb-4 border-b border-dark/5">
+                                                        <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center">
+                                                            <CalendarIcon className="w-5 h-5 text-primary" />
+                                                        </div>
+                                                        <p className="font-black text-xs uppercase tracking-widest text-dark">{cur.eo}</p>
                                                     </div>
-                                                    <p className="font-black text-xs uppercase tracking-widest text-dark">{cur.eo}</p>
+                                                    <div className="grid grid-cols-1 gap-2">
+                                                        {eoServices.map((item) => (
+                                                            <Link
+                                                                key={item.name}
+                                                                href={item.href}
+                                                                className="px-3 py-2 text-sm font-bold text-dark/60 hover:text-primary hover:translate-x-1 transition-all flex items-center gap-2"
+                                                                onClick={() => setIsServicesOpen(false)}
+                                                            >
+                                                                <div className="w-1.5 h-1.5 rounded-full bg-primary/20" />
+                                                                {item.name}
+                                                            </Link>
+                                                        ))}
+                                                    </div>
                                                 </div>
-                                                <div className="grid grid-cols-1 gap-2">
-                                                    {eoServices.map((item) => (
+
+                                                <div className="space-y-8">
+                                                    {mainServices.map((item) => (
                                                         <Link
                                                             key={item.name}
                                                             href={item.href}
-                                                            className="px-3 py-2 text-sm font-bold text-dark/60 hover:text-primary hover:translate-x-1 transition-all flex items-center gap-2"
+                                                            className="group flex items-start gap-4 rounded-2xl p-4 transition-all duration-300 hover:bg-primary/5"
                                                             onClick={() => setIsServicesOpen(false)}
                                                         >
-                                                            <div className="w-1.5 h-1.5 rounded-full bg-primary/20" />
-                                                            {item.name}
+                                                            <div className="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-primary/5 text-primary group-hover:bg-primary group-hover:text-white group-hover:scale-110 transition-all duration-300">
+                                                                <item.icon className="h-5 w-5" aria-hidden="true" />
+                                                            </div>
+                                                            <div>
+                                                                <p className="text-sm font-black uppercase tracking-widest text-dark mb-1">{item.name}</p>
+                                                                <p className="text-[10px] text-dark/50 leading-tight font-medium">{item.description}</p>
+                                                            </div>
                                                         </Link>
                                                     ))}
                                                 </div>
                                             </div>
+                                            <div className="bg-light/50 p-6 text-center border-t border-dark/5">
+                                                <Link
+                                                    href="/services"
+                                                    className="text-[10px] font-black uppercase tracking-[0.3em] text-primary hover:tracking-[0.4em] transition-all"
+                                                    onClick={() => setIsServicesOpen(false)}
+                                                >
+                                                    {cur.viewAll}
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Transition>
+                            </div>
 
-                                            <div className="space-y-8">
-                                                {mainServices.map((item) => (
-                                                    <Link
-                                                        key={item.name}
-                                                        href={item.href}
-                                                        className="group flex items-start gap-4 rounded-2xl p-4 transition-all duration-300 hover:bg-primary/5"
-                                                        onClick={() => setIsServicesOpen(false)}
-                                                    >
-                                                        <div className="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-primary/5 text-primary group-hover:bg-primary group-hover:text-white group-hover:scale-110 transition-all duration-300">
-                                                            <item.icon className="h-5 w-5" aria-hidden="true" />
-                                                        </div>
-                                                        <div>
-                                                            <p className="text-sm font-black uppercase tracking-widest text-dark mb-1">{item.name}</p>
-                                                            <p className="text-[10px] text-dark/50 leading-tight font-medium">{item.description}</p>
-                                                        </div>
+                            <div className="ml-4 border-l border-white/20 pl-4 flex items-center gap-1">
+                                {[
+                                    { code: 'id', label: 'ID' },
+                                    { code: 'en', label: 'EN' },
+                                    { code: 'jp', label: 'JP' },
+                                ].map(({ code, label }) => (
+                                    <button
+                                        key={code}
+                                        onClick={() => onLangChange(code)}
+                                        className={`text-[10px] font-black px-2.5 py-1.5 rounded-lg transition-all duration-300 ${lang === code ? 'bg-secondary/20 text-secondary text-glow-secondary shadow-[0_0_20px_rgba(249,215,131,0.2)] border border-secondary/30' : 'text-white/40 hover:text-white hover:bg-white/5'}`}
+                                    >
+                                        {label}
+                                    </button>
+                                ))}
+                            </div>
+
+                            <div className={`flex items-center transition-all duration-500 overflow-hidden ${searchOpen ? 'max-w-[300px] ml-4' : 'max-w-0 ml-0'}`}>
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        placeholder={cur.searchPlace}
+                                        className={`glass-pill border border-white/10 rounded-xl px-4 py-2 text-[10px] font-bold text-white placeholder:text-white/30 outline-none focus:ring-2 focus:ring-secondary/50 w-64 transition-all ${searchOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+                                    />
+                                    {searchQuery.length >= 1 && (
+                                        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-dark/5 p-4 z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-300">
+                                            <p className="text-[9px] font-black uppercase tracking-widest text-dark/30 mb-3 px-2">Results for "{searchQuery}"</p>
+                                            <div className="space-y-1">
+                                                {[cur.eo, cur.show, cur.mice].map((item, i) => (
+                                                    <Link key={i} href="/services" className="block px-3 py-2 rounded-xl hover:bg-primary/5 text-[11px] font-bold text-dark transition-colors">
+                                                        {item}
                                                     </Link>
                                                 ))}
                                             </div>
                                         </div>
-                                        <div className="bg-light/50 p-6 text-center border-t border-dark/5">
-                                            <Link
-                                                href="/services"
-                                                className="text-[10px] font-black uppercase tracking-[0.3em] text-primary hover:tracking-[0.4em] transition-all"
-                                                onClick={() => setIsServicesOpen(false)}
-                                            >
-                                                {cur.viewAll}
-                                            </Link>
-                                        </div>
-                                    </div>
+                                    )}
                                 </div>
-                            </Transition>
-                        </div>
-
-                        <div className="ml-4 border-l border-white/20 pl-4 flex items-center gap-1">
-                            {[
-                                { code: 'id', label: 'ID' },
-                                { code: 'en', label: 'EN' },
-                                { code: 'jp', label: 'JP' },
-                            ].map(({ code, label }) => (
-                                <button
-                                    key={code}
-                                    onClick={() => onLangChange(code)}
-                                    className={`text-[10px] font-black px-2 py-1 rounded-md transition-all ${lang === code ? 'bg-secondary text-dark shadow-lg' : 'text-white/40 hover:text-white'}`}
-                                >
-                                    {label}
-                                </button>
-                            ))}
-                        </div>
-
-                        <div className={`flex items-center transition-all duration-500 overflow-hidden ${searchOpen ? 'max-w-[300px] ml-4' : 'max-w-0 ml-0'}`}>
-                            <div className="relative">
-                                <input
-                                    type="text"
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    placeholder={cur.searchPlace}
-                                    className={`bg-white border border-white/20 rounded-xl px-4 py-2 text-[10px] font-bold text-primary placeholder:text-primary/30 outline-none focus:ring-2 focus:ring-secondary/50 w-64 transition-all ${searchOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
-                                />
-                                {searchQuery.length >= 1 && (
-                                    <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-dark/5 p-4 z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-300">
-                                        <p className="text-[9px] font-black uppercase tracking-widest text-dark/30 mb-3 px-2">Results for "{searchQuery}"</p>
-                                        <div className="space-y-1">
-                                            {[cur.eo, cur.show, cur.mice].map((item, i) => (
-                                                <Link key={i} href="/services" className="block px-3 py-2 rounded-xl hover:bg-primary/5 text-[11px] font-bold text-dark transition-colors">
-                                                    {item}
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
                             </div>
-                        </div>
 
-                        <button
-                            onClick={() => setSearchOpen(!searchOpen)}
-                            className={`ml-2 p-2 transition-all duration-300 ${searchOpen ? 'text-secondary' : 'text-white/50 hover:text-white'}`}
-                        >
-                            <MagnifyingGlassIcon className="w-4 h-4" />
-                        </button>
+                            <button
+                                onClick={() => setSearchOpen(!searchOpen)}
+                                className={`ml-2 p-2 transition-all duration-300 ${searchOpen ? 'text-secondary' : 'text-white/50 hover:text-white'}`}
+                            >
+                                <MagnifyingGlassIcon className="w-4 h-4" />
+                            </button>
 
-                        {/* <button
+                            {/* <button
                             onClick={() => onDarkModeToggle(!darkMode)}
                             className="ml-4 text-white/50 hover:text-white p-2 transition-all duration-300"
                         >
                             {darkMode ? <SunIcon className="w-4 h-4 animate-spin-slow" /> : <MoonIcon className="w-4 h-4" />}
                         </button> */}
-                    </nav>
+                        </nav>
 
-                    <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                        <Button
-                            variant="secondary"
-                            href="/about#contact"
-                            className="px-8 py-3 text-[10px] font-black tracking-[0.2em] shadow-xl shadow-secondary/20 transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
-                        >
-                            {cur.contact} <span className="text-base leading-none">→</span>
-                        </Button>
-                    </div>
+                        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+                            <Button
+                                variant="secondary"
+                                href="/about#contact"
+                                className="px-8 py-3 text-[10px] font-black tracking-[0.2em] shadow-xl shadow-secondary/10 transition-all hover:scale-105 active:scale-95 flex items-center gap-2 group relative overflow-hidden"
+                            >
+                                <span className="relative z-10 flex items-center gap-2">
+                                    {cur.contact} <span className="text-base leading-none transition-transform group-hover:translate-x-1">→</span>
+                                </span>
+                            </Button>
+                        </div>
 
-                    <div className="flex lg:hidden gap-4 items-center">
-                        <button
-                            onClick={() => onLangChange(lang === 'en' ? 'id' : 'en')}
-                            className="text-[10px] font-black text-white/70 border border-white/20 px-3 py-1.5 rounded-full uppercase"
-                        >
-                            {lang}
-                        </button>
-                        <button
-                            type="button"
-                            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white"
-                            onClick={() => setMobileMenuOpen(true)}
-                        >
-                            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-                        </button>
+                        <div className="flex lg:hidden gap-4 items-center">
+                            <button
+                                onClick={() => onLangChange(lang === 'en' ? 'id' : 'en')}
+                                className="text-[10px] font-black text-white/70 border border-white/20 px-3 py-1.5 rounded-full uppercase"
+                            >
+                                {lang}
+                            </button>
+                            <button
+                                type="button"
+                                className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white"
+                                onClick={() => setMobileMenuOpen(true)}
+                            >
+                                <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+                            </button>
+                        </div>
                     </div>
-                </Container>
+                </div>
 
                 <Transition show={mobileMenuOpen} as={Fragment}>
                     <Disclosure as="div" className="lg:hidden">
-                        <div className="fixed inset-0 z-50 bg-dark/60 backdrop-blur-md" onClick={() => setMobileMenuOpen(false)} />
+                        <div className="fixed inset-0 z-50 bg-dark/40 backdrop-blur-xl" onClick={() => setMobileMenuOpen(false)} />
                         <Transition.Child
                             as={Fragment}
-                            enter="transition ease-out duration-400 transform"
+                            enter="transition ease-out duration-500 transform"
                             enterFrom="translate-x-full"
                             enterTo="translate-x-0"
-                            leave="transition ease-in duration-300 transform"
+                            leave="transition ease-in duration-400 transform"
                             leaveFrom="translate-x-0"
                             leaveTo="translate-x-full"
                         >
-                            <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-dark px-6 py-8 sm:max-w-sm">
+                            <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto glass-navbar border-l border-white/10 px-6 py-8 sm:max-w-sm">
                                 <div className="flex items-center justify-between mb-12">
                                     <Link href="/" className="flex items-center gap-2">
                                         <div className="flex flex-col leading-none">

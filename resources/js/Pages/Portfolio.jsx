@@ -211,52 +211,50 @@ export default function Portfolio() {
             <Head title={t.metaTitle} />
 
             {/* ── 1. HERO ── */}
-            <section className="relative min-h-[480px] pt-32 pb-16 bg-primary overflow-hidden">
-
+            <section className="relative min-h-[600px] pt-40 pb-24 bg-primary overflow-hidden">
                 {/* BG photo */}
                 <div className="absolute inset-0 z-0">
                     <img
                         src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=2000"
-                        className="w-full h-full object-cover opacity-50 grayscale"
+                        className="w-full h-full object-cover opacity-20 grayscale scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
                         alt="Portfolio Hero"
                     />
-                    <div className="absolute inset-0 bg-linear-to-b from-primary/40 via-primary/10 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-b from-primary/95 via-primary/60 to-transparent" />
                 </div>
 
                 {/* Decorative Elements */}
                 <div className="absolute inset-0 z-0 pointer-events-none">
-                    {/* Dot grid */}
-                    <div className="absolute inset-0 opacity-[0.08]" style={{
+                    <div className="absolute inset-0 opacity-[0.05]" style={{
                         backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-                        backgroundSize: '40px 40px'
+                        backgroundSize: '48px 48px'
                     }} />
 
-                    {/* Animated Glow Orbs */}
-                    <div className="absolute top-1/4 -right-20 w-96 h-96 bg-secondary/15 rounded-full blur-[100px] animate-pulse" />
-                    <div className="absolute -bottom-20 left-1/4 w-72 h-72 bg-accent-fresh/10 rounded-full blur-[90px] animate-pulse" style={{ animationDelay: '2s' }} />
+                    <div className="absolute -top-1/4 -right-1/4 w-[800px] h-[800px] bg-secondary/10 rounded-full blur-[160px] animate-pulse" />
+                    <div className="absolute -bottom-1/4 -left-1/4 w-[600px] h-[600px] bg-white/5 rounded-full blur-[120px]" />
 
                     {/* Vertical Text Branding */}
                     <div className="absolute left-10 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-6 opacity-20">
                         <div className="w-px h-24 bg-gradient-to-b from-transparent via-white to-transparent" />
-                        <span className="text-[10px] font-black uppercase tracking-[0.5em] rotate-90 whitespace-nowrap">Est. 2014</span>
+                        <span className="text-[10px] font-black uppercase tracking-[0.5em] rotate-90 whitespace-nowrap">CREATIVE EXCELLENCE</span>
                         <div className="w-px h-24 bg-gradient-to-b from-transparent via-white to-transparent" />
                     </div>
-
-                    {/* Technical Stripe */}
-                    <div className="absolute top-0 right-0 w-1/3 h-full bg-white/[0.02] -skew-x-[20deg] translate-x-1/2" />
                 </div>
 
                 {/* ── Main content ── */}
                 <Container className="relative z-10">
-                    <span className="text-secondary font-black uppercase tracking-[0.3em] text-[10px] md:text-xs mb-6 block">
-                        {t.heroTag}
-                    </span>
-                    <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase mb-6 md:mb-10 leading-none text-white">
-                        {t.heroTitle}
-                    </h1>
-                    <p className="text-xl md:text-2xl text-white/40 font-medium leading-relaxed max-w-2xl">
-                        {t.heroDesc}
-                    </p>
+                    <div className="max-w-4xl">
+                        <span className="text-secondary font-black uppercase tracking-[0.5em] text-[10px] md:text-xs mb-8 block animate-in fade-in slide-in-from-bottom-4 duration-700">
+                            {t.heroTag}
+                        </span>
+                        <h1 className="text-5xl md:text-8xl lg:text-9xl font-black tracking-tighter uppercase mb-10 leading-[0.85] text-white animate-in fade-in slide-in-from-bottom-10 duration-1000">
+                            {t.heroTitle.split('').map((char, i) => (
+                                <span key={i} className="inline-block animate-in slide-in-from-bottom-full duration-1000" style={{ transitionDelay: `${i * 50}ms` }}>{char}</span>
+                            ))}
+                        </h1>
+                        <p className="text-xl md:text-3xl text-white/50 font-medium leading-relaxed max-w-2xl mt-12 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
+                            {t.heroDesc}
+                        </p>
+                    </div>
                 </Container>
             </section>
 
@@ -316,54 +314,52 @@ export default function Portfolio() {
                     </div>
 
                     {/* Grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 md:gap-32 pb-48">
                         {filteredItems.map((item, i) => (
                             <div
                                 key={i}
-                                className={`group cursor-pointer ${fadeIn('portfolio-grid', i < 3 ? 'delay-100' : i < 6 ? 'delay-200' : 'delay-300')}`}
+                                className="group cursor-pointer relative"
                             >
                                 {/* Image card */}
-                                <div className={`relative overflow-hidden rounded-[28px] md:rounded-[36px] shadow-lg group-hover:shadow-2xl transition-all duration-500 mb-5 ${item.featured ? 'aspect-3/4' : 'aspect-4/5'}`}>
+                                <div className="relative overflow-hidden rounded-[48px] shadow-2xl group-hover:shadow-secondary/20 transition-all duration-700 bg-dark h-[550px] md:h-[750px]">
                                     <img
                                         src={item.image}
-                                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                        className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0 group-hover:rotate-1"
                                         alt={getTitle(item)}
                                     />
-                                    {/* Gradient overlay */}
-                                    <div className="absolute inset-0 bg-linear-to-t from-dark/80 via-dark/10 to-transparent opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
+                                    {/* Glass Overlay on Hover */}
+                                    <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-overlay" />
 
-                                    {/* Category chip */}
-                                    <div className="absolute top-4 left-4 bg-secondary/90 backdrop-blur-sm px-3 py-1 rounded-full">
-                                        <span className="text-dark text-[9px] font-black uppercase tracking-widest">{item.category}</span>
+                                    {/* Floating Badges */}
+                                    <div className="absolute top-6 left-6 flex flex-col gap-3">
+                                        <div className="glass-navbar border-white/20 px-4 py-2 rounded-2xl transform -translate-x-10 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500">
+                                            <span className="text-secondary text-[9px] font-black uppercase tracking-widest">{item.category}</span>
+                                        </div>
                                     </div>
 
-                                    {/* Year badge */}
-                                    <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1 rounded-full">
-                                        <span className="text-white text-[9px] font-black tracking-widest">{item.year}</span>
-                                    </div>
+                                    {/* Content Overlay */}
+                                    <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-10 bg-linear-to-t from-dark/90 via-dark/20 to-transparent">
+                                        <div className="transform translate-y-6 group-hover:translate-y-0 transition-transform duration-700">
+                                            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-secondary mb-3 opacity-60 group-hover:opacity-100">{item.client} · {item.location}</p>
+                                            <h3 className="text-white font-black text-2xl md:text-3xl tracking-tighter leading-none mb-6 group-hover:text-glow-secondary transition-all">{getTitle(item)}</h3>
 
-                                    {/* Hover reveal: title + arrow */}
-                                    <div className="absolute inset-0 flex flex-col justify-end p-5 md:p-6">
-                                        <div className="translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                                            <p className="text-[9px] font-black uppercase tracking-[0.3em] text-secondary mb-1">{item.client} · {item.location}</p>
-                                            <h3 className="text-white font-black text-xl md:text-2xl leading-tight mb-3">{getTitle(item)}</h3>
-                                            <div className="flex items-center gap-2 text-white/70 text-[10px] font-black uppercase tracking-widest">
+                                            <div className="flex items-center gap-4 text-white/40 text-[10px] font-black uppercase tracking-widest group-hover:text-white transition-colors">
                                                 <span>{t.viewProject}</span>
-                                                <ArrowUpRightIcon className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                                                <div className="w-8 h-px bg-white/20 transition-all group-hover:w-16 group-hover:bg-secondary" />
+                                                <ArrowUpRightIcon className="w-5 h-5" />
                                             </div>
                                         </div>
                                     </div>
 
-                                    {/* Featured indicator */}
+                                    {/* Featured Glow */}
                                     {item.featured && (
-                                        <div className="absolute bottom-4 right-4 w-2 h-2 rounded-full bg-secondary animate-ping" />
+                                        <div className="absolute top-6 right-6 w-3 h-3 rounded-full bg-secondary shadow-[0_0_20px_rgba(249,215,131,1)] animate-pulse" />
                                     )}
                                 </div>
 
-                                {/* Meta below card */}
-                                <div className="px-1">
-                                    <p className="text-[9px] font-black uppercase tracking-widest text-secondary mb-1">{item.category} · {item.year}</p>
-                                    <h3 className="text-lg md:text-xl font-black text-dark group-hover:text-primary transition-colors leading-tight">{getTitle(item)}</h3>
+                                {/* Year Floating */}
+                                <div className="absolute -right-6 top-1/2 -translate-y-1/2 text-[10rem] font-black text-dark/[0.04] select-none pointer-events-none group-hover:text-secondary/[0.08] transition-all duration-1000 z-10">
+                                    {item.year}
                                 </div>
                             </div>
                         ))}

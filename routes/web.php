@@ -10,7 +10,9 @@ use App\Http\Controllers\TicketController;
 use App\Http\Controllers\AdminTicketController;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome');
+    return Inertia::render('Welcome', [
+        'settings' => \App\Models\SiteSetting::all()->pluck('value', 'key'),
+    ]);
 });
 
 Route::get('/about', function () {
