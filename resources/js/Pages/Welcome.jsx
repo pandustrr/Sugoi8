@@ -276,8 +276,13 @@ export default function Welcome() {
                     </div>
                 </div>
 
+                {/* Floating Ticket Badge (large ghost) */}
+                <div className="absolute -right-4 top-1/2 -translate-y-1/2 text-[20rem] font-black text-white/2.5 uppercase leading-none select-none tracking-tighter">
+                    TIC
+                </div>
+
                 {/* ── Giant ghost word (right side) ── */}
-                <div className="absolute right-[-1rem] top-1/2 -translate-y-1/2 font-black text-[10rem] md:text-[14rem] lg:text-[18rem] leading-none text-white/[0.025] select-none pointer-events-none tracking-tighter uppercase hidden md:block">
+                <div className="absolute -right-4 top-1/2 -translate-y-1/2 font-black text-[10rem] md:text-[14rem] lg:text-[18rem] leading-none text-white/2.5 select-none pointer-events-none tracking-tighter uppercase hidden md:block">
                     SUGOI
                 </div>
 
@@ -369,7 +374,7 @@ export default function Welcome() {
             <div className="bg-secondary py-4 overflow-hidden relative">
                 <div className="flex items-center gap-0 animate-marquee whitespace-nowrap" style={{ animation: 'marquee 20s linear infinite' }}>
                     {Array(4).fill(null).map((_, i) => (
-                        <span key={i} className="flex items-center gap-8 px-8">
+                        <span key={i} className="flex items-center gap-20 px-20">
                             <span className="text-dark font-black uppercase tracking-widest text-xs">Event Organizer</span>
                             <span className="text-dark/40 text-xl">✦</span>
                             <span className="text-dark font-black uppercase tracking-widest text-xs">Show Management</span>

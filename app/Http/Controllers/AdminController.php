@@ -32,7 +32,11 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        return Inertia::render('Admin/Dashboard');
+        return Inertia::render('Admin/Dashboard', [
+            'totalTickets' => \App\Models\Ticket::count(),
+            'totalBookings' => \App\Models\Booking::count(),
+            'pendingBookings' => \App\Models\Booking::where('status', 'pending')->count(),
+        ]);
     }
 
     public function settings()

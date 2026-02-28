@@ -109,7 +109,7 @@ export default function Services() {
                     <div className="absolute -bottom-10 right-10 w-64 h-64 bg-accent-fresh/5 rounded-full blur-[70px]" />
 
                     {/* Floating Service Badge (large ghost) */}
-                    <div className="absolute right-[-5rem] top-1/2 -translate-y-1/2 text-[20rem] font-black text-white/[0.02] uppercase leading-none select-none tracking-tighter">
+                    <div className="absolute -right-20 top-1/2 -translate-y-1/2 text-[20rem] font-black text-white/2 uppercase leading-none select-none tracking-tighter">
                         PRO
                     </div>
 
@@ -151,7 +151,7 @@ export default function Services() {
                 </div>
             </div>
 
-            <section className="pb-24 md:pb-40 bg-white">
+            <section className="pt-16 md:pt-24 pb-24 md:pb-40 bg-white">
                 <Container>
                     <div className="space-y-24 md:space-y-40">
                         {t.list.map((s, i) => (
@@ -168,9 +168,9 @@ export default function Services() {
                                         </div>
                                         <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-dark uppercase leading-tight">{s.title}</h2>
                                     </div>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
                                         {s.items.map((item, idx) => (
-                                            <div key={idx} className="flex items-center gap-3 p-3 md:p-4 bg-light rounded-xl md:rounded-2xl border border-dark/5 hover:border-primary/20 hover:bg-white hover:shadow-lg transition-all">
+                                            <div key={idx} className="flex items-center gap-6 p-6 md:p-8 bg-light rounded-2xl md:rounded-[32px] border border-dark/5 hover:border-primary/20 hover:bg-white hover:shadow-lg transition-all">
                                                 <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-secondary shrink-0" />
                                                 <span className="font-bold text-dark/70 text-sm md:text-base">{item}</span>
                                             </div>

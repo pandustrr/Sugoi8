@@ -3,17 +3,20 @@ import { Link } from '@inertiajs/react';
 
 export default function Footer() {
     return (
-        <footer className="bg-dark text-white pt-24 pb-12 border-t border-white/5">
+        <footer className="bg-primary text-white pt-16 pb-8 border-t border-white/5">
             <Container>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-16 mb-24">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
                     <div className="col-span-1 md:col-span-2">
-                        <Link href="/" className="flex items-center gap-2 mb-8 group">
-                            <span className="text-3xl font-black tracking-tighter text-white uppercase italic">SUGOI</span>
-                            <div className="w-10 h-10 flex items-center justify-center bg-gradient-logo rounded-xl transition-transform group-hover:rotate-12">
-                                <span className="text-white font-black text-2xl">8</span>
+                        <Link href="/" className="flex items-center gap-2 mb-6 group">
+                            <div className="flex flex-col leading-none">
+                                <span className="text-3xl font-black tracking-tight text-white uppercase">SUGOI</span>
+                                <span className="text-xs font-bold tracking-[0.3em] text-white uppercase">Management</span>
+                            </div>
+                            <div className="w-11 h-11 flex items-center justify-center bg-gradient-logo rounded-xl transition-transform">
+                                <span className="text-white font-black text-2xl md:text-3xl">8</span>
                             </div>
                         </Link>
-                        <p className="text-white/40 max-w-sm mb-10 text-lg leading-relaxed font-medium">
+                        <p className="text-white/40 max-w-sm mb-8 text-base leading-relaxed font-medium">
                             Redefining the creative landscape through elite talent management, cutting-edge production, and strategic brand solutions.
                         </p>
                         <div className="flex gap-4">
@@ -30,8 +33,8 @@ export default function Footer() {
                     </div>
 
                     <div>
-                        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/20 mb-8">Navigation</h4>
-                        <ul className="space-y-4">
+                        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/20 mb-6">Navigation</h4>
+                        <ul className="space-y-3">
                             {[
                                 { name: 'Home', href: '/' },
                                 { name: 'About', href: '/about' },
@@ -49,8 +52,8 @@ export default function Footer() {
                     </div>
 
                     <div>
-                        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/20 mb-8">Connect</h4>
-                        <div className="space-y-6">
+                        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/20 mb-6">Connect</h4>
+                        <div className="space-y-4">
                             <div>
                                 <p className="text-[10px] font-black uppercase tracking-widest text-secondary mb-2">Location</p>
                                 <p className="text-sm font-bold text-white/60">Kab. Jember, Jawa Timur</p>
@@ -66,7 +69,7 @@ export default function Footer() {
                     </div>
                 </div>
 
-                <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
                     <p className="text-[10px] font-black uppercase tracking-widest text-white/20">
                         © {new Date().getFullYear()} SUGOI 8 MANAGEMENT. ALL RIGHTS RESERVED.
                     </p>

@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect, useRef, Fragment } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import { Menu, Transition, Disclosure } from '@headlessui/react';
 import {
@@ -22,6 +22,19 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [searchOpen, setSearchOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [isServicesOpen, setIsServicesOpen] = useState(false);
+    const timeoutRef = useRef(null);
+
+    const handleServicesEnter = () => {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        setIsServicesOpen(true);
+    };
+
+    const handleServicesLeave = () => {
+        timeoutRef.current = setTimeout(() => {
+            setIsServicesOpen(false);
+        }, 300);
+    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -45,6 +58,7 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
         en: {
             home: 'Home',
             about: 'About',
+            tickets: 'Tickets',
             services: 'Services',
             portfolio: 'Portfolio',
             partners: 'Partners',
@@ -64,6 +78,7 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
         id: {
             home: 'Beranda',
             about: 'Tentang',
+            tickets: 'Tiket',
             services: 'Layanan',
             portfolio: 'Portofolio',
             partners: 'Mitra',
@@ -83,6 +98,7 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
         jp: {
             home: 'ホーム',
             about: '会社概要',
+            tickets: 'チケット',
             services: 'サービス',
             portfolio: '実績',
             partners: 'パートナー',
@@ -124,6 +140,7 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
         { name: cur.about, href: '/about' },
         { name: cur.portfolio, href: '/portfolio' },
         { name: cur.partners, href: '/partners' },
+        { name: cur.tickets, href: '/tickets' },
     ];
 
     const isActive = (path) => {
@@ -144,16 +161,16 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                     <div className="flex lg:flex-1">
                         <Link href="/" className="flex items-center gap-2 group">
                             <div className="flex flex-col leading-none">
-                                <span className="text-xl md:text-2xl font-black tracking-tighter text-white uppercase italic">SUGOI</span>
-                                <span className="text-[10px] font-bold tracking-widest text-[#8AB27F] uppercase">Management</span>
+                                <span className="text-xl md:text-2xl font-black tracking-tight text-white uppercase">SUGOI</span>
+                                <span className="text-[10px] font-bold tracking-[0.3em] text-white uppercase">Management</span>
                             </div>
-                            <div className="relative w-7 h-7 md:w-8 md:h-8 flex items-center justify-center bg-gradient-logo rounded-lg shadow-lg group-hover:rotate-360 transition-all duration-700">
-                                <span className="text-white font-black text-lg leading-none">8</span>
+                            <div className="relative w-8 h-8 md:w-9 md:h-9 flex items-center justify-center bg-gradient-logo rounded-lg shadow-lg">
+                                <span className="text-white font-black text-xl md:text-2xl leading-none">8</span>
                             </div>
                         </Link>
                     </div>
 
-                    <nav className="hidden lg:flex items-center gap-x-1">
+                    <nav className="hidden lg:flex items-center gap-x-4">
                         {navLinks.map((link) => (
                             <Link
                                 key={link.name}
@@ -165,30 +182,32 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                             </Link>
                         ))}
 
-                        <div className="relative group/services flex items-center">
+                        <div
+                            className="relative"
+                            onMouseEnter={handleServicesEnter}
+                            onMouseLeave={handleServicesLeave}
+                        >
                             <Link
                                 href="/services"
-                                className={`px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 ${isActive('/services') ? 'text-secondary' : 'text-white/70 hover:text-secondary'
-                                    }`}
+                                className={`group flex items-center px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 outline-none ${isActive('/services') ? 'text-secondary' : 'text-white/70 hover:text-secondary'}`}
                             >
                                 {cur.services}
+                                <ChevronDownIcon className={`ml-1 w-3 h-3 transition-transform duration-300 ${isServicesOpen ? 'rotate-180' : ''}`} />
                             </Link>
 
-                            <Menu as="div" className="relative -ml-2">
-                                <Menu.Button className={`flex items-center p-2 outline-none group ${isActive('/services') ? 'text-secondary' : 'text-white/50 hover:text-secondary'}`}>
-                                    <ChevronDownIcon className="w-3 h-3 transition-transform group-hover:rotate-180" />
-                                </Menu.Button>
-                                <Transition
-                                    as={Fragment}
-                                    enter="transition ease-out duration-300"
-                                    enterFrom="opacity-0 translate-y-2 scale-95"
-                                    enterTo="opacity-100 translate-y-0 scale-100"
-                                    leave="transition ease-in duration-200"
-                                    leaveFrom="opacity-100 translate-y-0 scale-100"
-                                    leaveTo="opacity-0 translate-y-2 scale-95"
-                                >
-                                    <Menu.Items className="absolute left-1/2 -translate-x-1/2 mt-4 w-screen max-w-2xl overflow-hidden rounded-[32px] bg-white shadow-2xl ring-1 ring-black/5 focus:outline-none z-50">
-                                        <div className="p-8 grid grid-cols-2 gap-10">
+                            <Transition
+                                show={isServicesOpen}
+                                as={Fragment}
+                                enter="transition ease-out duration-300"
+                                enterFrom="opacity-0 translate-y-2 scale-95"
+                                enterTo="opacity-100 translate-y-0 scale-100"
+                                leave="transition ease-in duration-200"
+                                leaveFrom="opacity-100 translate-y-0 scale-100"
+                                leaveTo="opacity-0 translate-y-2 scale-95"
+                            >
+                                <div className="absolute left-0 mt-0 pt-4 w-[640px] max-w-xl z-50">
+                                    <div className="rounded-[32px] bg-white shadow-2xl ring-1 ring-black/5 overflow-hidden">
+                                        <div className="p-8 grid grid-cols-2 gap-8">
                                             <div>
                                                 <div className="flex items-center gap-3 mb-6 pb-4 border-b border-dark/5">
                                                     <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center">
@@ -198,50 +217,50 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                                                 </div>
                                                 <div className="grid grid-cols-1 gap-2">
                                                     {eoServices.map((item) => (
-                                                        <Menu.Item key={item.name}>
-                                                            {({ active }) => (
-                                                                <Link
-                                                                    href={item.href}
-                                                                    className={`px-3 py-2 text-sm font-bold text-dark/60 hover:text-primary hover:translate-x-1 transition-all flex items-center gap-2 ${active ? 'text-primary' : ''}`}
-                                                                >
-                                                                    <div className="w-1.5 h-1.5 rounded-full bg-primary/20" />
-                                                                    {item.name}
-                                                                </Link>
-                                                            )}
-                                                        </Menu.Item>
+                                                        <Link
+                                                            key={item.name}
+                                                            href={item.href}
+                                                            className="px-3 py-2 text-sm font-bold text-dark/60 hover:text-primary hover:translate-x-1 transition-all flex items-center gap-2"
+                                                            onClick={() => setIsServicesOpen(false)}
+                                                        >
+                                                            <div className="w-1.5 h-1.5 rounded-full bg-primary/20" />
+                                                            {item.name}
+                                                        </Link>
                                                     ))}
                                                 </div>
                                             </div>
 
                                             <div className="space-y-8">
                                                 {mainServices.map((item) => (
-                                                    <Menu.Item key={item.name}>
-                                                        {({ active }) => (
-                                                            <Link
-                                                                href={item.href}
-                                                                className={`group flex items-start gap-4 rounded-2xl p-4 transition-all duration-300 ${active ? 'bg-primary/5' : ''}`}
-                                                            >
-                                                                <div className={`flex h-10 w-10 flex-none items-center justify-center rounded-xl transition-all duration-300 ${active ? 'bg-primary text-white scale-110' : 'bg-primary/5 text-primary'}`}>
-                                                                    <item.icon className="h-5 w-5" aria-hidden="true" />
-                                                                </div>
-                                                                <div>
-                                                                    <p className="text-sm font-black uppercase tracking-widest text-dark mb-1">{item.name}</p>
-                                                                    <p className="text-[10px] text-dark/50 leading-tight font-medium">{item.description}</p>
-                                                                </div>
-                                                            </Link>
-                                                        )}
-                                                    </Menu.Item>
+                                                    <Link
+                                                        key={item.name}
+                                                        href={item.href}
+                                                        className="group flex items-start gap-4 rounded-2xl p-4 transition-all duration-300 hover:bg-primary/5"
+                                                        onClick={() => setIsServicesOpen(false)}
+                                                    >
+                                                        <div className="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-primary/5 text-primary group-hover:bg-primary group-hover:text-white group-hover:scale-110 transition-all duration-300">
+                                                            <item.icon className="h-5 w-5" aria-hidden="true" />
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-sm font-black uppercase tracking-widest text-dark mb-1">{item.name}</p>
+                                                            <p className="text-[10px] text-dark/50 leading-tight font-medium">{item.description}</p>
+                                                        </div>
+                                                    </Link>
                                                 ))}
                                             </div>
                                         </div>
                                         <div className="bg-light/50 p-6 text-center border-t border-dark/5">
-                                            <Link href="/services" className="text-[10px] font-black uppercase tracking-[0.3em] text-primary hover:tracking-[0.4em] transition-all">
+                                            <Link
+                                                href="/services"
+                                                className="text-[10px] font-black uppercase tracking-[0.3em] text-primary hover:tracking-[0.4em] transition-all"
+                                                onClick={() => setIsServicesOpen(false)}
+                                            >
                                                 {cur.viewAll}
                                             </Link>
                                         </div>
-                                    </Menu.Items>
-                                </Transition>
-                            </Menu>
+                                    </div>
+                                </div>
+                            </Transition>
                         </div>
 
                         <div className="ml-4 border-l border-white/20 pl-4 flex items-center gap-1">
@@ -341,9 +360,12 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                             <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-dark px-6 py-8 sm:max-w-sm">
                                 <div className="flex items-center justify-between mb-12">
                                     <Link href="/" className="flex items-center gap-2">
-                                        <span className="text-2xl font-black text-white tracking-tighter uppercase italic">SUGOI</span>
-                                        <div className="w-8 h-8 flex items-center justify-center bg-gradient-logo rounded-lg">
-                                            <span className="text-white font-black text-xl">8</span>
+                                        <div className="flex flex-col leading-none">
+                                            <span className="text-2xl font-black text-white tracking-tight uppercase">SUGOI</span>
+                                            <span className="text-[9px] font-bold tracking-[0.3em] text-white uppercase">Management</span>
+                                        </div>
+                                        <div className="w-9 h-9 flex items-center justify-center bg-gradient-logo rounded-lg">
+                                            <span className="text-white font-black text-2xl">8</span>
                                         </div>
                                     </Link>
                                     <button
@@ -405,7 +427,7 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                         </Transition.Child>
                     </Disclosure>
                 </Transition>
-            </header>
+            </header >
 
         </>
     );

@@ -55,6 +55,19 @@ export default function About() {
             formName: "Your Name",
             formEmail: "Email Address",
             formMessage: "Message",
+            brandingTitle: "Branding & Typography",
+            brandingSubtitle: "The DNA of Our Visual Identity",
+            brandingDesc: "Our visual identity is built on modern, geometric principles that reflect our commitment to precision and clean design.",
+            fontMainTitle: "Primary Font: Gotham / Montserrat",
+            fontMainDesc: "Identified by its modern geometric shapes and clean curves, our primary typeface embodies the 'Geometric Sans-Serif' aesthetic.",
+            fontDetails: [
+                { name: "Gotham (Premium)", detail: "A professional-grade typeface known for its balanced 'S' and sharp, tail-less 'G'. Standard for high-end design." },
+                { name: "Montserrat (Web)", detail: "Our digital twin. Nearly identical in thickness and the circular geometry of the letter 'O', optimized for screen clarity." }
+            ],
+            typoDetails: [
+                { part: "SUGOI", font: "Geometric Sans-Serif", style: "Bold weight for strength and impact." },
+                { part: "MANAGEMENT", font: "Geometric Sans-Serif", style: "Light weight with expanded kerning for an elegant, premium feel." }
+            ]
         },
         id: {
             metaTitle: "Tentang — Sugoi 8 Management",
@@ -91,6 +104,19 @@ export default function About() {
             formName: "Nama Anda",
             formEmail: "Alamat Email",
             formMessage: "Pesan",
+            brandingTitle: "Branding & Tipografi",
+            brandingSubtitle: "DNA Identitas Visual Kami",
+            brandingDesc: "Identitas visual kami dibangun di atas prinsip geometris modern yang mencerminkan komitmen kami terhadap presisi dan desain yang bersih.",
+            fontMainTitle: "Font Utama: Gotham / Montserrat",
+            fontMainDesc: "Dilihat dari bentuk hurufnya yang modern dan geometris, font kami sangat identik dengan jenis Geometric Sans-Serif.",
+            fontDetails: [
+                { name: "Gotham (Premium)", detail: "Font profesional yang dikenal dengan huruf 'S' yang seimbang and 'G' siku yang tegas. Standar desain kelas atas." },
+                { name: "Montserrat (Web)", detail: "Kembaran digital kami. Hampir identik dalam ketebalan dan bentuk lingkaran pada huruf 'O', dioptimalkan untuk kejernihan layar." }
+            ],
+            typoDetails: [
+                { part: "SUGOI", font: "Geometric Sans-Serif", style: "Bobot Bold untuk kekuatan dan dampak visual." },
+                { part: "MANAGEMENT", font: "Geometric Sans-Serif", style: "Bobot Light dengan kerning (jarak huruf) yang lebar untuk kesan elegan dan premium." }
+            ]
         },
         jp: {
             metaTitle: "会社概要 — Sugoi 8 Management",
@@ -127,6 +153,19 @@ export default function About() {
             formName: "お名前",
             formEmail: "メールアドレス",
             formMessage: "メッセージ",
+            brandingTitle: "ブランディングとタイポグラフィ",
+            brandingSubtitle: "私たちの視覚的アイデンティティのDNA",
+            brandingDesc: "私たちの視覚的アイデンティティは、精密さとクリーンなデザインへのコミットメントを反映した、モダンで幾何学的な原則に基づいています。",
+            fontMainTitle: "主要フォント: Gotham / Montserrat",
+            fontMainDesc: "モダンな幾何学的形状とクリーンな曲線が特徴の主要フォントは、「ジオメトリック・サンセリフ」の美学を体現しています。",
+            fontDetails: [
+                { name: "Gotham (プレミアム)", detail: "バランスの取れた 'S' と鋭い 'G' で知られるプロフェッショナルな書体。高級デザインの標準です。" },
+                { name: "Montserrat (ウェブ)", detail: "私たちのデジタルツイン。厚さと 'O' の円形幾何学においてほぼ同一で、画面の鮮明さに最適化されています。" }
+            ],
+            typoDetails: [
+                { part: "SUGOI", font: "ジオメトリック・サンセリフ", style: "力強さとインパクトのためのボールドウェイト。" },
+                { part: "MANAGEMENT", font: "ジオメトリック・サンセリフ", style: "エレガントでプレミアムな雰囲気のための、カーニングを広げたライトウェイト。" }
+            ]
         },
     };
 
@@ -160,11 +199,11 @@ export default function About() {
                     <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-white/5 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2" />
 
                     {/* Diagonal Lines */}
-                    <div className="absolute top-0 right-20 w-px h-[200%] bg-white/5 rotate-[25deg] origin-top" />
-                    <div className="absolute top-0 right-40 w-px h-[200%] bg-white/5 rotate-[25deg] origin-top" />
+                    <div className="absolute top-0 right-20 w-px h-[200%] bg-white/5 rotate-25 origin-top" />
+                    <div className="absolute top-0 right-40 w-px h-[200%] bg-white/5 rotate-25 origin-top" />
 
                     {/* Giant Ghost "8" */}
-                    <div className="absolute -right-20 bottom-0 text-[30rem] font-black text-white/[0.02] leading-none select-none">
+                    <div className="absolute -right-20 bottom-0 text-[30rem] font-black text-white/2 leading-none select-none">
                         8
                     </div>
                 </div>
@@ -237,6 +276,68 @@ export default function About() {
                                 <p className="text-sm md:text-base text-dark/40 font-medium">{v.desc}</p>
                             </div>
                         ))}
+                    </div>
+                </Container>
+            </section>
+
+            {/* ── 4.5 BRANDING & TYPOGRAPHY ── */}
+            <section className="py-24 md:py-40 bg-zinc-50 overflow-hidden">
+                <Container>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-center">
+                        <div>
+                            <span className="text-secondary font-black uppercase tracking-[0.4em] text-[10px] block mb-4">{t.brandingSubtitle}</span>
+                            <h2 className="text-4xl md:text-5xl font-black text-dark uppercase tracking-tighter mb-8">{t.brandingTitle}</h2>
+                            <p className="text-lg text-dark/60 font-medium mb-12 leading-relaxed max-w-xl">
+                                {t.brandingDesc}
+                            </p>
+
+                            <div className="space-y-10">
+                                <div className="bg-white p-8 rounded-3xl border border-dark/5 shadow-sm">
+                                    <h3 className="text-xl font-black text-dark mb-4 flex items-center gap-3">
+                                        <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center text-primary font-black text-xs">Aa</div>
+                                        {t.fontMainTitle}
+                                    </h3>
+                                    <p className="text-sm text-dark/50 font-medium mb-6 leading-relaxed">
+                                        {t.fontMainDesc}
+                                    </p>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        {t.fontDetails.map((f, i) => (
+                                            <div key={i} className="p-4 rounded-2xl bg-light/50 border border-dark/5">
+                                                <p className="text-xs font-black text-dark mb-2 uppercase tracking-wider">{f.name}</p>
+                                                <p className="text-[11px] text-dark/40 font-medium leading-relaxed">{f.detail}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="relative">
+                            <div className="p-8 md:p-12 bg-primary rounded-[40px] md:rounded-[60px] text-white shadow-2xl relative z-10">
+                                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-secondary/60 mb-12">Visual Composition</p>
+
+                                <div className="space-y-12">
+                                    {t.typoDetails.map((item, i) => (
+                                        <div key={i} className="group">
+                                            <div className="flex flex-col mb-4">
+                                                <span className={`text-white transition-all duration-500 ${item.part === 'SUGOI' ? 'text-6xl md:text-8xl font-black tracking-tight' : 'text-xl md:text-2xl font-bold tracking-[0.4em]'}`}>
+                                                    {item.part}
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-white/30">
+                                                <span className="text-secondary">{item.font}</span>
+                                                <div className="w-1 h-1 rounded-full bg-white/10" />
+                                                <span>{item.style}</span>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Decorative Background Elements */}
+                            <div className="absolute -top-10 -right-10 w-64 h-64 bg-secondary/10 rounded-full blur-[80px] z-0" />
+                            <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-white/5 rounded-full blur-[60px] z-0" />
+                        </div>
                     </div>
                 </Container>
             </section>

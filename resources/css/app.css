@@ -27,7 +27,7 @@
     --bg-gradient-surface: linear-gradient(180deg, #FFFFFF 0%, #F5F5F5 100%);
 
     /* Typography */
-    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-sans: 'Montserrat', 'Inter', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 /* Base Styles */

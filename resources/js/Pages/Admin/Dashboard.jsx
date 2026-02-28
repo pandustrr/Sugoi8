@@ -5,13 +5,15 @@ import {
     UserIcon,
     PhotoIcon,
     CalendarIcon,
+    TicketIcon,
+    ShoppingBagIcon,
     ArrowLeftOnRectangleIcon,
     ChatBubbleLeftRightIcon,
     Cog6ToothIcon
 } from '@heroicons/react/24/outline';
 import SidebarAdmin from '../../Components/SidebarAdmin';
 
-export default function Dashboard() {
+export default function Dashboard({ totalTickets, totalBookings, pendingBookings }) {
     const { auth } = usePage().props;
 
     const handleLogout = (e) => {
@@ -21,9 +23,9 @@ export default function Dashboard() {
 
     const stats = [
         { label: 'Total Proyek', value: '42', icon: PhotoIcon, color: 'text-primary' },
-        { label: 'Event Mendatang', value: '12', icon: CalendarIcon, color: 'text-secondary' },
-        { label: 'Partner Global', value: '120+', icon: UserIcon, color: 'text-primary' },
-        { label: 'Pesan Baru', value: '5', icon: ChatBubbleLeftRightIcon, color: 'text-secondary' },
+        { label: 'Jenis Tiket', value: totalTickets, icon: TicketIcon, color: 'text-secondary' },
+        { label: 'Total Pesanan', value: totalBookings, icon: ShoppingBagIcon, color: 'text-primary' },
+        { label: 'Pemesanan Pending', value: pendingBookings, icon: ChatBubbleLeftRightIcon, color: 'text-secondary' },
     ];
 
     return (

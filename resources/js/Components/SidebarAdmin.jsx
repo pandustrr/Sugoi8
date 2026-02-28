@@ -3,6 +3,8 @@ import {
     Squares2X2Icon,
     PhotoIcon,
     CalendarIcon,
+    TicketIcon,
+    ShoppingBagIcon,
     Cog6ToothIcon,
     ArrowLeftOnRectangleIcon
 } from '@heroicons/react/24/outline';
@@ -40,16 +42,22 @@ export default function SidebarAdmin({ activePage }) {
                         active={activePage === 'dashboard'}
                     />
                     <SidebarLink
+                        href="/admin/tickets"
+                        icon={TicketIcon}
+                        label="Tiket"
+                        active={activePage === 'tickets'}
+                    />
+                    <SidebarLink
+                        href="/admin/bookings"
+                        icon={ShoppingBagIcon}
+                        label="Pemesanan"
+                        active={activePage === 'bookings'}
+                    />
+                    <SidebarLink
                         href="#"
                         icon={PhotoIcon}
                         label="Portofolio"
                         active={activePage === 'portfolio'}
-                    />
-                    <SidebarLink
-                        href="#"
-                        icon={CalendarIcon}
-                        label="Event"
-                        active={activePage === 'event'}
                     />
                     <SidebarLink
                         href="/admin/settings"

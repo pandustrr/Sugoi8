@@ -21,5 +21,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@sugoi8.com',
             'password' => bcrypt('password123'),
         ]);
+
+        $this->call(TicketSeeder::class);
     }
 }
