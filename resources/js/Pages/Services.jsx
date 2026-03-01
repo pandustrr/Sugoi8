@@ -86,44 +86,47 @@ export default function Services() {
         <MainLayout lang={lang} onLangChange={setLang} darkMode={darkMode} onDarkModeToggle={setDarkMode}>
             <Head title={t.title} />
 
-            <section className="relative min-h-[480px] pt-32 pb-16 bg-primary text-white overflow-hidden">
+            <section className="relative min-h-[600px] pt-40 pb-24 bg-primary text-white overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <img
                         src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&q=80&w=2000"
-                        className="w-full h-full object-cover opacity-50 grayscale"
+                        className="w-full h-full object-cover opacity-20 grayscale scale-110 motion-safe:animate-[pulse_12s_ease-in-out_infinite]"
                         alt="Services Background"
                     />
-                    <div className="absolute inset-0 bg-linear-to-b from-primary/40 via-primary/10 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-b from-primary/95 via-primary/60 to-transparent" />
                 </div>
 
                 {/* Decorative Elements */}
                 <div className="absolute inset-0 z-0 pointer-events-none">
-                    {/* Logic Grid */}
-                    <div className="absolute inset-0 opacity-[0.1]" style={{
+                    <div className="absolute inset-0 opacity-[0.05]" style={{
                         backgroundImage: 'radial-gradient(circle, white 0.5px, transparent 0.5px)',
-                        backgroundSize: '24px 24px'
+                        backgroundSize: '32px 32px'
                     }} />
 
-                    {/* Energy Orbs */}
-                    <div className="absolute top-1/4 left-1/2 w-96 h-96 bg-secondary/10 rounded-full blur-[110px] -translate-x-1/2" />
-                    <div className="absolute -bottom-10 right-10 w-64 h-64 bg-accent-fresh/5 rounded-full blur-[70px]" />
+                    <div className="absolute top-1/2 left-1/2 w-[1000px] h-[1000px] bg-secondary/10 rounded-full blur-[160px] -translate-x-1/2 -translate-y-1/2" />
 
-                    {/* Floating Service Badge (large ghost) */}
-                    <div className="absolute -right-20 top-1/2 -translate-y-1/2 text-[20rem] font-black text-white/2 uppercase leading-none select-none tracking-tighter">
-                        PRO
+                    {/* Ghost Branding */}
+                    <div className="absolute -left-20 bottom-0 text-[30rem] font-black text-white/[0.02] uppercase leading-none select-none tracking-tighter rotate-[-5deg]">
+                        EXPERT
                     </div>
-
-                    {/* Left vertical accent */}
-                    <div className="absolute left-10 top-0 w-px h-full bg-linear-to-b from-white/10 via-transparent to-white/10 hidden md:block" />
                 </div>
+
                 <Container className="relative z-10">
-                    <span className="text-secondary font-black uppercase tracking-[0.3em] text-[10px] md:text-xs mb-6 block">{t.subtitle}</span>
-                    <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase mb-6 md:mb-10 text-white leading-none">
-                        {t.title}
-                    </h1>
-                    <p className="text-xl md:text-2xl text-white/40 font-medium leading-relaxed max-w-2xl">
-                        {t.desc}
-                    </p>
+                    <div className="max-w-4xl text-left">
+                        <span className="text-secondary font-black uppercase tracking-[0.5em] text-[10px] md:text-xs mb-8 block animate-in fade-in slide-in-from-bottom-4 duration-700">{t.subtitle}</span>
+                        <h1 className="text-5xl md:text-8xl lg:text-9xl font-black tracking-tighter uppercase mb-10 text-white leading-[0.85] animate-in fade-in slide-in-from-bottom-10 duration-1000">
+                            {t.title.split(' ').map((word, i) => (
+                                <span key={i} className="block overflow-hidden">
+                                    <span className="block animate-in slide-in-from-bottom-full duration-1000" style={{ transitionDelay: `${i * 150}ms` }}>
+                                        {word}
+                                    </span>
+                                </span>
+                            ))}
+                        </h1>
+                        <p className="text-xl md:text-3xl text-white/50 font-medium leading-relaxed max-w-2xl mt-12 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
+                            {t.desc}
+                        </p>
+                    </div>
                 </Container>
             </section>
 
@@ -151,35 +154,44 @@ export default function Services() {
                 </div>
             </div>
 
-            <section className="pt-16 md:pt-24 pb-24 md:pb-40 bg-white">
+            <section className="pt-24 md:pt-48 pb-32 md:pb-64 bg-white overflow-hidden">
                 <Container>
-                    <div className="space-y-24 md:space-y-40">
+                    <div className="space-y-48 md:space-y-80">
                         {t.list.map((s, i) => (
-                            <div key={i} className={`flex flex-col lg:flex-row gap-12 md:gap-24 items-center ${i % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
-                                <div className="w-full lg:w-1/2">
-                                    <div className="aspect-16/10 rounded-[32px] md:rounded-[60px] overflow-hidden shadow-2xl">
-                                        <img src={s.image} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" alt={s.title} />
+                            <div key={i} className={`flex flex-col lg:flex-row gap-20 md:gap-40 items-center ${i % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
+                                <div className="w-full lg:w-1/2 relative group">
+                                    <div className="aspect-16/10 rounded-[60px] md:rounded-[100px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.15)] relative">
+                                        <img
+                                            src={s.image}
+                                            className="w-full h-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-110"
+                                            alt={s.title}
+                                        />
+                                        <div className="absolute inset-0 bg-primary/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                                     </div>
+                                    <div className="absolute -z-10 -bottom-12 -right-12 w-64 h-64 bg-secondary/10 rounded-full blur-[100px] group-hover:bg-secondary/20 transition-all duration-700" />
                                 </div>
                                 <div className="w-full lg:w-1/2">
-                                    <div className="flex items-center gap-4 md:gap-6 mb-8 md:mb-10">
-                                        <div className="w-12 h-12 md:w-16 md:h-16 bg-primary/5 rounded-xl md:rounded-2xl flex items-center justify-center shrink-0">
-                                            <s.icon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+                                    <div className="flex flex-col mb-12 md:mb-16">
+                                        <div className="flex items-center gap-6 mb-8">
+                                            <div className="w-16 h-16 md:w-20 md:h-20 bg-primary/5 rounded-[32px] flex items-center justify-center shrink-0 group-hover:rotate-6 transition-all">
+                                                <s.icon className="w-8 h-8 md:w-10 md:h-10 text-primary" />
+                                            </div>
+                                            <span className="text-secondary font-black text-xs tracking-[0.4em] uppercase">Service 0{i + 1}</span>
                                         </div>
-                                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-dark uppercase leading-tight">{s.title}</h2>
+                                        <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-dark uppercase tracking-tighter leading-[0.9]">{s.title}</h2>
                                     </div>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                                         {s.items.map((item, idx) => (
-                                            <div key={idx} className="flex items-center gap-6 p-6 md:p-8 bg-light rounded-2xl md:rounded-[32px] border border-dark/5 hover:border-primary/20 hover:bg-white hover:shadow-lg transition-all">
-                                                <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-secondary shrink-0" />
-                                                <span className="font-bold text-dark/70 text-sm md:text-base">{item}</span>
+                                            <div key={idx} className="flex items-center gap-6 p-6 md:p-10 glass-navbar rounded-[40px] border-dark/5 hover:border-primary/20 hover:scale-105 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 group">
+                                                <div className="w-2 h-2 rounded-full bg-secondary group-hover:animate-ping shrink-0" />
+                                                <span className="font-extrabold text-dark/80 text-sm md:text-lg group-hover:text-dark transition-colors">{item}</span>
                                             </div>
                                         ))}
                                     </div>
-                                    <div className="mt-10 md:mt-12">
-                                        <Button variant="outline" className="group w-full sm:w-auto h-16 md:h-auto py-5 px-10">
-                                            Inquiry Now
-                                            <ArrowRightIcon className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" />
+                                    <div className="mt-12 md:mt-20">
+                                        <Button variant="secondary" className="group w-full sm:w-auto h-20 px-12 text-[10px] font-black tracking-widest shadow-2xl shadow-secondary/10">
+                                            EXPLORE NOW
+                                            <ArrowRightIcon className="w-4 h-4 ml-4 group-hover:translate-x-3 transition-transform" />
                                         </Button>
                                     </div>
                                 </div>

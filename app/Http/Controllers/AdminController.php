@@ -41,7 +41,9 @@ class AdminController extends Controller
 
     public function settings()
     {
-        return Inertia::render('Admin/Settings');
+        return Inertia::render('Admin/Settings', [
+            'settings' => \App\Models\SiteSetting::all()->pluck('value', 'key'),
+        ]);
     }
 
     public function updateSettings(Request $request)
@@ -52,6 +54,7 @@ class AdminController extends Controller
         $request->validate([
             'username' => ['required', 'string', 'max:255', 'unique:users,username,' . $user->id],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+            'hero_background_image' => ['nullable', 'image', 'max:2048'], // 2MB max
         ]);
 
         $user->username = $request->username;
@@ -62,7 +65,15 @@ class AdminController extends Controller
 
         $user->save();
 
-        return back()->with('success', 'Pengaturan admin berhasil diperbarui.');
+        if ($request->hasFile('hero_background_image')) {
+            $path = $request->file('hero_background_image')->store('site', 'public');
+            \App\Models\SiteSetting::updateOrCreate(
+                ['key' => 'hero_background_image'],
+                ['value' => '/storage/' . $path]
+            );
+        }
+
+        return back()->with('success', 'Pengaturan berhasil diperbarui.');
     }
 
     public function logout(Request $request)

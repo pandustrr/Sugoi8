@@ -35,39 +35,47 @@ export default function Partners() {
         <MainLayout lang={lang} onLangChange={setLang} darkMode={darkMode} onDarkModeToggle={setDarkMode}>
             <Head title={t.title} />
 
-            <section className="relative min-h-[480px] pt-32 pb-16 bg-primary text-white overflow-hidden">
+            <section className="relative min-h-[600px] pt-40 pb-24 bg-primary text-white overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <img
                         src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=2000"
-                        className="w-full h-full object-cover opacity-50 grayscale"
+                        className="w-full h-full object-cover opacity-20 grayscale scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
                         alt="Partners Background"
                     />
-                    <div className="absolute inset-0 bg-linear-to-b from-primary/40 via-primary/10 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-b from-primary/95 via-primary/60 to-transparent" />
                 </div>
 
                 {/* Decorative Elements */}
                 <div className="absolute inset-0 z-0 pointer-events-none">
-                    {/* Architectural Mesh */}
                     <div className="absolute inset-0 opacity-[0.05]" style={{
-                        backgroundImage: 'linear-gradient(rgba(255,255,255,0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.2) 1px, transparent 1px)',
-                        backgroundSize: '100px 100px'
+                        backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
+                        backgroundSize: '48px 48px'
                     }} />
 
-                    {/* Collaboration Orbs */}
-                    <div className="absolute top-1/2 right-1/4 w-64 h-64 bg-secondary/20 rounded-full blur-[90px] -translate-y-1/2" />
-                    <div className="absolute top-1/4 right-0 w-80 h-80 bg-white/5 rounded-full blur-[100px] translate-x-1/2" />
+                    <div className="absolute top-1/2 right-0 w-[800px] h-[800px] bg-secondary/10 rounded-full blur-[160px] translate-x-1/3 -translate-y-1/2 animate-pulse" />
 
-                    {/* Decorative Slant */}
-                    <div className="absolute bottom-0 right-0 w-full h-1/2 bg-linear-to-t from-black/20 to-transparent skew-y-[-2deg] origin-bottom-right" />
+                    {/* Ghost Branding */}
+                    <div className="absolute -right-20 bottom-0 text-[30rem] font-black text-white/[0.02] uppercase leading-none select-none tracking-tighter">
+                        TRUST
+                    </div>
                 </div>
+
                 <Container className="relative z-10">
-                    <span className="text-secondary font-black uppercase tracking-[0.3em] text-[10px] md:text-xs mb-6 block">{t.subtitle}</span>
-                    <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase mb-6 md:mb-10 leading-none">
-                        {t.title}
-                    </h1>
-                    <p className="text-xl md:text-2xl text-white/40 font-medium leading-relaxed max-w-2xl">
-                        {t.desc}
-                    </p>
+                    <div className="max-w-4xl">
+                        <span className="text-secondary font-black uppercase tracking-[0.5em] text-[10px] md:text-xs mb-8 block animate-in fade-in slide-in-from-bottom-4 duration-700">{t.subtitle}</span>
+                        <h1 className="text-5xl md:text-8xl lg:text-9xl font-black tracking-tighter uppercase mb-10 text-white leading-[0.85] animate-in fade-in slide-in-from-bottom-10 duration-1000">
+                            {t.title.split(' ').map((word, i) => (
+                                <span key={i} className="block overflow-hidden">
+                                    <span className="block animate-in slide-in-from-bottom-full duration-1000" style={{ transitionDelay: `${i * 150}ms` }}>
+                                        {word}
+                                    </span>
+                                </span>
+                            ))}
+                        </h1>
+                        <p className="text-xl md:text-3xl text-white/50 font-medium leading-relaxed max-w-2xl mt-12 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
+                            {t.desc}
+                        </p>
+                    </div>
                 </Container>
             </section>
 
@@ -95,25 +103,52 @@ export default function Partners() {
                 </div>
             </div>
 
-            <section className="py-24 md:py-32 bg-white">
+            <section className="py-32 md:py-64 bg-white relative overflow-hidden">
+                <div className="absolute inset-0 mesh-gradient opacity-5 pointer-events-none" />
                 <Container>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 transform rotate-0 lg:rotate-1">
-                        {Array(8).fill(0).map((_, i) => (
-                            <div key={i} className="aspect-square bg-light flex items-center justify-center grayscale hover:grayscale-0 transition-all border border-dark/5 p-8 md:p-12">
-                                <div className="w-full h-full bg-dark/5 rounded-full flex items-center justify-center font-black text-dark/10 text-2xl md:text-4xl">
-                                    LOGO
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 relative z-10">
+                        {Array(12).fill(0).map((_, i) => (
+                            <div
+                                key={i}
+                                className={`aspect-square glass-navbar border-dark/5 hover:border-secondary/20 flex flex-col items-center justify-center p-8 md:p-12 group transition-all duration-700 hover:scale-105 hover:rotate-2 rounded-[48px] md:rounded-[64px] ${i % 2 === 1 ? 'lg:translate-y-16' : ''}`}
+                            >
+                                <div className="w-full aspect-square bg-dark/5 rounded-[40px] flex items-center justify-center font-black text-dark/10 text-xl group-hover:bg-secondary/10 group-hover:text-secondary transition-all duration-500 overflow-hidden relative">
+                                    <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                    <span className="relative z-10 text-[10px] tracking-widest uppercase">PARTNER LOGO</span>
+                                </div>
+                                <div className="mt-8 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-secondary text-center">Brand Excellence</p>
                                 </div>
                             </div>
                         ))}
                     </div>
                 </Container>
+
+                {/* Floating Decorative Elements */}
+                <div className="absolute top-1/4 -left-20 w-64 h-64 bg-primary/5 rounded-full blur-[100px] -z-10" />
+                <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-secondary/5 rounded-full blur-[120px] -z-10" />
             </section>
 
-            <section className="py-24 md:py-40 bg-primary text-white overflow-hidden relative">
+            <section className="py-32 md:py-64 bg-primary text-white overflow-hidden relative">
+                <div className="absolute inset-0 z-0">
+                    <div className="absolute inset-0 opacity-[0.05]" style={{
+                        backgroundImage: 'radial-gradient(circle, white 0.5px, transparent 0.5px)',
+                        backgroundSize: '48px 48px'
+                    }} />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-secondary/10 rounded-full blur-[160px] animate-pulse" />
+                </div>
+
                 <Container className="relative z-10 text-center">
-                    <HandRaisedIcon className="w-12 h-12 md:w-20 md:h-20 text-secondary mx-auto mb-8 md:mb-12" />
-                    <h2 className="text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter mb-8 md:mb-12 leading-tight">Let's grow together</h2>
-                    <Button variant="white" className="w-full sm:w-auto h-16 md:h-20 px-12 md:px-16 text-[10px] md:text-xs font-black tracking-widest">{t.cta}</Button>
+                    <div className="relative inline-block mb-12 md:mb-16">
+                        <HandRaisedIcon className="w-16 h-16 md:w-24 md:h-24 text-secondary animate-float" />
+                        <div className="absolute -inset-8 bg-secondary/20 rounded-full blur-3xl animate-pulse -z-10" />
+                    </div>
+                    <h2 className="text-5xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter mb-12 md:mb-20 leading-[0.85]">
+                        LET'S GROW<br /><span className="text-secondary hover:text-glow-secondary transition-all">TOGETHER</span>
+                    </h2>
+                    <Button variant="white" className="w-full sm:w-auto h-20 md:h-24 px-16 md:px-24 text-[12px] md:text-sm font-black tracking-widest shadow-2xl hover:scale-110 transition-transform">
+                        {t.cta}
+                    </Button>
                 </Container>
             </section>
         </MainLayout>

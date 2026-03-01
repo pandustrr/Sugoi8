@@ -196,14 +196,21 @@ const translations = {
     }
 };
 
-export default function Welcome() {
+export default function Welcome({ settings }) {
     const [lang, setLang] = useState('en');
     const [darkMode, setDarkMode] = useState(false);
     const [visible, setVisible] = useState({});
     const sectionRefs = useRef({});
     const t = translations[lang] || translations['en'];
 
+    const heroImage = settings?.hero_background_image || "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=2000";
+
+    const [scrollY, setScrollY] = useState(0);
+
     useEffect(() => {
+        const handleScroll = () => setScrollY(window.scrollY);
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
         const observer = new IntersectionObserver(
             (entries) => entries.forEach(e => {
                 if (e.isIntersecting) setVisible(prev => ({ ...prev, [e.target.id]: true }));
@@ -211,7 +218,10 @@ export default function Welcome() {
             { threshold: 0.15 }
         );
         Object.values(sectionRefs.current).forEach(el => el && observer.observe(el));
-        return () => observer.disconnect();
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            observer.disconnect();
+        };
     }, []);
 
     const fadeIn = (id, delay = '') => `transition-all duration-700 ${delay} ${visible[id] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
@@ -233,14 +243,15 @@ export default function Welcome() {
             {/* 1. Hero Section */}
             <section className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-primary">
 
-                {/* Background Image */}
+                {/* Background Image with Parallax */}
                 <div className="absolute inset-0 z-0">
                     <img
-                        src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=2000"
-                        className="w-full h-full object-cover opacity-50 grayscale"
+                        src={heroImage}
+                        className="w-full h-full object-cover opacity-50 grayscale transition-all duration-75"
+                        style={{ transform: `scale(1.1) translateY(${scrollY * 0.15}px)` }}
                         alt="Hero"
                     />
-                    <div className="absolute inset-0 bg-linear-to-br from-primary/40 via-primary/10 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-br from-primary/60 via-primary/20 to-transparent" />
                 </div>
 
                 {/* ── Dot grid ── */}
@@ -281,8 +292,11 @@ export default function Welcome() {
                     TIC
                 </div>
 
-                {/* ── Giant ghost word (right side) ── */}
-                <div className="absolute -right-4 top-1/2 -translate-y-1/2 font-black text-[10rem] md:text-[14rem] lg:text-[18rem] leading-none text-white/2.5 select-none pointer-events-none tracking-tighter uppercase hidden md:block">
+                {/* ── Giant ghost word (right side) with animation ── */}
+                <div
+                    className="absolute -right-4 top-1/2 -translate-y-1/2 font-black text-[12rem] md:text-[18rem] lg:text-[24rem] leading-none text-white/5 select-none pointer-events-none tracking-tighter uppercase hidden md:block"
+                    style={{ transform: `translateY(${-50 + scrollY * 0.05}%) translateX(${scrollY * 0.02}px)` }}
+                >
                     SUGOI
                 </div>
 
@@ -322,8 +336,8 @@ export default function Welcome() {
                 <Container className="relative z-10 py-20">
                     <div className="max-w-5xl">
                         <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.8] mb-12 uppercase">
-                            <span className="block text-white">{t.heroTitle1}</span>
-                            <span className="block italic text-secondary">{t.heroTitle2}</span>
+                            <span className="block text-white transition-all duration-500 hover:tracking-normal cursor-default">{t.heroTitle1}</span>
+                            <span className="block italic text-secondary transition-all duration-700 hover:translate-x-4 cursor-default">{t.heroTitle2}</span>
                         </h1>
 
                         <div className="max-w-xl mb-12">
@@ -466,31 +480,40 @@ export default function Welcome() {
                         <Button variant="outline" href="/services" className="w-full sm:w-auto text-[10px] tracking-widest py-4 px-10">{t.servicesExplore}</Button>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-12 gap-y-16 md:gap-y-24">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 lg:gap-x-20 gap-y-20 md:gap-y-32">
                         {services.map((service, idx) => (
-                            <div key={service.id} className={`group cursor-pointer ${fadeIn('services', idx % 2 === 0 ? 'delay-100' : 'delay-300')}`}>
-                                <div className="aspect-video mb-8 md:mb-10 overflow-hidden rounded-[32px] md:rounded-[40px] shadow-2xl relative">
-                                    <img src={service.image} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" alt={service.title} />
-                                    <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                    {/* Glow effect on hover */}
-                                    <div className="absolute inset-0 ring-0 group-hover:ring-4 ring-secondary/40 rounded-[32px] md:rounded-[40px] transition-all duration-500" />
-                                    <div className="absolute top-6 left-6 md:top-8 md:left-8">
-                                        <div className={`w-12 h-12 md:w-14 md:h-14 ${service.bg} rounded-xl md:rounded-2xl flex items-center justify-center backdrop-blur-xl border border-white/20 shadow-xl group-hover:scale-110 transition-transform`}>
-                                            <service.icon className={`w-6 h-6 md:w-7 md:h-7 ${service.color}`} />
+                            <div key={service.id} className={`group cursor-pointer ${fadeIn('services', idx % 2 === 0 ? 'delay-100' : 'delay-300')} ${idx % 2 !== 0 ? 'md:mt-24' : ''}`}>
+                                <div className="aspect-video mb-10 overflow-hidden rounded-[40px] shadow-2xl relative bg-dark">
+                                    <img src={service.image} className="w-full h-full object-cover opacity-80 grayscale group-hover:grayscale-0 group-hover:scale-110 group-hover:opacity-100 transition-all duration-1000" alt={service.title} />
+                                    <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                                    {/* Spotlight hover effect */}
+                                    <div className="absolute inset-0 bg-radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(249,215,131,0.15) 0%, transparent 80%) opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                                    <div className="absolute top-8 left-8">
+                                        <div className={`w-14 h-14 md:w-16 md:h-16 ${service.bg} rounded-2xl flex items-center justify-center backdrop-blur-xl border border-white/20 shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
+                                            <service.icon className={`w-7 h-7 md:w-8 md:h-8 ${service.color}`} />
                                         </div>
                                     </div>
-                                    {/* Number badge */}
-                                    <div className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
-                                        <span className="text-white font-black text-sm">{String(idx + 1).padStart(2, '0')}</span>
+
+                                    <div className="absolute bottom-6 left-6 right-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                                        <div className="glass-pill rounded-2xl p-4 flex items-center justify-between">
+                                            <span className="text-[10px] font-black uppercase tracking-widest text-white">View Details</span>
+                                            <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-dark">
+                                                <span className="text-xl leading-none">→</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <h3 className="text-2xl md:text-3xl font-black text-dark mb-4 flex items-center gap-4">
-                                    {service.title}
-                                    <span className="h-px shrink-0 grow bg-dark/10 group-hover:grow-2 transition-all" />
-                                </h3>
-                                <p className="text-base md:text-lg leading-relaxed max-w-xl text-dark/50">
-                                    {service.description}
-                                </p>
+                                <div className="relative">
+                                    <span className="absolute -left-8 top-0 text-6xl font-black text-dark/5 leading-none select-none">0{idx + 1}</span>
+                                    <h3 className="text-3xl md:text-4xl font-black text-dark mb-6 group-hover:text-primary transition-colors">
+                                        {service.title}
+                                    </h3>
+                                    <p className="text-lg md:text-xl leading-relaxed text-dark/50 font-medium italic border-l-2 border-secondary/30 pl-6">
+                                        {service.description}
+                                    </p>
+                                </div>
                             </div>
                         ))}
                     </div>
@@ -506,26 +529,36 @@ export default function Welcome() {
                             {t.portfolioTitle1} <span className="italic text-primary">{t.portfolioTitle2}</span>
                         </h2>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16 md:gap-24 pb-20">
                         {portfolioItems.map((item, i) => (
-                            <div key={i} className={`group relative aspect-4/5 bg-white rounded-[32px] md:rounded-[40px] overflow-hidden shadow-sm hover:shadow-2xl transition-all ${fadeIn('portfolio', i < 3 ? 'delay-100' : 'delay-300')}`}>
-                                <img src={item.image} className="absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-110" alt={item.category} />
-                                {/* Dark overlay base */}
-                                <div className="absolute inset-0 bg-linear-to-t from-dark/80 via-dark/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-500" />
-                                {/* Category tag top right */}
-                                <div className="absolute top-4 right-4 bg-secondary/90 backdrop-blur-sm px-3 py-1 rounded-full">
-                                    <span className="text-dark text-[9px] font-black uppercase tracking-widest">{item.category}</span>
+                            <div key={i} className="group relative h-[500px] md:h-[650px] bg-dark rounded-[48px] overflow-hidden shadow-2xl hover:shadow-secondary/20 transition-all duration-700">
+                                <img src={item.image} className="absolute inset-0 w-full h-full object-cover opacity-60 grayscale group-hover:scale-110 group-hover:opacity-80 group-hover:grayscale-0 transition-all duration-1000 ease-out" alt={item.category} />
+
+                                {/* Gradient overly */}
+                                <div className="absolute inset-0 bg-linear-to-t from-dark via-dark/20 to-transparent opacity-80" />
+
+                                {/* Category badge */}
+                                <div className="absolute top-8 left-8">
+                                    <div className="glass-pill px-4 py-1.5 rounded-full">
+                                        <span className="text-secondary text-[10px] font-black uppercase tracking-widest">{item.category}</span>
+                                    </div>
                                 </div>
-                                {/* Number bottom left always visible */}
-                                <div className="absolute bottom-4 left-4 w-8 h-8 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
-                                    <span className="text-white font-black text-xs">{String(i + 1).padStart(2, '0')}</span>
-                                </div>
-                                {/* Hover content */}
-                                <div className="absolute inset-x-6 md:inset-x-8 bottom-6 md:bottom-8 z-20 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                                    <p className="text-white font-black text-2xl md:text-3xl mb-2 leading-tight">
+
+                                {/* Content */}
+                                <div className="absolute inset-x-10 bottom-10 z-20">
+                                    <div className="h-px w-0 group-hover:w-full bg-secondary/50 mb-6 transition-all duration-700" />
+                                    <p className="text-white font-black text-3xl md:text-4xl mb-3 leading-none tracking-tighter uppercase">
                                         {lang === 'jp' ? item.titleJp : lang === 'id' ? item.titleId : item.titleEn}
                                     </p>
-                                    <p className="text-secondary text-[10px] font-black uppercase tracking-[0.2em]">{item.category}</p>
+                                    <div className="flex items-center gap-3 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">
+                                        <span className="text-secondary text-[10px] font-black uppercase tracking-[0.3em]">Full Case Study</span>
+                                        <div className="w-6 h-px bg-secondary/30" />
+                                    </div>
+                                </div>
+
+                                {/* Large Background Number */}
+                                <div className="absolute -right-8 bottom-0 text-[12rem] font-black text-white/5 leading-none select-none tracking-tighter">
+                                    0{i + 1}
                                 </div>
                             </div>
                         ))}
@@ -601,20 +634,6 @@ export default function Welcome() {
                     </div>
                 </Container>
             </section>
-
-            {/* Floating WhatsApp Button */}
-            <a
-                href="https://wa.me/6285954464539"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="fixed bottom-8 right-8 z-50 w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-2xl shadow-[#25D366]/40 hover:scale-110 active:scale-95 transition-all duration-300 group"
-            >
-                <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                </svg>
-                {/* Pulse ring */}
-                <span className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-30" />
-            </a>
 
             {/* CSS for marquee animation */}
             <style>{`
