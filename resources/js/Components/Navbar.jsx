@@ -152,18 +152,18 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
     return (
         <>
             <header
-                className="fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-in-out px-4 md:px-8 py-6"
+                className="fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-in-out px-4 flex justify-center py-4"
             >
-                <div className={`mx-auto max-w-7xl transition-all duration-700 glass-navbar shadow-2xl ${isScrolled
-                    ? 'rounded-[32px] px-8 py-3 scale-[0.98]'
-                    : 'rounded-[40px] px-10 py-5 scale-100'
+                <div className={`w-full w-[95%] lg:max-w-[98%] xl:max-w-[1280px] transition-all duration-700 glass-navbar shadow-2xl ${isScrolled
+                    ? 'rounded-[24px] px-6 lg:px-8 py-2.5 scale-[0.98]'
+                    : 'rounded-[32px] px-8 lg:px-10 py-4 scale-100'
                     }`}>
                     <div className="flex items-center justify-between">
                         <div className="flex lg:flex-1">
-                            <Link href="/" className="flex items-center gap-2 group">
-                                <div className="flex flex-col leading-none">
-                                    <span className="text-xl md:text-2xl font-black tracking-tight text-white uppercase">SUGOI</span>
-                                    <span className="text-[10px] font-bold tracking-[0.3em] text-white uppercase">Management</span>
+                            <Link href="/" className="flex items-center gap-2.5 group">
+                                <div className="flex flex-col leading-none pt-0.5">
+                                    <span className="text-xl md:text-[22px] font-black tracking-tight text-white uppercase">SUGOI</span>
+                                    <span className="text-[9px] font-bold tracking-[0.3em] text-white uppercase">Management</span>
                                 </div>
                                 <div className="relative w-8 h-8 md:w-9 md:h-9 flex items-center justify-center bg-gradient-logo rounded-lg shadow-lg">
                                     <span className="text-white font-black text-xl md:text-2xl leading-none">8</span>
@@ -171,12 +171,12 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                             </Link>
                         </div>
 
-                        <nav className="hidden lg:flex items-center gap-x-4">
+                        <nav className="hidden lg:flex items-center lg:gap-x-2 xl:gap-x-4">
                             {navLinks.map((link) => (
                                 <Link
                                     key={link.name}
                                     href={link.href}
-                                    className={`px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 ${isActive(link.href) ? 'text-secondary' : 'text-white/70 hover:text-secondary'
+                                    className={`px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.15em] transition-all duration-300 ${isActive(link.href) ? 'text-secondary' : 'text-white/70 hover:text-secondary'
                                         }`}
                                 >
                                     {link.name}
@@ -190,10 +190,10 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                             >
                                 <Link
                                     href="/services"
-                                    className={`group flex items-center px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 outline-none ${isActive('/services') ? 'text-secondary' : 'text-white/70 hover:text-secondary'}`}
+                                    className={`group flex items-center px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.15em] transition-all duration-300 outline-none ${isActive('/services') ? 'text-secondary' : 'text-white/70 hover:text-secondary'}`}
                                 >
                                     {cur.services}
-                                    <ChevronDownIcon className={`ml-1 w-3 h-3 transition-transform duration-300 ${isServicesOpen ? 'rotate-180' : ''}`} />
+                                    <ChevronDownIcon className={`ml-1 w-3.5 h-3.5 transition-transform duration-300 ${isServicesOpen ? 'rotate-180' : ''}`} />
                                 </Link>
 
                                 <Transition
@@ -264,7 +264,7 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                                 </Transition>
                             </div>
 
-                            <div className="ml-4 border-l border-white/20 pl-4 flex items-center gap-1">
+                            <div className="lg:ml-2 xl:ml-4 border-l border-white/20 lg:pl-2 xl:pl-4 flex items-center gap-1">
                                 {[
                                     { code: 'id', label: 'ID' },
                                     { code: 'en', label: 'EN' },
@@ -273,43 +273,14 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                                     <button
                                         key={code}
                                         onClick={() => onLangChange(code)}
-                                        className={`text-[10px] font-black px-2.5 py-1.5 rounded-lg transition-all duration-300 ${lang === code ? 'bg-secondary/20 text-secondary text-glow-secondary shadow-[0_0_20px_rgba(249,215,131,0.2)] border border-secondary/30' : 'text-white/40 hover:text-white hover:bg-white/5'}`}
+                                        className={`text-[9px] font-black px-2 py-1 rounded-md transition-all duration-300 ${lang === code ? 'bg-secondary/20 text-secondary text-glow-secondary shadow-[0_0_20px_rgba(249,215,131,0.2)] border border-secondary/30' : 'text-white/40 hover:text-white hover:bg-white/5'}`}
                                     >
                                         {label}
                                     </button>
                                 ))}
                             </div>
 
-                            <div className={`flex items-center transition-all duration-500 overflow-hidden ${searchOpen ? 'max-w-[300px] ml-4' : 'max-w-0 ml-0'}`}>
-                                <div className="relative">
-                                    <input
-                                        type="text"
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        placeholder={cur.searchPlace}
-                                        className={`glass-pill border border-white/10 rounded-xl px-4 py-2 text-[10px] font-bold text-white placeholder:text-white/30 outline-none focus:ring-2 focus:ring-secondary/50 w-64 transition-all ${searchOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
-                                    />
-                                    {searchQuery.length >= 1 && (
-                                        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-dark/5 p-4 z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-300">
-                                            <p className="text-[9px] font-black uppercase tracking-widest text-dark/30 mb-3 px-2">Results for "{searchQuery}"</p>
-                                            <div className="space-y-1">
-                                                {[cur.eo, cur.show, cur.mice].map((item, i) => (
-                                                    <Link key={i} href="/services" className="block px-3 py-2 rounded-xl hover:bg-primary/5 text-[11px] font-bold text-dark transition-colors">
-                                                        {item}
-                                                    </Link>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
 
-                            <button
-                                onClick={() => setSearchOpen(!searchOpen)}
-                                className={`ml-2 p-2 transition-all duration-300 ${searchOpen ? 'text-secondary' : 'text-white/50 hover:text-white'}`}
-                            >
-                                <MagnifyingGlassIcon className="w-4 h-4" />
-                            </button>
 
                             {/* <button
                             onClick={() => onDarkModeToggle(!darkMode)}
@@ -323,10 +294,10 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                             <Button
                                 variant="secondary"
                                 href="/about#contact"
-                                className="px-8 py-3 text-[10px] font-black tracking-[0.2em] shadow-xl shadow-secondary/10 transition-all hover:scale-105 active:scale-95 flex items-center gap-2 group relative overflow-hidden"
+                                className="px-6 py-2.5 text-[10px] font-black tracking-[0.15em] shadow-lg shadow-secondary/10 transition-all hover:scale-105 active:scale-95 flex items-center gap-2 group relative overflow-hidden rounded-full py-3"
                             >
                                 <span className="relative z-10 flex items-center gap-2">
-                                    {cur.contact} <span className="text-base leading-none transition-transform group-hover:translate-x-1">→</span>
+                                    {cur.contact} <span className="text-sm leading-none transition-transform group-hover:translate-x-1">→</span>
                                 </span>
                             </Button>
                         </div>
@@ -334,7 +305,7 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                         <div className="flex lg:hidden gap-4 items-center">
                             <button
                                 onClick={() => onLangChange(lang === 'en' ? 'id' : 'en')}
-                                className="text-[10px] font-black text-white/70 border border-white/20 px-3 py-1.5 rounded-full uppercase"
+                                className="text-[9px] font-black text-white/70 border border-white/20 px-2 py-1 rounded-full uppercase"
                             >
                                 {lang}
                             </button>

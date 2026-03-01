@@ -247,11 +247,11 @@ export default function Welcome({ settings }) {
                 <div className="absolute inset-0 z-0">
                     <img
                         src={heroImage}
-                        className="w-full h-full object-cover opacity-50 grayscale transition-all duration-75"
+                        className="w-full h-full object-cover opacity-80 grayscale-0 transition-all duration-75"
                         style={{ transform: `scale(1.1) translateY(${scrollY * 0.15}px)` }}
                         alt="Hero"
                     />
-                    <div className="absolute inset-0 bg-linear-to-br from-primary/60 via-primary/20 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-br from-primary/40 via-primary/10 to-transparent" />
                 </div>
 
                 {/* ── Dot grid ── */}

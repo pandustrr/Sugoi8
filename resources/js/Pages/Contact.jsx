@@ -45,10 +45,10 @@ export default function Contact() {
                 <div className="absolute inset-0 z-0">
                     <img
                         src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=2000"
-                        className="w-full h-full object-cover opacity-10 grayscale scale-110 motion-safe:animate-[pulse_15s_ease-in-out_infinite]"
-                        alt="Contact Background"
+                        className="w-full h-full object-cover opacity-60 grayscale-0 scale-110 motion-safe:animate-[pulse_15s_ease-in-out_infinite]"
+                        alt="Hero Background"
                     />
-                    <div className="absolute inset-0 bg-linear-to-b from-primary/95 via-primary/80 to-primary/40" />
+                    <div className="absolute inset-0 bg-linear-to-b from-primary/75 via-primary/50 to-primary/20" />
                 </div>
 
                 {/* Decorative Elements */}
@@ -62,7 +62,7 @@ export default function Contact() {
 
                 <Container className="relative z-10">
                     <span className="text-secondary font-black uppercase tracking-[0.5em] text-[10px] md:text-xs mb-8 block animate-in fade-in slide-in-from-bottom-4 duration-700">{t.subtitle}</span>
-                    <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter uppercase leading-[0.8] animate-in fade-in slide-in-from-bottom-10 duration-1000">
+                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase leading-[0.8] animate-in fade-in slide-in-from-bottom-10 duration-1000">
                         {t.title.split('').map((char, i) => (
                             <span key={i} className="inline-block animate-in slide-in-from-bottom-full duration-1000" style={{ transitionDelay: `${i * 30}ms` }}>{char}</span>
                         ))}

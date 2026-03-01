@@ -90,10 +90,10 @@ export default function Services() {
                 <div className="absolute inset-0 z-0">
                     <img
                         src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&q=80&w=2000"
-                        className="w-full h-full object-cover opacity-20 grayscale scale-110 motion-safe:animate-[pulse_12s_ease-in-out_infinite]"
-                        alt="Services Background"
+                        className="w-full h-full object-cover opacity-60 grayscale-0 scale-110 motion-safe:animate-[pulse_12s_ease-in-out_infinite]"
+                        alt="Hero Background"
                     />
-                    <div className="absolute inset-0 bg-linear-to-b from-primary/95 via-primary/60 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-b from-primary/75 via-primary/40 to-transparent" />
                 </div>
 
                 {/* Decorative Elements */}
@@ -106,7 +106,7 @@ export default function Services() {
                     <div className="absolute top-1/2 left-1/2 w-[1000px] h-[1000px] bg-secondary/10 rounded-full blur-[160px] -translate-x-1/2 -translate-y-1/2" />
 
                     {/* Ghost Branding */}
-                    <div className="absolute -left-20 bottom-0 text-[30rem] font-black text-white/[0.02] uppercase leading-none select-none tracking-tighter rotate-[-5deg]">
+                    <div className="absolute -left-20 bottom-0 text-[30rem] font-black text-white/2 uppercase leading-none select-none tracking-tighter rotate-[-5deg]">
                         EXPERT
                     </div>
                 </div>
@@ -114,7 +114,7 @@ export default function Services() {
                 <Container className="relative z-10">
                     <div className="max-w-4xl text-left">
                         <span className="text-secondary font-black uppercase tracking-[0.5em] text-[10px] md:text-xs mb-8 block animate-in fade-in slide-in-from-bottom-4 duration-700">{t.subtitle}</span>
-                        <h1 className="text-5xl md:text-8xl lg:text-9xl font-black tracking-tighter uppercase mb-10 text-white leading-[0.85] animate-in fade-in slide-in-from-bottom-10 duration-1000">
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase mb-10 text-white leading-[0.85] animate-in fade-in slide-in-from-bottom-10 duration-1000">
                             {t.title.split(' ').map((word, i) => (
                                 <span key={i} className="block overflow-hidden">
                                     <span className="block animate-in slide-in-from-bottom-full duration-1000" style={{ transitionDelay: `${i * 150}ms` }}>
@@ -123,7 +123,7 @@ export default function Services() {
                                 </span>
                             ))}
                         </h1>
-                        <p className="text-xl md:text-3xl text-white/50 font-medium leading-relaxed max-w-2xl mt-12 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
+                        <p className="text-base md:text-xl text-white/50 font-medium leading-relaxed max-w-2xl mt-10 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500 italic border-l-4 border-secondary pl-6">
                             {t.desc}
                         </p>
                     </div>

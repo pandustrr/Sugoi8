@@ -180,10 +180,11 @@ export default function About() {
                 <div className="absolute inset-0 z-0">
                     <img
                         src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=2000"
-                        className="w-full h-full object-cover opacity-50 grayscale"
-                        alt="About Background"
+                        className="w-full h-full object-cover opacity-80 grayscale-0"
+                        style={{ transform: `scale(1.1) translateY(${scrollY * 0.15}px)` }}
+                        alt="Hero"
                     />
-                    <div className="absolute inset-0 bg-linear-to-b from-primary/40 via-primary/10 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-b from-primary/20 via-primary/5 to-transparent" />
                 </div>
 
                 {/* Decorative Elements */}
@@ -209,10 +210,10 @@ export default function About() {
                 </div>
                 <Container className="relative z-10">
                     <span className="text-secondary font-black uppercase tracking-[0.3em] text-[10px] md:text-xs mb-6 block">{t.subtitle}</span>
-                    <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase mb-6 md:mb-10 text-white leading-none">
+                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase mb-6 md:mb-10 text-white leading-none">
                         {t.title}
                     </h1>
-                    <p className="text-xl md:text-2xl text-white/40 max-w-2xl font-medium leading-relaxed">
+                    <p className="text-base md:text-xl text-white/50 font-medium leading-relaxed max-w-2xl mt-8 italic border-l-4 border-secondary pl-6 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
                         {t.desc}
                     </p>
                 </Container>

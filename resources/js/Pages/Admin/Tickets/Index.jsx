@@ -209,7 +209,7 @@ export default function Index({ events }) {
 
             {/* ── Fullscreen Poster Preview ── */}
             <Transition show={!!previewSrc} as={Fragment}>
-                <Dialog as="div" className="relative z-[300]" onClose={() => setPreviewSrc(null)}>
+                <Dialog as="div" className="relative z-300" onClose={() => setPreviewSrc(null)}>
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-200" enterFrom="opacity-0" enterTo="opacity-100"

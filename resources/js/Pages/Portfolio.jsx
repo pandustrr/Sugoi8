@@ -211,15 +211,15 @@ export default function Portfolio() {
             <Head title={t.metaTitle} />
 
             {/* ── 1. HERO ── */}
-            <section className="relative min-h-[600px] pt-40 pb-24 bg-primary overflow-hidden">
+            <section className="relative min-h-[600px] pt-52 pb-24 bg-primary overflow-hidden">
                 {/* BG photo */}
                 <div className="absolute inset-0 z-0">
                     <img
                         src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=2000"
-                        className="w-full h-full object-cover opacity-20 grayscale scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
-                        alt="Portfolio Hero"
+                        className="w-full h-full object-cover opacity-60 grayscale-0 scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
+                        alt="Hero Background"
                     />
-                    <div className="absolute inset-0 bg-linear-to-b from-primary/95 via-primary/60 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-b from-primary/75 via-primary/40 to-transparent" />
                 </div>
 
                 {/* Decorative Elements */}
@@ -246,12 +246,12 @@ export default function Portfolio() {
                         <span className="text-secondary font-black uppercase tracking-[0.5em] text-[10px] md:text-xs mb-8 block animate-in fade-in slide-in-from-bottom-4 duration-700">
                             {t.heroTag}
                         </span>
-                        <h1 className="text-5xl md:text-8xl lg:text-9xl font-black tracking-tighter uppercase mb-10 leading-[0.85] text-white animate-in fade-in slide-in-from-bottom-10 duration-1000">
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase mb-8 leading-[0.9] text-white">
                             {t.heroTitle.split('').map((char, i) => (
-                                <span key={i} className="inline-block animate-in slide-in-from-bottom-full duration-1000" style={{ transitionDelay: `${i * 50}ms` }}>{char}</span>
+                                <span key={i} className="inline-block animate-in slide-in-from-bottom-full duration-1000" style={{ transitionDelay: `${i * 30}ms` }}>{char}</span>
                             ))}
                         </h1>
-                        <p className="text-xl md:text-3xl text-white/50 font-medium leading-relaxed max-w-2xl mt-12 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
+                        <p className="text-base md:text-xl text-white/50 font-medium leading-relaxed max-w-2xl mt-8 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500 italic border-l-4 border-secondary pl-6">
                             {t.heroDesc}
                         </p>
                     </div>
@@ -358,7 +358,7 @@ export default function Portfolio() {
                                 </div>
 
                                 {/* Year Floating */}
-                                <div className="absolute -right-6 top-1/2 -translate-y-1/2 text-[10rem] font-black text-dark/[0.04] select-none pointer-events-none group-hover:text-secondary/[0.08] transition-all duration-1000 z-10">
+                                <div className="absolute -right-6 top-1/2 -translate-y-1/2 text-[10rem] font-black text-dark/4 select-none pointer-events-none group-hover:text-secondary/8 transition-all duration-1000 z-10">
                                     {item.year}
                                 </div>
                             </div>
