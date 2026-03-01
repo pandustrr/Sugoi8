@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Head } from '@inertiajs/react';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
+import WhatsAppWidget from '../Components/UI/WhatsAppWidget';
 
 export default function MainLayout({ children, lang = 'en', onLangChange, darkMode, onDarkModeToggle }) {
     const [isMounted, setIsMounted] = useState(false);
@@ -27,6 +28,7 @@ export default function MainLayout({ children, lang = 'en', onLangChange, darkMo
             </main>
 
             <Footer darkMode={darkMode} />
+            <WhatsAppWidget />
         </div>
     );
 }
