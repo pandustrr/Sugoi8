@@ -160,4 +160,10 @@ class AdminTicketController extends Controller
         ]));
         return back()->with('success', 'Status berhasil diperbarui.');
     }
+
+    public function deleteBooking(Booking $booking)
+    {
+        $booking->delete();
+        return back()->with('success', 'Pemesanan berhasil dihapus.');
+    }
 }

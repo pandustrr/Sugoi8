@@ -176,31 +176,35 @@ export default function About() {
             <Head title={t.metaTitle} />
 
             {/* ── 1. HERO ── */}
-            <section className="relative min-h-[480px] pt-32 pb-16 bg-primary text-white overflow-hidden">
+            <section className="relative min-h-[600px] pt-52 pb-24 bg-primary text-white overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <img
                         src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=2000"
-                        className="w-full h-full object-cover opacity-50 grayscale"
-                        alt="About Background"
+                        className="w-full h-full object-cover opacity-70 grayscale-0 scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
+                        style={{ transform: `scale(1.1) translateY(${scrollY * 0.15}px)` }}
+                        alt="Hero"
                     />
-                    <div className="absolute inset-0 bg-linear-to-b from-primary/40 via-primary/10 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-b from-primary/60 via-primary/25 to-transparent" />
                 </div>
 
                 {/* Decorative Elements */}
                 <div className="absolute inset-0 z-0 pointer-events-none">
                     {/* Dot grid */}
-                    <div className="absolute inset-0 opacity-[0.1]" style={{
+                    <div className="absolute inset-0 opacity-[0.05]" style={{
                         backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-                        backgroundSize: '32px 32px'
+                        backgroundSize: '48px 48px'
                     }} />
 
                     {/* Soft Glow Orbs */}
-                    <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
-                    <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-white/5 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2" />
+                    <div className="absolute -top-1/4 -right-1/4 w-[800px] h-[800px] bg-secondary/10 rounded-full blur-[160px] animate-pulse" />
+                    <div className="absolute -bottom-1/4 -left-1/4 w-[600px] h-[600px] bg-white/5 rounded-full blur-[120px]" />
 
-                    {/* Diagonal Lines */}
-                    <div className="absolute top-0 right-20 w-px h-[200%] bg-white/5 rotate-25 origin-top" />
-                    <div className="absolute top-0 right-40 w-px h-[200%] bg-white/5 rotate-25 origin-top" />
+                    {/* Vertical Text Branding */}
+                    <div className="absolute left-10 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-6 opacity-20">
+                        <div className="w-px h-24 bg-linear-to-b from-transparent via-white to-transparent" />
+                        <span className="text-[10px] font-black uppercase tracking-[0.5em] rotate-90 whitespace-nowrap">CREATIVE EXCELLENCE</span>
+                        <div className="w-px h-24 bg-linear-to-b from-transparent via-white to-transparent" />
+                    </div>
 
                     {/* Giant Ghost "8" */}
                     <div className="absolute -right-20 bottom-0 text-[30rem] font-black text-white/2 leading-none select-none">
@@ -208,11 +212,11 @@ export default function About() {
                     </div>
                 </div>
                 <Container className="relative z-10">
-                    <span className="text-secondary font-black uppercase tracking-[0.3em] text-[10px] md:text-xs mb-6 block">{t.subtitle}</span>
-                    <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase mb-6 md:mb-10 text-white leading-none">
+                    <span className="text-secondary font-black uppercase tracking-[0.5em] text-[10px] md:text-xs mb-8 block animate-in fade-in slide-in-from-bottom-4 duration-700">{t.subtitle}</span>
+                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase mb-8 text-white leading-[0.9]">
                         {t.title}
                     </h1>
-                    <p className="text-xl md:text-2xl text-white/40 max-w-2xl font-medium leading-relaxed">
+                    <p className="text-base md:text-xl text-white/50 font-medium leading-relaxed max-w-2xl mt-8 italic border-l-4 border-secondary pl-6 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
                         {t.desc}
                     </p>
                 </Container>
@@ -346,91 +350,91 @@ export default function About() {
             <section
                 id="contact"
                 ref={contactRef}
-                className="py-24 md:py-40 bg-white scroll-mt-24"
+                className="py-16 md:py-20 bg-white scroll-mt-24"
             >
                 <Container>
-                    <div className="mb-12 md:mb-20">
-                        <span className="text-secondary font-black uppercase tracking-[0.4em] text-[10px] block mb-4">{t.contactTag}</span>
-                        <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-dark uppercase leading-none">
+                    <div className="mb-10 md:mb-16">
+                        <span className="text-secondary font-black uppercase tracking-[0.4em] text-[10px] block mb-3">{t.contactTag}</span>
+                        <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-dark uppercase leading-none">
                             {t.contactTitle}
                         </h2>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-start">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
                         {/* Left: info kontak */}
-                        <div className="space-y-8 md:space-y-10">
-                            <p className="text-2xl md:text-3xl font-black text-dark/30 leading-tight">{t.contactDesc}</p>
+                        <div className="space-y-6 md:space-y-8">
+                            <p className="text-lg md:text-xl font-medium text-dark/50 leading-relaxed">{t.contactDesc}</p>
 
-                            <div className="space-y-6">
+                            <div className="space-y-4">
                                 {/* WhatsApp / Phone */}
                                 <a
                                     href="https://wa.me/6285954464539"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex gap-6 md:gap-8 border-b border-dark/5 pb-6 md:pb-8 group"
+                                    className="flex gap-4 md:gap-5 border-b border-dark/5 pb-4 group"
                                 >
-                                    <div className="w-12 h-12 md:w-16 md:h-16 bg-light rounded-xl md:rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-secondary/10 transition-colors">
-                                        <PhoneIcon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+                                    <div className="w-10 h-10 md:w-12 md:h-12 bg-light rounded-xl flex items-center justify-center shrink-0 group-hover:bg-secondary/10 transition-colors">
+                                        <PhoneIcon className="w-5 h-5 md:w-6 md:h-6 text-primary" />
                                     </div>
                                     <div>
-                                        <p className="text-[10px] md:text-xs font-black uppercase tracking-widest text-dark/40 mb-1 md:mb-2">{t.contactPhoneLabel}</p>
-                                        <p className="text-xl md:text-2xl font-black text-dark group-hover:text-primary transition-colors">{t.contactPhone}</p>
+                                        <p className="text-[10px] md:text-xs font-black uppercase tracking-widest text-dark/40 mb-1">{t.contactPhoneLabel}</p>
+                                        <p className="text-base md:text-lg font-black text-dark group-hover:text-primary transition-colors">{t.contactPhone}</p>
                                     </div>
                                 </a>
 
                                 {/* Email */}
                                 <a
                                     href={`mailto:${t.contactEmail}`}
-                                    className="flex gap-6 md:gap-8 border-b border-dark/5 pb-6 md:pb-8 group"
+                                    className="flex gap-4 md:gap-5 border-b border-dark/5 pb-4 group"
                                 >
-                                    <div className="w-12 h-12 md:w-16 md:h-16 bg-light rounded-xl md:rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-secondary/10 transition-colors">
-                                        <EnvelopeIcon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+                                    <div className="w-10 h-10 md:w-12 md:h-12 bg-light rounded-xl flex items-center justify-center shrink-0 group-hover:bg-secondary/10 transition-colors">
+                                        <EnvelopeIcon className="w-5 h-5 md:w-6 md:h-6 text-primary" />
                                     </div>
                                     <div>
-                                        <p className="text-[10px] md:text-xs font-black uppercase tracking-widest text-dark/40 mb-1 md:mb-2">Email</p>
-                                        <p className="text-xl md:text-2xl font-black text-dark group-hover:text-primary transition-colors break-all">{t.contactEmail}</p>
+                                        <p className="text-[10px] md:text-xs font-black uppercase tracking-widest text-dark/40 mb-1">Email</p>
+                                        <p className="text-base md:text-lg font-black text-dark group-hover:text-primary transition-colors break-all">{t.contactEmail}</p>
                                     </div>
                                 </a>
 
                                 {/* Alamat */}
-                                <div className="flex gap-6 md:gap-8 pb-6 md:pb-8">
-                                    <div className="w-12 h-12 md:w-16 md:h-16 bg-light rounded-xl md:rounded-2xl flex items-center justify-center shrink-0">
-                                        <MapPinIcon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+                                <div className="flex gap-4 md:gap-5 pb-4">
+                                    <div className="w-10 h-10 md:w-12 md:h-12 bg-light rounded-xl flex items-center justify-center shrink-0">
+                                        <MapPinIcon className="w-5 h-5 md:w-6 md:h-6 text-primary" />
                                     </div>
                                     <div>
-                                        <p className="text-[10px] md:text-xs font-black uppercase tracking-widest text-dark/40 mb-1 md:mb-2">{t.contactOffice}</p>
-                                        <p className="text-lg md:text-xl font-black text-dark leading-snug">{t.contactOfficeAddr}</p>
+                                        <p className="text-[10px] md:text-xs font-black uppercase tracking-widest text-dark/40 mb-1">{t.contactOffice}</p>
+                                        <p className="text-sm md:text-base font-bold text-dark leading-snug">{t.contactOfficeAddr}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         {/* Right: form */}
-                        <div className="bg-light p-8 md:p-16 lg:p-20 rounded-[40px] md:rounded-[60px] shadow-sm">
-                            <h3 className="text-3xl md:text-4xl font-black text-dark uppercase mb-8 md:mb-12">{t.contactFormTitle}</h3>
-                            <form className="space-y-6 md:space-y-8">
-                                <div className="space-y-3 md:space-y-4">
+                        <div className="bg-light p-6 md:p-10 rounded-[24px] md:rounded-[32px] shadow-sm">
+                            <h3 className="text-2xl md:text-3xl font-black text-dark uppercase mb-6 md:mb-8">{t.contactFormTitle}</h3>
+                            <form className="space-y-4 md:space-y-5">
+                                <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-dark/40 ml-4">{t.formName}</label>
                                     <input
                                         type="text"
-                                        className="w-full bg-white border border-dark/5 rounded-2xl md:rounded-3xl p-5 md:p-6 font-bold text-dark outline-none focus:border-primary transition-colors h-16 md:h-20 text-sm md:text-base"
+                                        className="w-full bg-white border border-dark/5 rounded-xl md:rounded-2xl p-3 md:p-4 font-bold text-dark outline-none focus:border-primary transition-colors h-12 md:h-14 text-sm md:text-base"
                                     />
                                 </div>
-                                <div className="space-y-3 md:space-y-4">
+                                <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-dark/40 ml-4">{t.formEmail}</label>
                                     <input
                                         type="email"
-                                        className="w-full bg-white border border-dark/5 rounded-2xl md:rounded-3xl p-5 md:p-6 font-bold text-dark outline-none focus:border-primary transition-colors h-16 md:h-20 text-sm md:text-base"
+                                        className="w-full bg-white border border-dark/5 rounded-xl md:rounded-2xl p-3 md:p-4 font-bold text-dark outline-none focus:border-primary transition-colors h-12 md:h-14 text-sm md:text-base"
                                     />
                                 </div>
-                                <div className="space-y-3 md:space-y-4">
+                                <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-dark/40 ml-4">{t.formMessage}</label>
                                     <textarea
                                         rows="4"
-                                        className="w-full bg-white border border-dark/5 rounded-[24px] md:rounded-[32px] p-5 md:p-6 font-bold text-dark outline-none focus:border-primary transition-colors resize-none text-sm md:text-base"
+                                        className="w-full bg-white border border-dark/5 rounded-xl md:rounded-2xl p-3 md:p-4 font-bold text-dark outline-none focus:border-primary transition-colors resize-none text-sm md:text-base"
                                     />
                                 </div>
-                                <Button variant="primary" className="w-full h-16 md:h-20 text-[10px] md:text-xs font-black tracking-widest shadow-2xl shadow-primary/20">
+                                <Button variant="primary" className="w-full h-12 md:h-14 text-[10px] md:text-xs font-black tracking-widest shadow-lg shadow-primary/20 rounded-xl">
                                     {t.contactBtn}
                                 </Button>
                             </form>

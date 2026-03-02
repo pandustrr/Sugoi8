@@ -8,7 +8,8 @@ import {
     TicketIcon,
     PresentationChartBarIcon,
     WrenchScrewdriverIcon,
-    ArrowRightIcon
+    ArrowRightIcon,
+    SparklesIcon
 } from '@heroicons/react/24/outline';
 
 export default function Services() {
@@ -44,6 +45,12 @@ export default function Services() {
                     items: ["Sound System", "Lighting Design", "LED Visuals", "Stage Construction"],
                     icon: WrenchScrewdriverIcon,
                     image: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&q=80&w=800"
+                },
+                {
+                    title: "Digital Solutions",
+                    items: ["Web Development", "Landing Pages", "Digital Systems", "UI/UX Design", "E-Commerce", "Digital Marketing"],
+                    icon: SparklesIcon,
+                    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800"
                 }
             ]
         },
@@ -75,6 +82,12 @@ export default function Services() {
                     items: ["Sistem Suara", "Desain Pencahayaan", "Visual LED", "Konstruksi Panggung"],
                     icon: WrenchScrewdriverIcon,
                     image: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&q=80&w=800"
+                },
+                {
+                    title: "Solusi Digital",
+                    items: ["Pembuatan Website", "Landing Page", "Sistem Digital", "Desain UI/UX", "E-Commerce", "Pemasaran Digital"],
+                    icon: SparklesIcon,
+                    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800"
                 }
             ]
         }
@@ -86,27 +99,34 @@ export default function Services() {
         <MainLayout lang={lang} onLangChange={setLang} darkMode={darkMode} onDarkModeToggle={setDarkMode}>
             <Head title={t.title} />
 
-            <section className="relative min-h-[600px] pt-40 pb-24 bg-primary text-white overflow-hidden">
+            <section className="relative min-h-[600px] pt-52 pb-24 bg-primary text-white overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <img
                         src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&q=80&w=2000"
-                        className="w-full h-full object-cover opacity-20 grayscale scale-110 motion-safe:animate-[pulse_12s_ease-in-out_infinite]"
-                        alt="Services Background"
+                        className="w-full h-full object-cover opacity-70 grayscale-0 scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
+                        alt="Hero Background"
                     />
-                    <div className="absolute inset-0 bg-linear-to-b from-primary/95 via-primary/60 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-b from-primary/60 via-primary/25 to-transparent" />
                 </div>
 
                 {/* Decorative Elements */}
                 <div className="absolute inset-0 z-0 pointer-events-none">
                     <div className="absolute inset-0 opacity-[0.05]" style={{
-                        backgroundImage: 'radial-gradient(circle, white 0.5px, transparent 0.5px)',
-                        backgroundSize: '32px 32px'
+                        backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
+                        backgroundSize: '48px 48px'
                     }} />
 
                     <div className="absolute top-1/2 left-1/2 w-[1000px] h-[1000px] bg-secondary/10 rounded-full blur-[160px] -translate-x-1/2 -translate-y-1/2" />
 
+                    {/* Vertical Text Branding */}
+                    <div className="absolute left-10 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-6 opacity-20">
+                        <div className="w-px h-24 bg-linear-to-b from-transparent via-white to-transparent" />
+                        <span className="text-[10px] font-black uppercase tracking-[0.5em] rotate-90 whitespace-nowrap">CREATIVE EXCELLENCE</span>
+                        <div className="w-px h-24 bg-linear-to-b from-transparent via-white to-transparent" />
+                    </div>
+
                     {/* Ghost Branding */}
-                    <div className="absolute -left-20 bottom-0 text-[30rem] font-black text-white/[0.02] uppercase leading-none select-none tracking-tighter rotate-[-5deg]">
+                    <div className="absolute -left-20 bottom-0 text-[30rem] font-black text-white/2 uppercase leading-none select-none tracking-tighter rotate-[-5deg]">
                         EXPERT
                     </div>
                 </div>
@@ -114,7 +134,7 @@ export default function Services() {
                 <Container className="relative z-10">
                     <div className="max-w-4xl text-left">
                         <span className="text-secondary font-black uppercase tracking-[0.5em] text-[10px] md:text-xs mb-8 block animate-in fade-in slide-in-from-bottom-4 duration-700">{t.subtitle}</span>
-                        <h1 className="text-5xl md:text-8xl lg:text-9xl font-black tracking-tighter uppercase mb-10 text-white leading-[0.85] animate-in fade-in slide-in-from-bottom-10 duration-1000">
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase mb-10 text-white leading-[0.85] animate-in fade-in slide-in-from-bottom-10 duration-1000">
                             {t.title.split(' ').map((word, i) => (
                                 <span key={i} className="block overflow-hidden">
                                     <span className="block animate-in slide-in-from-bottom-full duration-1000" style={{ transitionDelay: `${i * 150}ms` }}>
@@ -123,14 +143,13 @@ export default function Services() {
                                 </span>
                             ))}
                         </h1>
-                        <p className="text-xl md:text-3xl text-white/50 font-medium leading-relaxed max-w-2xl mt-12 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
+                        <p className="text-base md:text-xl text-white/50 font-medium leading-relaxed max-w-2xl mt-10 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500 italic border-l-4 border-secondary pl-6">
                             {t.desc}
                         </p>
                     </div>
                 </Container>
             </section>
 
-            {/* ── MARQUEE STRIP ── */}
             <div className="bg-secondary py-3 overflow-hidden">
                 <div className="flex items-center whitespace-nowrap" style={{ animation: 'marquee 25s linear infinite' }}>
                     {Array(2).fill(null).map((_, gi) => (
@@ -143,6 +162,8 @@ export default function Services() {
                             <span className="text-dark/40 text-lg">✦</span>
                             <span className="text-dark font-black uppercase tracking-widest text-[10px]">Production</span>
                             <span className="text-dark/40 text-lg">✦</span>
+                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Digital Solutions</span>
+                            <span className="text-dark/40 text-lg">✦</span>
                             <span className="text-dark font-black uppercase tracking-widest text-[10px]">Event Branding</span>
                             <span className="text-dark/40 text-lg">✦</span>
                             <span className="text-dark font-black uppercase tracking-widest text-[10px]">Talent Handling</span>
@@ -154,13 +175,13 @@ export default function Services() {
                 </div>
             </div>
 
-            <section className="pt-24 md:pt-48 pb-32 md:pb-64 bg-white overflow-hidden">
+            <section className="pt-16 md:pt-32 pb-24 md:pb-48 bg-white overflow-hidden">
                 <Container>
-                    <div className="space-y-48 md:space-y-80">
+                    <div className="space-y-32 md:space-y-48">
                         {t.list.map((s, i) => (
-                            <div key={i} className={`flex flex-col lg:flex-row gap-20 md:gap-40 items-center ${i % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
+                            <div key={i} className={`flex flex-col lg:flex-row gap-16 md:gap-24 items-center ${i % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
                                 <div className="w-full lg:w-1/2 relative group">
-                                    <div className="aspect-16/10 rounded-[60px] md:rounded-[100px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.15)] relative">
+                                    <div className="aspect-square lg:aspect-4/5 min-h-[400px] rounded-[40px] md:rounded-[80px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.15)] relative">
                                         <img
                                             src={s.image}
                                             className="w-full h-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-110"
@@ -171,25 +192,25 @@ export default function Services() {
                                     <div className="absolute -z-10 -bottom-12 -right-12 w-64 h-64 bg-secondary/10 rounded-full blur-[100px] group-hover:bg-secondary/20 transition-all duration-700" />
                                 </div>
                                 <div className="w-full lg:w-1/2">
-                                    <div className="flex flex-col mb-12 md:mb-16">
+                                    <div className="flex flex-col mb-8 md:mb-12">
                                         <div className="flex items-center gap-6 mb-8">
-                                            <div className="w-16 h-16 md:w-20 md:h-20 bg-primary/5 rounded-[32px] flex items-center justify-center shrink-0 group-hover:rotate-6 transition-all">
-                                                <s.icon className="w-8 h-8 md:w-10 md:h-10 text-primary" />
+                                            <div className="w-14 h-14 md:w-16 md:h-16 bg-primary/5 rounded-[24px] flex items-center justify-center shrink-0 group-hover:rotate-6 transition-all">
+                                                <s.icon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
                                             </div>
                                             <span className="text-secondary font-black text-xs tracking-[0.4em] uppercase">Service 0{i + 1}</span>
                                         </div>
-                                        <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-dark uppercase tracking-tighter leading-[0.9]">{s.title}</h2>
+                                        <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-dark uppercase tracking-tighter leading-[0.9]">{s.title}</h2>
                                     </div>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                                         {s.items.map((item, idx) => (
-                                            <div key={idx} className="flex items-center gap-6 p-6 md:p-10 glass-navbar rounded-[40px] border-dark/5 hover:border-primary/20 hover:scale-105 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 group">
+                                            <div key={idx} className="flex items-center gap-4 p-5 md:p-8 glass-navbar rounded-[32px] border-dark/5 hover:border-primary/20 hover:scale-105 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 group">
                                                 <div className="w-2 h-2 rounded-full bg-secondary group-hover:animate-ping shrink-0" />
-                                                <span className="font-extrabold text-dark/80 text-sm md:text-lg group-hover:text-dark transition-colors">{item}</span>
+                                                <span className="font-extrabold text-white text-xs md:text-base">{item}</span>
                                             </div>
                                         ))}
                                     </div>
-                                    <div className="mt-12 md:mt-20">
-                                        <Button variant="secondary" className="group w-full sm:w-auto h-20 px-12 text-[10px] font-black tracking-widest shadow-2xl shadow-secondary/10">
+                                    <div className="mt-10 md:mt-12">
+                                        <Button variant="secondary" className="group w-full sm:w-auto h-16 px-10 text-[10px] font-black tracking-widest shadow-2xl shadow-secondary/10">
                                             EXPLORE NOW
                                             <ArrowRightIcon className="w-4 h-4 ml-4 group-hover:translate-x-3 transition-transform" />
                                         </Button>

@@ -54,7 +54,8 @@ class AdminController extends Controller
         $request->validate([
             'username' => ['required', 'string', 'max:255', 'unique:users,username,' . $user->id],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
-            'hero_background_image' => ['nullable', 'image', 'max:2048'], // 2MB max
+            'payment_methods' => ['nullable', 'string'],
+            'payment_qris_image' => ['nullable', 'image', 'max:2048'],
         ]);
 
         $user->username = $request->username;
@@ -65,6 +66,37 @@ class AdminController extends Controller
 
         $user->save();
 
+        if ($request->has('payment_methods')) {
+            \App\Models\SiteSetting::updateOrCreate(
+                ['key' => 'payment_methods'],
+                ['value' => $request->payment_methods]
+            );
+        }
+
+        if ($request->hasFile('payment_qris_image')) {
+            $path = $request->file('payment_qris_image')->store('site', 'public');
+            \App\Models\SiteSetting::updateOrCreate(
+                ['key' => 'payment_qris_image'],
+                ['value' => '/storage/' . $path]
+            );
+        }
+
+        return back()->with('success', 'Pengaturan berhasil diperbarui.');
+    }
+
+    public function siteSettings()
+    {
+        return Inertia::render('Admin/HomeSettings', [
+            'settings' => \App\Models\SiteSetting::all()->pluck('value', 'key'),
+        ]);
+    }
+
+    public function updateSiteSettings(Request $request)
+    {
+        $request->validate([
+            'hero_background_image' => ['nullable', 'image', 'max:2048'],
+        ]);
+
         if ($request->hasFile('hero_background_image')) {
             $path = $request->file('hero_background_image')->store('site', 'public');
             \App\Models\SiteSetting::updateOrCreate(
@@ -73,7 +105,7 @@ class AdminController extends Controller
             );
         }
 
-        return back()->with('success', 'Pengaturan berhasil diperbarui.');
+        return back()->with('success', 'Pengaturan hero berhasil diperbarui.');
     }
 
     public function logout(Request $request)
