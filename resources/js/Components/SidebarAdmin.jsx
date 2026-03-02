@@ -101,15 +101,10 @@ export default function SidebarAdmin({ activePage }) {
                     <SidebarLink
                         href={route('admin.siteSettings')}
                         icon={WrenchScrewdriverIcon}
-                        label="Home Setting"
+                        label="Page Setting"
                         active={activePage === 'site-settings'}
                     />
-                    <SidebarLink
-                        href="#"
-                        icon={PhotoIcon}
-                        label="Portofolio"
-                        active={activePage === 'portfolio'}
-                    />
+
 
                     <div className="pt-6 mt-6 border-t border-white/5">
                         <p className="px-4 text-[9px] font-black uppercase tracking-[0.2em] text-white/20 mb-4">Account</p>

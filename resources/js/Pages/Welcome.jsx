@@ -211,7 +211,7 @@ export default function Welcome({ settings }) {
     const sectionRefs = useRef({});
     const t = translations[lang] || translations['en'];
 
-    const heroImage = settings?.hero_background_image || "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&q=80&w=2000";
+    const heroImage = settings?.home_hero_bg || settings?.hero_background_image || "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&q=80&w=2000";
 
     const [scrollY, setScrollY] = useState(0);
 

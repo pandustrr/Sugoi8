@@ -184,8 +184,9 @@ export default function Ticket({ events, auth, settings }) {
                 {/* BG photo */}
                 <div className="absolute inset-0 z-0">
                     <img
-                        src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=2000"
+                        src={settings?.ticket_hero_bg || "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=2000"}
                         className="w-full h-full object-cover opacity-70 grayscale-0 scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
+
                         alt="Hero Background"
                     />
                     <div className="absolute inset-0 bg-linear-to-b from-primary/60 via-primary/25 to-transparent" />

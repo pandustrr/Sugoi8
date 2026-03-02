@@ -5,9 +5,11 @@ import Container from '../Components/UI/Container';
 import Button from '../Components/UI/Button';
 import { HandRaisedIcon } from '@heroicons/react/24/outline';
 
-export default function Partners() {
+export default function Partners({ settings }) {
     const [lang, setLang] = useState('en');
     const [darkMode, setDarkMode] = useState(false);
+
+    const heroImage = settings?.partners_hero_bg || "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=2000";
 
     const t = {
         en: {
@@ -38,7 +40,7 @@ export default function Partners() {
             <section className="relative min-h-[600px] pt-52 pb-24 bg-primary text-white overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <img
-                        src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=2000"
+                        src={heroImage}
                         className="w-full h-full object-cover opacity-70 grayscale-0 scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
                         alt="Hero Background"
                     />

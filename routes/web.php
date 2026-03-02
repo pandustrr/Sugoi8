@@ -16,19 +16,27 @@ Route::get('/', function () {
 });
 
 Route::get('/about', function () {
-    return Inertia::render('About');
+    return Inertia::render('About', [
+        'settings' => \App\Models\SiteSetting::all()->pluck('value', 'key'),
+    ]);
 });
 
 Route::get('/services', function () {
-    return Inertia::render('Services');
+    return Inertia::render('Services', [
+        'settings' => \App\Models\SiteSetting::all()->pluck('value', 'key'),
+    ]);
 });
 
 Route::get('/portfolio', function () {
-    return Inertia::render('Portfolio');
+    return Inertia::render('Portfolio', [
+        'settings' => \App\Models\SiteSetting::all()->pluck('value', 'key'),
+    ]);
 });
 
 Route::get('/partners', function () {
-    return Inertia::render('Partners');
+    return Inertia::render('Partners', [
+        'settings' => \App\Models\SiteSetting::all()->pluck('value', 'key'),
+    ]);
 });
 
 Route::redirect('/contact', '/about#contact', 301);
