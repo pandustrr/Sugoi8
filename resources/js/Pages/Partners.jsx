@@ -35,14 +35,14 @@ export default function Partners() {
         <MainLayout lang={lang} onLangChange={setLang} darkMode={darkMode} onDarkModeToggle={setDarkMode}>
             <Head title={t.title} />
 
-            <section className="relative min-h-[600px] pt-40 pb-24 bg-primary text-white overflow-hidden">
+            <section className="relative min-h-[600px] pt-52 pb-24 bg-primary text-white overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <img
                         src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=2000"
-                        className="w-full h-full object-cover opacity-60 grayscale-0 scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
+                        className="w-full h-full object-cover opacity-70 grayscale-0 scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
                         alt="Hero Background"
                     />
-                    <div className="absolute inset-0 bg-linear-to-b from-primary/75 via-primary/40 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-b from-primary/60 via-primary/25 to-transparent" />
                 </div>
 
                 {/* Decorative Elements */}
@@ -53,6 +53,13 @@ export default function Partners() {
                     }} />
 
                     <div className="absolute top-1/2 right-0 w-[800px] h-[800px] bg-secondary/10 rounded-full blur-[160px] translate-x-1/3 -translate-y-1/2 animate-pulse" />
+
+                    {/* Vertical Text Branding */}
+                    <div className="absolute left-10 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-6 opacity-20">
+                        <div className="w-px h-24 bg-linear-to-b from-transparent via-white to-transparent" />
+                        <span className="text-[10px] font-black uppercase tracking-[0.5em] rotate-90 whitespace-nowrap">CREATIVE EXCELLENCE</span>
+                        <div className="w-px h-24 bg-linear-to-b from-transparent via-white to-transparent" />
+                    </div>
 
                     {/* Ghost Branding */}
                     <div className="absolute -left-20 bottom-0 text-[30rem] font-black text-white/2 uppercase leading-none select-none tracking-tighter rotate-[-5deg]">

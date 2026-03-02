@@ -44,6 +44,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/admin/settings', [AdminController::class, 'settings'])->name('admin.settings');
     Route::post('/admin/settings', [AdminController::class, 'updateSettings'])->name('admin.settings.update');
+    Route::get('/admin/site-settings', [AdminController::class, 'siteSettings'])->name('admin.siteSettings');
+    Route::post('/admin/site-settings', [AdminController::class, 'updateSiteSettings'])->name('admin.siteSettings.update');
     Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 
     // Admin Ticket CRUD (Now Event based)
@@ -62,4 +64,5 @@ Route::middleware('auth')->group(function () {
     // Admin Booking Management
     Route::get('/admin/bookings', [AdminTicketController::class, 'bookings'])->name('admin.bookings.index');
     Route::patch('/admin/bookings/{booking}/status', [AdminTicketController::class, 'updateBookingStatus'])->name('admin.bookings.updateStatus');
+    Route::delete('/admin/bookings/{booking}', [AdminTicketController::class, 'deleteBooking'])->name('admin.bookings.destroy');
 });

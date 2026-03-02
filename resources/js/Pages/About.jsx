@@ -176,32 +176,35 @@ export default function About() {
             <Head title={t.metaTitle} />
 
             {/* ── 1. HERO ── */}
-            <section className="relative min-h-[480px] pt-32 pb-16 bg-primary text-white overflow-hidden">
+            <section className="relative min-h-[600px] pt-52 pb-24 bg-primary text-white overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <img
                         src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=2000"
-                        className="w-full h-full object-cover opacity-80 grayscale-0"
+                        className="w-full h-full object-cover opacity-70 grayscale-0 scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
                         style={{ transform: `scale(1.1) translateY(${scrollY * 0.15}px)` }}
                         alt="Hero"
                     />
-                    <div className="absolute inset-0 bg-linear-to-b from-primary/20 via-primary/5 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-b from-primary/60 via-primary/25 to-transparent" />
                 </div>
 
                 {/* Decorative Elements */}
                 <div className="absolute inset-0 z-0 pointer-events-none">
                     {/* Dot grid */}
-                    <div className="absolute inset-0 opacity-[0.1]" style={{
+                    <div className="absolute inset-0 opacity-[0.05]" style={{
                         backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-                        backgroundSize: '32px 32px'
+                        backgroundSize: '48px 48px'
                     }} />
 
                     {/* Soft Glow Orbs */}
-                    <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
-                    <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-white/5 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2" />
+                    <div className="absolute -top-1/4 -right-1/4 w-[800px] h-[800px] bg-secondary/10 rounded-full blur-[160px] animate-pulse" />
+                    <div className="absolute -bottom-1/4 -left-1/4 w-[600px] h-[600px] bg-white/5 rounded-full blur-[120px]" />
 
-                    {/* Diagonal Lines */}
-                    <div className="absolute top-0 right-20 w-px h-[200%] bg-white/5 rotate-25 origin-top" />
-                    <div className="absolute top-0 right-40 w-px h-[200%] bg-white/5 rotate-25 origin-top" />
+                    {/* Vertical Text Branding */}
+                    <div className="absolute left-10 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-6 opacity-20">
+                        <div className="w-px h-24 bg-linear-to-b from-transparent via-white to-transparent" />
+                        <span className="text-[10px] font-black uppercase tracking-[0.5em] rotate-90 whitespace-nowrap">CREATIVE EXCELLENCE</span>
+                        <div className="w-px h-24 bg-linear-to-b from-transparent via-white to-transparent" />
+                    </div>
 
                     {/* Giant Ghost "8" */}
                     <div className="absolute -right-20 bottom-0 text-[30rem] font-black text-white/2 leading-none select-none">
@@ -209,8 +212,8 @@ export default function About() {
                     </div>
                 </div>
                 <Container className="relative z-10">
-                    <span className="text-secondary font-black uppercase tracking-[0.3em] text-[10px] md:text-xs mb-6 block">{t.subtitle}</span>
-                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase mb-6 md:mb-10 text-white leading-none">
+                    <span className="text-secondary font-black uppercase tracking-[0.5em] text-[10px] md:text-xs mb-8 block animate-in fade-in slide-in-from-bottom-4 duration-700">{t.subtitle}</span>
+                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase mb-8 text-white leading-[0.9]">
                         {t.title}
                     </h1>
                     <p className="text-base md:text-xl text-white/50 font-medium leading-relaxed max-w-2xl mt-8 italic border-l-4 border-secondary pl-6 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">

@@ -216,10 +216,10 @@ export default function Portfolio() {
                 <div className="absolute inset-0 z-0">
                     <img
                         src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=2000"
-                        className="w-full h-full object-cover opacity-60 grayscale-0 scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
+                        className="w-full h-full object-cover opacity-70 grayscale-0 scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
                         alt="Hero Background"
                     />
-                    <div className="absolute inset-0 bg-linear-to-b from-primary/75 via-primary/40 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-b from-primary/60 via-primary/25 to-transparent" />
                 </div>
 
                 {/* Decorative Elements */}

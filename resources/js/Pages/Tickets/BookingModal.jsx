@@ -9,6 +9,8 @@ import {
     CalendarDaysIcon,
     ArrowRightIcon,
     UserCircleIcon,
+    BanknotesIcon,
+    PhotoIcon,
 } from '@heroicons/react/24/outline';
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
@@ -49,14 +51,15 @@ function InfoChip({ label, value, className = '' }) {
     );
 }
 
-export default function BookingModal({ isOpen, onClose, event, selectedTicket, setSelectedTicket, auth, onPreview }) {
-    const { data, setData, post, processing, reset } = useForm({
+export default function BookingModal({ isOpen, onClose, event, selectedTicket, setSelectedTicket, auth, onPreview, settings }) {
+    const { data, setData, post, processing, reset, errors } = useForm({
         customer_name: auth?.user?.name || '',
         customer_email: auth?.user?.email || '',
         customer_phone: '',
         school_name: '',
         division: '',
         quantity: 1,
+        payment_proof: null,
     });
 
     const handleClose = useCallback(() => {
@@ -370,11 +373,79 @@ export default function BookingModal({ isOpen, onClose, event, selectedTicket, s
                                             />
                                             <input
                                                 type="text"
-                                                placeholder="Nama Sekolah / Divisi"
+                                                placeholder="Nama Sekolah / Nama Tim"
                                                 value={data.school_name}
                                                 onChange={(e) => setData('school_name', e.target.value)}
                                                 className="w-full bg-light border-2 border-dark/5 rounded-2xl px-5 py-4 text-sm font-bold outline-none focus:border-primary focus:bg-white transition-all"
                                             />
+                                        </div>
+
+                                        {/* Payment Info & Proof Upload */}
+                                        <div className="bg-emerald-50/50 rounded-[32px] border-2 border-dashed border-emerald-100 p-6 md:p-8 space-y-6">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shrink-0">
+                                                    <BanknotesIcon className="w-5 h-5 text-white" />
+                                                </div>
+                                                <div>
+                                                    <p className="text-[10px] font-black uppercase tracking-widest text-emerald-800/40 leading-none mb-1">Metode Pembayaran</p>
+                                                    <p className="text-sm font-black text-emerald-900 uppercase">Instruksi Transfer</p>
+                                                </div>
+                                            </div>
+
+                                            {settings?.payment_methods && (
+                                                <div className="bg-white/80 p-5 rounded-2xl border border-emerald-100 shadow-sm">
+                                                    <p className="text-sm font-bold text-dark whitespace-pre-line leading-relaxed italic">
+                                                        {settings.payment_methods}
+                                                    </p>
+                                                </div>
+                                            )}
+
+                                            {settings?.payment_qris_image && (
+                                                <div className="flex flex-col items-center gap-3">
+                                                    <p className="text-[10px] font-black text-emerald-800/40 uppercase tracking-[0.2em]">Atau Scan QRIS</p>
+                                                    <div className="bg-white p-3 rounded-2xl border border-emerald-100 shadow-sm w-full max-w-[240px] aspect-square overflow-hidden cursor-zoom-in hover:shadow-xl transition-all" onClick={() => onPreview(settings.payment_qris_image)}>
+                                                        <img src={settings.payment_qris_image} className="w-full h-full object-contain" alt="QRIS" />
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            <div className="border-t border-emerald-100 pt-6">
+                                                <p className="text-[10px] font-black uppercase tracking-widest text-emerald-800/40 mb-4 px-1">Unggah Bukti Pembayaran</p>
+                                                <div className="relative group">
+                                                    <input
+                                                        type="file"
+                                                        id="payment_proof"
+                                                        accept="image/*"
+                                                        onChange={(e) => setData('payment_proof', e.target.files[0])}
+                                                        className="hidden"
+                                                        required
+                                                    />
+                                                    <label
+                                                        htmlFor="payment_proof"
+                                                        className={`flex flex-col items-center justify-center gap-3 p-6 rounded-2xl border-2 border-dashed transition-all cursor-pointer ${data.payment_proof
+                                                            ? 'bg-emerald-500 border-emerald-500 text-white'
+                                                            : 'bg-white border-emerald-200 text-emerald-600 hover:border-emerald-400'
+                                                            }`}
+                                                    >
+                                                        {data.payment_proof ? (
+                                                            <>
+                                                                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center shrink-0">
+                                                                    <PhotoIcon className="w-6 h-6" />
+                                                                </div>
+                                                                <p className="text-xs font-black uppercase tracking-widest text-center italic line-clamp-1">{data.payment_proof.name}</p>
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center shrink-0">
+                                                                    <PhotoIcon className="w-6 h-6" />
+                                                                </div>
+                                                                <p className="text-xs font-black uppercase tracking-widest text-center">Pilih Gambar Bukti Transfer</p>
+                                                            </>
+                                                        )}
+                                                    </label>
+                                                </div>
+                                                {errors.payment_proof && <p className="text-[10px] text-red-500 font-bold mt-2 ml-1">{errors.payment_proof}</p>}
+                                            </div>
                                         </div>
 
                                         <div className="pt-8">

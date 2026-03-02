@@ -18,7 +18,8 @@ class TicketController extends Controller
             }])
                 ->where('date', '>=', now()->toDateString())
                 ->orderBy('date')
-                ->get()
+                ->get(),
+            'settings' => \App\Models\SiteSetting::all()->pluck('value', 'key'),
         ]);
     }
 
@@ -31,9 +32,10 @@ class TicketController extends Controller
             'school_name'          => 'nullable|string|max:255',
             'division'             => 'nullable|string|max:255',
             'quantity'             => 'required|integer|min:1|max:' . $ticket->stock,
+            'payment_proof'        => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
-        $booking = Booking::create([
+        $bookingData = [
             'ticket_id'            => $ticket->id,
             'customer_name'        => $validated['customer_name'],
             'customer_email'       => $validated['customer_email'],
@@ -43,7 +45,14 @@ class TicketController extends Controller
             'quantity'             => $validated['quantity'],
             'total_price'          => $ticket->price * $validated['quantity'],
             'status'               => 'pending',
-        ]);
+        ];
+
+        if ($request->hasFile('payment_proof')) {
+            $path = $request->file('payment_proof')->store('bookings', 'public');
+            $bookingData['payment_proof'] = '/storage/' . $path;
+        }
+
+        $booking = Booking::create($bookingData);
 
         // Kurangi stok tiket
         $ticket->decrement('stock', $validated['quantity']);

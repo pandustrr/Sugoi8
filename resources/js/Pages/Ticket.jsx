@@ -138,7 +138,7 @@ function ImagePreview({ src, onClose }) {
 
 // ─── Page ────────────────────────────────────────────────────────────────────
 
-export default function Ticket({ events, auth }) {
+export default function Ticket({ events, auth, settings }) {
     const { props } = usePage();
     const flashBooking = props.flash?.successBooking || null;
 
@@ -180,34 +180,79 @@ export default function Ticket({ events, auth }) {
             </Head>
 
             {/* Hero */}
-            <section className="relative min-h-[500px] md:min-h-[600px] pt-32 pb-20 md:pt-40 md:pb-24 bg-primary overflow-hidden">
+            <section className="relative min-h-[600px] pt-52 pb-24 bg-primary overflow-hidden">
                 {/* BG photo */}
                 <div className="absolute inset-0 z-0">
                     <img
                         src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=2000"
-                        className="w-full h-full object-cover opacity-60 grayscale-0 scale-105"
+                        className="w-full h-full object-cover opacity-70 grayscale-0 scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
                         alt="Hero Background"
                     />
-                    <div className="absolute inset-0 bg-linear-to-b from-primary/80 via-primary/40 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-b from-primary/60 via-primary/25 to-transparent" />
                 </div>
 
-                <div className="absolute top-0 right-0 w-1/3 h-full bg-linear-to-l from-primary/10 to-transparent pointer-events-none" />
+                {/* Decorative Elements */}
+                <div className="absolute inset-0 z-0 pointer-events-none">
+                    <div className="absolute inset-0 opacity-[0.05]" style={{
+                        backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
+                        backgroundSize: '48px 48px'
+                    }} />
+
+                    <div className="absolute -top-1/4 -right-1/4 w-[800px] h-[800px] bg-secondary/10 rounded-full blur-[160px] animate-pulse" />
+                    <div className="absolute -bottom-1/4 -left-1/4 w-[600px] h-[600px] bg-white/5 rounded-full blur-[120px]" />
+
+                    {/* Vertical Text Branding */}
+                    <div className="absolute left-10 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-6 opacity-20">
+                        <div className="w-px h-24 bg-linear-to-b from-transparent via-white to-transparent" />
+                        <span className="text-[10px] font-black uppercase tracking-[0.5em] rotate-90 whitespace-nowrap">CREATIVE EXCELLENCE</span>
+                        <div className="w-px h-24 bg-linear-to-b from-transparent via-white to-transparent" />
+                    </div>
+
+                    {/* Giant Ghost "8" */}
+                    <div className="absolute -right-20 bottom-0 text-[30rem] font-black text-white/2 leading-none select-none">
+                        8
+                    </div>
+                </div>
 
                 <Container>
                     <div className="relative z-10 max-w-4xl px-4 md:px-0">
-                        <span className="text-secondary font-black uppercase tracking-[0.5em] text-[10px] md:text-xs mb-6 block">
+                        <span className="text-secondary font-black uppercase tracking-[0.5em] text-[10px] md:text-xs mb-8 block animate-in fade-in slide-in-from-bottom-4 duration-700">
                             Official Registration
                         </span>
                         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white uppercase tracking-tighter leading-[0.9] mb-8 italic">
                             TEMUKAN <br />
                             <span className="text-secondary block mt-2 drop-shadow-2xl">EVENT KAMI</span>
                         </h1>
-                        <p className="text-white/50 text-base md:text-xl font-medium leading-relaxed max-w-2xl mt-8 italic border-l-4 border-secondary pl-6">
+                        <p className="text-white/50 text-base md:text-xl font-medium leading-relaxed max-w-2xl mt-8 italic border-l-4 border-secondary pl-6 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
                             Pilih event favoritmu, daftarkan diri, dan jadilah bagian dari kreativitas bersama Sugoi 8 Management.
                         </p>
                     </div>
                 </Container>
             </section>
+
+            {/* ── MARQUEE STRIP ── */}
+            <div className="bg-secondary py-3 overflow-hidden">
+                <div className="flex items-center whitespace-nowrap" style={{ animation: 'marquee 25s linear infinite' }}>
+                    {Array(2).fill(null).map((_, gi) => (
+                        <span key={gi} className="flex items-center gap-8 px-8 shrink-0">
+                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Event Organizer</span>
+                            <span className="text-dark/40 text-lg">✦</span>
+                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Show Management</span>
+                            <span className="text-dark/40 text-lg">✦</span>
+                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">MICE Services</span>
+                            <span className="text-dark/40 text-lg">✦</span>
+                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Production</span>
+                            <span className="text-dark/40 text-lg">✦</span>
+                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Event Branding</span>
+                            <span className="text-dark/40 text-lg">✦</span>
+                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Talent Handling</span>
+                            <span className="text-dark/40 text-lg">✦</span>
+                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Sugoi 8 Management</span>
+                            <span className="text-dark/40 text-lg">✦</span>
+                        </span>
+                    ))}
+                </div>
+            </div>
 
             {/* Event Grid */}
             <section className="py-20 md:py-32 bg-white relative">
@@ -244,6 +289,7 @@ export default function Ticket({ events, auth }) {
                 setSelectedTicket={setSelectedTicket}
                 auth={auth}
                 onPreview={setPreviewSrc}
+                settings={settings}
             />
 
             <ImagePreview src={previewSrc} onClose={() => setPreviewSrc(null)} />

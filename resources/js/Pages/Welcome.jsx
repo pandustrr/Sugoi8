@@ -241,17 +241,17 @@ export default function Welcome({ settings }) {
             <Head title={t.metaTitle} />
 
             {/* 1. Hero Section */}
-            <section className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-primary">
+            <section className="relative min-h-[85vh] flex items-center pt-20 overflow-hidden bg-primary">
 
                 {/* Background Image with Parallax */}
                 <div className="absolute inset-0 z-0">
                     <img
                         src={heroImage}
-                        className="w-full h-full object-cover opacity-80 grayscale-0 transition-all duration-75"
+                        className="w-full h-full object-cover opacity-70 grayscale-0 transition-all duration-75"
                         style={{ transform: `scale(1.1) translateY(${scrollY * 0.15}px)` }}
                         alt="Hero"
                     />
-                    <div className="absolute inset-0 bg-linear-to-br from-primary/40 via-primary/10 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-br from-primary/30 via-primary/5 to-transparent" />
                 </div>
 
                 {/* ── Dot grid ── */}
