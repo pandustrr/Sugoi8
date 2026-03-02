@@ -138,6 +138,7 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
     const navLinks = [
         { name: cur.home, href: '/' },
         { name: cur.about, href: '/about' },
+        { name: cur.services, href: '/services' },
         { name: cur.portfolio, href: '/portfolio' },
         { name: cur.partners, href: '/partners' },
         { name: cur.tickets, href: '/tickets' },
@@ -160,14 +161,12 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                     }`}>
                     <div className="flex items-center justify-between">
                         <div className="flex lg:flex-1">
-                            <Link href="/" className="flex items-center gap-2.5 group">
-                                <div className="flex flex-col leading-none pt-0.5">
-                                    <span className="text-xl md:text-[22px] font-black tracking-tight text-white uppercase">SUGOI</span>
-                                    <span className="text-[9px] font-bold tracking-[0.3em] text-white uppercase">Management</span>
-                                </div>
-                                <div className="relative w-8 h-8 md:w-9 md:h-9 flex items-center justify-center bg-gradient-logo rounded-lg shadow-lg">
-                                    <span className="text-white font-black text-xl md:text-2xl leading-none">8</span>
-                                </div>
+                            <Link href="/" className="flex items-center gap-3 group">
+                                <img
+                                    src="/logo-putih.png"
+                                    alt="Sugoi Management 8"
+                                    className="h-10 md:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                                />
                             </Link>
                         </div>
 
@@ -176,93 +175,12 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                                 <Link
                                     key={link.name}
                                     href={link.href}
-                                    className={`px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.15em] transition-all duration-300 ${isActive(link.href) ? 'text-secondary' : 'text-white/70 hover:text-secondary'
+                                    className={`px-3 py-1.5 text-[13px] font-black uppercase tracking-[0.15em] transition-all duration-300 ${isActive(link.href) ? 'text-secondary' : 'text-white/70 hover:text-secondary'
                                         }`}
                                 >
                                     {link.name}
                                 </Link>
                             ))}
-
-                            <div
-                                className="relative"
-                                onMouseEnter={handleServicesEnter}
-                                onMouseLeave={handleServicesLeave}
-                            >
-                                <Link
-                                    href="/services"
-                                    className={`group flex items-center px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.15em] transition-all duration-300 outline-none ${isActive('/services') ? 'text-secondary' : 'text-white/70 hover:text-secondary'}`}
-                                >
-                                    {cur.services}
-                                    <ChevronDownIcon className={`ml-1 w-3.5 h-3.5 transition-transform duration-300 ${isServicesOpen ? 'rotate-180' : ''}`} />
-                                </Link>
-
-                                <Transition
-                                    show={isServicesOpen}
-                                    as={Fragment}
-                                    enter="transition ease-out duration-300"
-                                    enterFrom="opacity-0 translate-y-2 scale-95"
-                                    enterTo="opacity-100 translate-y-0 scale-100"
-                                    leave="transition ease-in duration-200"
-                                    leaveFrom="opacity-100 translate-y-0 scale-100"
-                                    leaveTo="opacity-0 translate-y-2 scale-95"
-                                >
-                                    <div className="absolute left-0 mt-0 pt-4 w-[640px] max-w-xl z-50">
-                                        <div className="rounded-[32px] bg-white shadow-2xl ring-1 ring-black/5 overflow-hidden">
-                                            <div className="p-8 grid grid-cols-2 gap-8">
-                                                <div>
-                                                    <div className="flex items-center gap-3 mb-6 pb-4 border-b border-dark/5">
-                                                        <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center">
-                                                            <CalendarIcon className="w-5 h-5 text-primary" />
-                                                        </div>
-                                                        <p className="font-black text-xs uppercase tracking-widest text-dark">{cur.eo}</p>
-                                                    </div>
-                                                    <div className="grid grid-cols-1 gap-2">
-                                                        {eoServices.map((item) => (
-                                                            <Link
-                                                                key={item.name}
-                                                                href={item.href}
-                                                                className="px-3 py-2 text-sm font-bold text-dark/60 hover:text-primary hover:translate-x-1 transition-all flex items-center gap-2"
-                                                                onClick={() => setIsServicesOpen(false)}
-                                                            >
-                                                                <div className="w-1.5 h-1.5 rounded-full bg-primary/20" />
-                                                                {item.name}
-                                                            </Link>
-                                                        ))}
-                                                    </div>
-                                                </div>
-
-                                                <div className="space-y-8">
-                                                    {mainServices.map((item) => (
-                                                        <Link
-                                                            key={item.name}
-                                                            href={item.href}
-                                                            className="group flex items-start gap-4 rounded-2xl p-4 transition-all duration-300 hover:bg-primary/5"
-                                                            onClick={() => setIsServicesOpen(false)}
-                                                        >
-                                                            <div className="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-primary/5 text-primary group-hover:bg-primary group-hover:text-white group-hover:scale-110 transition-all duration-300">
-                                                                <item.icon className="h-5 w-5" aria-hidden="true" />
-                                                            </div>
-                                                            <div>
-                                                                <p className="text-sm font-black uppercase tracking-widest text-dark mb-1">{item.name}</p>
-                                                                <p className="text-[10px] text-dark/50 leading-tight font-medium">{item.description}</p>
-                                                            </div>
-                                                        </Link>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                            <div className="bg-light/50 p-6 text-center border-t border-dark/5">
-                                                <Link
-                                                    href="/services"
-                                                    className="text-[10px] font-black uppercase tracking-[0.3em] text-primary hover:tracking-[0.4em] transition-all"
-                                                    onClick={() => setIsServicesOpen(false)}
-                                                >
-                                                    {cur.viewAll}
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Transition>
-                            </div>
 
                             <div className="lg:ml-2 xl:ml-4 border-l border-white/20 lg:pl-2 xl:pl-4 flex items-center gap-1">
                                 {[
@@ -273,7 +191,7 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                                     <button
                                         key={code}
                                         onClick={() => onLangChange(code)}
-                                        className={`text-[9px] font-black px-2 py-1 rounded-md transition-all duration-300 ${lang === code ? 'bg-secondary/20 text-secondary text-glow-secondary shadow-[0_0_20px_rgba(249,215,131,0.2)] border border-secondary/30' : 'text-white/40 hover:text-white hover:bg-white/5'}`}
+                                        className={`text-[11px] font-black px-2 py-1 rounded-md transition-all duration-300 ${lang === code ? 'bg-secondary/20 text-secondary text-glow-secondary shadow-[0_0_20px_rgba(249,215,131,0.2)] border border-secondary/30' : 'text-white/40 hover:text-white hover:bg-white/5'}`}
                                     >
                                         {label}
                                     </button>
@@ -294,7 +212,7 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                             <Button
                                 variant="secondary"
                                 href="/about#contact"
-                                className="px-6 py-2.5 text-[10px] font-black tracking-[0.15em] shadow-lg shadow-secondary/10 transition-all hover:scale-105 active:scale-95 flex items-center gap-2 group relative overflow-hidden rounded-full py-3"
+                                className="px-6 py-2.5 text-[13px] font-black tracking-[0.15em] shadow-lg shadow-secondary/10 transition-all hover:scale-105 active:scale-95 flex items-center gap-2 group relative overflow-hidden rounded-full py-3"
                             >
                                 <span className="relative z-10 flex items-center gap-2">
                                     {cur.contact} <span className="text-sm leading-none transition-transform group-hover:translate-x-1">→</span>
@@ -305,7 +223,7 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                         <div className="flex lg:hidden gap-4 items-center">
                             <button
                                 onClick={() => onLangChange(lang === 'en' ? 'id' : 'en')}
-                                className="text-[9px] font-black text-white/70 border border-white/20 px-2 py-1 rounded-full uppercase"
+                                className="text-[11px] font-black text-white/70 border border-white/20 px-2 py-1 rounded-full uppercase"
                             >
                                 {lang}
                             </button>
@@ -334,14 +252,12 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                         >
                             <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto glass-navbar border-l border-white/10 px-6 py-8 sm:max-w-sm">
                                 <div className="flex items-center justify-between mb-12">
-                                    <Link href="/" className="flex items-center gap-2">
-                                        <div className="flex flex-col leading-none">
-                                            <span className="text-2xl font-black text-white tracking-tight uppercase">SUGOI</span>
-                                            <span className="text-[9px] font-bold tracking-[0.3em] text-white uppercase">Management</span>
-                                        </div>
-                                        <div className="w-9 h-9 flex items-center justify-center bg-gradient-logo rounded-lg">
-                                            <span className="text-white font-black text-2xl">8</span>
-                                        </div>
+                                    <Link href="/" className="flex items-center gap-3">
+                                        <img
+                                            src="/logo-putih.png"
+                                            alt="Sugoi Management 8"
+                                            className="h-10 w-auto object-contain"
+                                        />
                                     </Link>
                                     <button
                                         type="button"
@@ -366,10 +282,10 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                                     ))}
 
                                     <div className="pt-8 pb-4">
-                                        <p className="px-4 text-[10px] font-black uppercase tracking-[0.3em] text-white/20 mb-4">{cur.services}</p>
+                                        <p className="px-4 text-[12px] font-black uppercase tracking-[0.3em] text-white/20 mb-4">{cur.services}</p>
                                         <div className="grid grid-cols-1 gap-2">
                                             <div className="px-4 mb-4">
-                                                <p className="text-[10px] font-black uppercase text-secondary mb-2">{cur.eo}</p>
+                                                <p className="text-[12px] font-black uppercase text-secondary mb-2">{cur.eo}</p>
                                                 <div className="grid grid-cols-1 gap-1 pl-2">
                                                     {eoServices.map(s => (
                                                         <Link key={s.name} href={s.href} className="text-xs font-bold text-white/60 hover:text-secondary py-1" onClick={() => setMobileMenuOpen(false)}>{s.name}</Link>

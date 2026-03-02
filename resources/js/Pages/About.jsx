@@ -350,91 +350,91 @@ export default function About() {
             <section
                 id="contact"
                 ref={contactRef}
-                className="py-24 md:py-40 bg-white scroll-mt-24"
+                className="py-16 md:py-20 bg-white scroll-mt-24"
             >
                 <Container>
-                    <div className="mb-12 md:mb-20">
-                        <span className="text-secondary font-black uppercase tracking-[0.4em] text-[10px] block mb-4">{t.contactTag}</span>
-                        <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-dark uppercase leading-none">
+                    <div className="mb-10 md:mb-16">
+                        <span className="text-secondary font-black uppercase tracking-[0.4em] text-[10px] block mb-3">{t.contactTag}</span>
+                        <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-dark uppercase leading-none">
                             {t.contactTitle}
                         </h2>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-start">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
                         {/* Left: info kontak */}
-                        <div className="space-y-8 md:space-y-10">
-                            <p className="text-2xl md:text-3xl font-black text-dark/30 leading-tight">{t.contactDesc}</p>
+                        <div className="space-y-6 md:space-y-8">
+                            <p className="text-lg md:text-xl font-medium text-dark/50 leading-relaxed">{t.contactDesc}</p>
 
-                            <div className="space-y-6">
+                            <div className="space-y-4">
                                 {/* WhatsApp / Phone */}
                                 <a
                                     href="https://wa.me/6285954464539"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex gap-6 md:gap-8 border-b border-dark/5 pb-6 md:pb-8 group"
+                                    className="flex gap-4 md:gap-5 border-b border-dark/5 pb-4 group"
                                 >
-                                    <div className="w-12 h-12 md:w-16 md:h-16 bg-light rounded-xl md:rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-secondary/10 transition-colors">
-                                        <PhoneIcon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+                                    <div className="w-10 h-10 md:w-12 md:h-12 bg-light rounded-xl flex items-center justify-center shrink-0 group-hover:bg-secondary/10 transition-colors">
+                                        <PhoneIcon className="w-5 h-5 md:w-6 md:h-6 text-primary" />
                                     </div>
                                     <div>
-                                        <p className="text-[10px] md:text-xs font-black uppercase tracking-widest text-dark/40 mb-1 md:mb-2">{t.contactPhoneLabel}</p>
-                                        <p className="text-xl md:text-2xl font-black text-dark group-hover:text-primary transition-colors">{t.contactPhone}</p>
+                                        <p className="text-[10px] md:text-xs font-black uppercase tracking-widest text-dark/40 mb-1">{t.contactPhoneLabel}</p>
+                                        <p className="text-base md:text-lg font-black text-dark group-hover:text-primary transition-colors">{t.contactPhone}</p>
                                     </div>
                                 </a>
 
                                 {/* Email */}
                                 <a
                                     href={`mailto:${t.contactEmail}`}
-                                    className="flex gap-6 md:gap-8 border-b border-dark/5 pb-6 md:pb-8 group"
+                                    className="flex gap-4 md:gap-5 border-b border-dark/5 pb-4 group"
                                 >
-                                    <div className="w-12 h-12 md:w-16 md:h-16 bg-light rounded-xl md:rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-secondary/10 transition-colors">
-                                        <EnvelopeIcon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+                                    <div className="w-10 h-10 md:w-12 md:h-12 bg-light rounded-xl flex items-center justify-center shrink-0 group-hover:bg-secondary/10 transition-colors">
+                                        <EnvelopeIcon className="w-5 h-5 md:w-6 md:h-6 text-primary" />
                                     </div>
                                     <div>
-                                        <p className="text-[10px] md:text-xs font-black uppercase tracking-widest text-dark/40 mb-1 md:mb-2">Email</p>
-                                        <p className="text-xl md:text-2xl font-black text-dark group-hover:text-primary transition-colors break-all">{t.contactEmail}</p>
+                                        <p className="text-[10px] md:text-xs font-black uppercase tracking-widest text-dark/40 mb-1">Email</p>
+                                        <p className="text-base md:text-lg font-black text-dark group-hover:text-primary transition-colors break-all">{t.contactEmail}</p>
                                     </div>
                                 </a>
 
                                 {/* Alamat */}
-                                <div className="flex gap-6 md:gap-8 pb-6 md:pb-8">
-                                    <div className="w-12 h-12 md:w-16 md:h-16 bg-light rounded-xl md:rounded-2xl flex items-center justify-center shrink-0">
-                                        <MapPinIcon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+                                <div className="flex gap-4 md:gap-5 pb-4">
+                                    <div className="w-10 h-10 md:w-12 md:h-12 bg-light rounded-xl flex items-center justify-center shrink-0">
+                                        <MapPinIcon className="w-5 h-5 md:w-6 md:h-6 text-primary" />
                                     </div>
                                     <div>
-                                        <p className="text-[10px] md:text-xs font-black uppercase tracking-widest text-dark/40 mb-1 md:mb-2">{t.contactOffice}</p>
-                                        <p className="text-lg md:text-xl font-black text-dark leading-snug">{t.contactOfficeAddr}</p>
+                                        <p className="text-[10px] md:text-xs font-black uppercase tracking-widest text-dark/40 mb-1">{t.contactOffice}</p>
+                                        <p className="text-sm md:text-base font-bold text-dark leading-snug">{t.contactOfficeAddr}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         {/* Right: form */}
-                        <div className="bg-light p-8 md:p-16 lg:p-20 rounded-[40px] md:rounded-[60px] shadow-sm">
-                            <h3 className="text-3xl md:text-4xl font-black text-dark uppercase mb-8 md:mb-12">{t.contactFormTitle}</h3>
-                            <form className="space-y-6 md:space-y-8">
-                                <div className="space-y-3 md:space-y-4">
+                        <div className="bg-light p-6 md:p-10 rounded-[24px] md:rounded-[32px] shadow-sm">
+                            <h3 className="text-2xl md:text-3xl font-black text-dark uppercase mb-6 md:mb-8">{t.contactFormTitle}</h3>
+                            <form className="space-y-4 md:space-y-5">
+                                <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-dark/40 ml-4">{t.formName}</label>
                                     <input
                                         type="text"
-                                        className="w-full bg-white border border-dark/5 rounded-2xl md:rounded-3xl p-5 md:p-6 font-bold text-dark outline-none focus:border-primary transition-colors h-16 md:h-20 text-sm md:text-base"
+                                        className="w-full bg-white border border-dark/5 rounded-xl md:rounded-2xl p-3 md:p-4 font-bold text-dark outline-none focus:border-primary transition-colors h-12 md:h-14 text-sm md:text-base"
                                     />
                                 </div>
-                                <div className="space-y-3 md:space-y-4">
+                                <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-dark/40 ml-4">{t.formEmail}</label>
                                     <input
                                         type="email"
-                                        className="w-full bg-white border border-dark/5 rounded-2xl md:rounded-3xl p-5 md:p-6 font-bold text-dark outline-none focus:border-primary transition-colors h-16 md:h-20 text-sm md:text-base"
+                                        className="w-full bg-white border border-dark/5 rounded-xl md:rounded-2xl p-3 md:p-4 font-bold text-dark outline-none focus:border-primary transition-colors h-12 md:h-14 text-sm md:text-base"
                                     />
                                 </div>
-                                <div className="space-y-3 md:space-y-4">
+                                <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-dark/40 ml-4">{t.formMessage}</label>
                                     <textarea
                                         rows="4"
-                                        className="w-full bg-white border border-dark/5 rounded-[24px] md:rounded-[32px] p-5 md:p-6 font-bold text-dark outline-none focus:border-primary transition-colors resize-none text-sm md:text-base"
+                                        className="w-full bg-white border border-dark/5 rounded-xl md:rounded-2xl p-3 md:p-4 font-bold text-dark outline-none focus:border-primary transition-colors resize-none text-sm md:text-base"
                                     />
                                 </div>
-                                <Button variant="primary" className="w-full h-16 md:h-20 text-[10px] md:text-xs font-black tracking-widest shadow-2xl shadow-primary/20">
+                                <Button variant="primary" className="w-full h-12 md:h-14 text-[10px] md:text-xs font-black tracking-widest shadow-lg shadow-primary/20 rounded-xl">
                                     {t.contactBtn}
                                 </Button>
                             </form>

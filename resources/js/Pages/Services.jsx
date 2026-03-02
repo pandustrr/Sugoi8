@@ -8,7 +8,8 @@ import {
     TicketIcon,
     PresentationChartBarIcon,
     WrenchScrewdriverIcon,
-    ArrowRightIcon
+    ArrowRightIcon,
+    SparklesIcon
 } from '@heroicons/react/24/outline';
 
 export default function Services() {
@@ -44,6 +45,12 @@ export default function Services() {
                     items: ["Sound System", "Lighting Design", "LED Visuals", "Stage Construction"],
                     icon: WrenchScrewdriverIcon,
                     image: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&q=80&w=800"
+                },
+                {
+                    title: "Digital Solutions",
+                    items: ["Web Development", "Landing Pages", "Digital Systems", "UI/UX Design", "E-Commerce", "Digital Marketing"],
+                    icon: SparklesIcon,
+                    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800"
                 }
             ]
         },
@@ -75,6 +82,12 @@ export default function Services() {
                     items: ["Sistem Suara", "Desain Pencahayaan", "Visual LED", "Konstruksi Panggung"],
                     icon: WrenchScrewdriverIcon,
                     image: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&q=80&w=800"
+                },
+                {
+                    title: "Solusi Digital",
+                    items: ["Pembuatan Website", "Landing Page", "Sistem Digital", "Desain UI/UX", "E-Commerce", "Pemasaran Digital"],
+                    icon: SparklesIcon,
+                    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800"
                 }
             ]
         }
@@ -137,7 +150,6 @@ export default function Services() {
                 </Container>
             </section>
 
-            {/* ── MARQUEE STRIP ── */}
             <div className="bg-secondary py-3 overflow-hidden">
                 <div className="flex items-center whitespace-nowrap" style={{ animation: 'marquee 25s linear infinite' }}>
                     {Array(2).fill(null).map((_, gi) => (
@@ -150,6 +162,8 @@ export default function Services() {
                             <span className="text-dark/40 text-lg">✦</span>
                             <span className="text-dark font-black uppercase tracking-widest text-[10px]">Production</span>
                             <span className="text-dark/40 text-lg">✦</span>
+                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Digital Solutions</span>
+                            <span className="text-dark/40 text-lg">✦</span>
                             <span className="text-dark font-black uppercase tracking-widest text-[10px]">Event Branding</span>
                             <span className="text-dark/40 text-lg">✦</span>
                             <span className="text-dark font-black uppercase tracking-widest text-[10px]">Talent Handling</span>
@@ -161,13 +175,13 @@ export default function Services() {
                 </div>
             </div>
 
-            <section className="pt-24 md:pt-48 pb-32 md:pb-64 bg-white overflow-hidden">
+            <section className="pt-16 md:pt-32 pb-24 md:pb-48 bg-white overflow-hidden">
                 <Container>
-                    <div className="space-y-48 md:space-y-80">
+                    <div className="space-y-32 md:space-y-48">
                         {t.list.map((s, i) => (
-                            <div key={i} className={`flex flex-col lg:flex-row gap-20 md:gap-40 items-center ${i % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
+                            <div key={i} className={`flex flex-col lg:flex-row gap-16 md:gap-24 items-center ${i % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
                                 <div className="w-full lg:w-1/2 relative group">
-                                    <div className="aspect-16/10 rounded-[60px] md:rounded-[100px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.15)] relative">
+                                    <div className="aspect-square lg:aspect-4/5 min-h-[400px] rounded-[40px] md:rounded-[80px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.15)] relative">
                                         <img
                                             src={s.image}
                                             className="w-full h-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-110"
@@ -178,25 +192,25 @@ export default function Services() {
                                     <div className="absolute -z-10 -bottom-12 -right-12 w-64 h-64 bg-secondary/10 rounded-full blur-[100px] group-hover:bg-secondary/20 transition-all duration-700" />
                                 </div>
                                 <div className="w-full lg:w-1/2">
-                                    <div className="flex flex-col mb-12 md:mb-16">
+                                    <div className="flex flex-col mb-8 md:mb-12">
                                         <div className="flex items-center gap-6 mb-8">
-                                            <div className="w-16 h-16 md:w-20 md:h-20 bg-primary/5 rounded-[32px] flex items-center justify-center shrink-0 group-hover:rotate-6 transition-all">
-                                                <s.icon className="w-8 h-8 md:w-10 md:h-10 text-primary" />
+                                            <div className="w-14 h-14 md:w-16 md:h-16 bg-primary/5 rounded-[24px] flex items-center justify-center shrink-0 group-hover:rotate-6 transition-all">
+                                                <s.icon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
                                             </div>
                                             <span className="text-secondary font-black text-xs tracking-[0.4em] uppercase">Service 0{i + 1}</span>
                                         </div>
-                                        <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-dark uppercase tracking-tighter leading-[0.9]">{s.title}</h2>
+                                        <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-dark uppercase tracking-tighter leading-[0.9]">{s.title}</h2>
                                     </div>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                                         {s.items.map((item, idx) => (
-                                            <div key={idx} className="flex items-center gap-6 p-6 md:p-10 glass-navbar rounded-[40px] border-dark/5 hover:border-primary/20 hover:scale-105 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 group">
+                                            <div key={idx} className="flex items-center gap-4 p-5 md:p-8 glass-navbar rounded-[32px] border-dark/5 hover:border-primary/20 hover:scale-105 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 group">
                                                 <div className="w-2 h-2 rounded-full bg-secondary group-hover:animate-ping shrink-0" />
-                                                <span className="font-extrabold text-dark/80 text-sm md:text-lg group-hover:text-dark transition-colors">{item}</span>
+                                                <span className="font-extrabold text-white text-xs md:text-base">{item}</span>
                                             </div>
                                         ))}
                                     </div>
-                                    <div className="mt-12 md:mt-20">
-                                        <Button variant="secondary" className="group w-full sm:w-auto h-20 px-12 text-[10px] font-black tracking-widest shadow-2xl shadow-secondary/10">
+                                    <div className="mt-10 md:mt-12">
+                                        <Button variant="secondary" className="group w-full sm:w-auto h-16 px-10 text-[10px] font-black tracking-widest shadow-2xl shadow-secondary/10">
                                             EXPLORE NOW
                                             <ArrowRightIcon className="w-4 h-4 ml-4 group-hover:translate-x-3 transition-transform" />
                                         </Button>

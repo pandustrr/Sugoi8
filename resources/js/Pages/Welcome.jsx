@@ -15,14 +15,16 @@ import {
     InformationCircleIcon,
     PlayCircleIcon,
     MoonIcon,
-    SunIcon
+    SunIcon,
+    ArrowUpRightIcon
 } from '@heroicons/react/24/outline';
 
 const servicesList = [
     { id: 'eo', icon: UserGroupIcon, color: 'text-primary', bg: 'bg-primary/5', image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&q=80&w=800' },
     { id: 'show', icon: TicketIcon, color: 'text-secondary', bg: 'bg-secondary/5', image: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=800' },
     { id: 'mice', icon: PresentationChartBarIcon, color: 'text-accent-deep', bg: 'bg-accent-deep/5', image: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&q=80&w=800' },
-    { id: 'production', icon: WrenchScrewdriverIcon, color: 'text-accent-fresh', bg: 'bg-accent-fresh/5', image: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&q=80&w=800' }
+    { id: 'production', icon: WrenchScrewdriverIcon, color: 'text-accent-fresh', bg: 'bg-accent-fresh/5', image: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&q=80&w=800' },
+    { id: 'web', icon: SparklesIcon, color: 'text-primary', bg: 'bg-primary/5', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800' }
 ];
 
 const portfolioItems = [
@@ -70,6 +72,8 @@ const translations = {
         serviceMiceDesc: "Expert meetings, incentives, conventions, and exhibitions for global brands.",
         serviceProd: "Production",
         serviceProdDesc: "Technical support including sound, lighting, LED, and stage construction.",
+        serviceWeb: "Digital Solutions",
+        serviceWebDesc: "Professional web development, landing pages, and digital systems tailored for your brand.",
         portfolioTag: "PORTFOLIO",
         portfolioTitle1: "LATEST",
         portfolioTitle2: "PROJECTS",
@@ -123,6 +127,8 @@ const translations = {
         serviceMiceDesc: "Pertemuan ahli, insentif, konvensi, dan pameran untuk brand global.",
         serviceProd: "Produksi",
         serviceProdDesc: "Dukungan teknis termasuk suara, tata cahaya, LED, dan panggung.",
+        serviceWeb: "Solusi Digital",
+        serviceWebDesc: "Pembuatan website profesional, landing page, dan sistem digital khusus untuk brand Anda.",
         portfolioTag: "PORTOFOLIO",
         portfolioTitle1: "PROYEK",
         portfolioTitle2: "TERBARU",
@@ -176,6 +182,8 @@ const translations = {
         serviceMiceDesc: "会議、インセンティブ、展示会の専門サポート。",
         serviceProd: "制作・機材",
         serviceProdDesc: "音響、照明、LED、ステージ設置が伴う技術サポート。",
+        serviceWeb: "デジタルソリューション",
+        serviceWebDesc: "ブランドに合わせたプロのウェブ開発、ランディングページ、デジタルシステムの構築。",
         portfolioTag: "実績",
         portfolioTitle1: "最新",
         portfolioTitle2: "プロジェクト",
@@ -203,7 +211,7 @@ export default function Welcome({ settings }) {
     const sectionRefs = useRef({});
     const t = translations[lang] || translations['en'];
 
-    const heroImage = settings?.hero_background_image || "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=2000";
+    const heroImage = settings?.hero_background_image || "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&q=80&w=2000";
 
     const [scrollY, setScrollY] = useState(0);
 
@@ -232,7 +240,8 @@ export default function Welcome({ settings }) {
         if (s.id === 'eo') { title = t.serviceEo; desc = t.serviceEoDesc; }
         else if (s.id === 'show') { title = t.serviceShow; desc = t.serviceShowDesc; }
         else if (s.id === 'mice') { title = t.serviceMice; desc = t.serviceMiceDesc; }
-        else { title = t.serviceProd; desc = t.serviceProdDesc; }
+        else if (s.id === 'production') { title = t.serviceProd; desc = t.serviceProdDesc; }
+        else { title = t.serviceWeb; desc = t.serviceWebDesc; }
         return { ...s, title, description: desc };
     });
 
@@ -241,17 +250,16 @@ export default function Welcome({ settings }) {
             <Head title={t.metaTitle} />
 
             {/* 1. Hero Section */}
-            <section className="relative min-h-[85vh] flex items-center pt-20 overflow-hidden bg-primary">
+            <section className="relative min-h-[75vh] flex items-center pt-20 overflow-hidden bg-primary">
 
                 {/* Background Image with Parallax */}
                 <div className="absolute inset-0 z-0">
                     <img
                         src={heroImage}
-                        className="w-full h-full object-cover opacity-70 grayscale-0 transition-all duration-75"
-                        style={{ transform: `scale(1.1) translateY(${scrollY * 0.15}px)` }}
+                        className="w-full h-full object-cover opacity-90 grayscale-0"
                         alt="Hero"
                     />
-                    <div className="absolute inset-0 bg-linear-to-br from-primary/30 via-primary/5 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-br from-white/10 via-transparent to-transparent" />
                 </div>
 
                 {/* ── Dot grid ── */}
@@ -335,21 +343,28 @@ export default function Welcome({ settings }) {
 
                 <Container className="relative z-10 py-20">
                     <div className="max-w-5xl">
-                        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.8] mb-12 uppercase">
-                            <span className="block text-white transition-all duration-500 hover:tracking-normal cursor-default">{t.heroTitle1}</span>
-                            <span className="block italic text-secondary transition-all duration-700 hover:translate-x-4 cursor-default">{t.heroTitle2}</span>
-                        </h1>
-
-                        <div className="max-w-xl mb-12">
-                            <div className="h-px bg-white/20 mb-4" />
-                            <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-white">
-                                {t.heroTag}
-                            </p>
+                        <div className="mb-12 max-w-3xl group">
+                            <img
+                                src="/logo-hitam.png"
+                                alt="Sugoi Management 8"
+                                className="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.02] drop-shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
+                            />
+                            {/* Tagline below image */}
+                            <div className="mt-4 md:mt-6 flex flex-col items-start translate-x-1 w-fit">
+                                <p className="text-lg md:text-2xl lg:text-3xl font-black italic text-white tracking-tight leading-none mb-3 whitespace-nowrap">
+                                    Designing Dreams, Crafting Experiences
+                                </p>
+                                <div className="w-full flex items-center">
+                                    <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-white shrink-0" />
+                                    <div className="h-px md:h-[2px] bg-white grow" />
+                                    <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-white shrink-0" />
+                                </div>
+                            </div>
                         </div>
 
                         <div className="flex flex-col lg:flex-row items-start lg:items-end gap-8 md:gap-12 mt-12 md:mt-16 transition-all">
                             <div className="grow max-w-xl">
-                                <p className="text-sm md:text-base text-white/50 font-medium leading-relaxed">
+                                <p className="text-sm md:text-base text-white font-medium leading-relaxed drop-shadow-md">
                                     {t.heroDesc}
                                 </p>
                             </div>
@@ -480,37 +495,37 @@ export default function Welcome({ settings }) {
                         <Button variant="outline" href="/services" className="w-full sm:w-auto text-[10px] tracking-widest py-4 px-10">{t.servicesExplore}</Button>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 lg:gap-x-20 gap-y-20 md:gap-y-32">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 lg:gap-x-12 gap-y-16 lg:gap-y-20">
                         {services.map((service, idx) => (
-                            <div key={service.id} className={`group cursor-pointer ${fadeIn('services', idx % 2 === 0 ? 'delay-100' : 'delay-300')} ${idx % 2 !== 0 ? 'md:mt-24' : ''}`}>
-                                <div className="aspect-video mb-10 overflow-hidden rounded-[40px] shadow-2xl relative bg-dark">
+                            <div key={service.id} className={`group cursor-pointer ${fadeIn('services', `delay-${(idx % 3) * 100}`)}`}>
+                                <div className="aspect-video mb-6 lg:mb-8 overflow-hidden rounded-[30px] md:rounded-[40px] shadow-2xl relative bg-dark">
                                     <img src={service.image} className="w-full h-full object-cover opacity-80 grayscale group-hover:grayscale-0 group-hover:scale-110 group-hover:opacity-100 transition-all duration-1000" alt={service.title} />
                                     <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                                     {/* Spotlight hover effect */}
                                     <div className="absolute inset-0 bg-radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(249,215,131,0.15) 0%, transparent 80%) opacity-0 group-hover:opacity-100 transition-opacity" />
 
-                                    <div className="absolute top-8 left-8">
-                                        <div className={`w-14 h-14 md:w-16 md:h-16 ${service.bg} rounded-2xl flex items-center justify-center backdrop-blur-xl border border-white/20 shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
-                                            <service.icon className={`w-7 h-7 md:w-8 md:h-8 ${service.color}`} />
+                                    <div className="absolute top-6 left-6 md:top-8 md:left-8">
+                                        <div className={`w-12 h-12 md:w-14 md:h-14 ${service.bg} rounded-xl md:rounded-2xl flex items-center justify-center backdrop-blur-xl border border-white/20 shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
+                                            <service.icon className={`w-6 h-6 md:w-7 md:h-7 ${service.color}`} />
                                         </div>
                                     </div>
 
-                                    <div className="absolute bottom-6 left-6 right-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                                        <div className="glass-pill rounded-2xl p-4 flex items-center justify-between">
-                                            <span className="text-[10px] font-black uppercase tracking-widest text-white">View Details</span>
-                                            <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-dark">
-                                                <span className="text-xl leading-none">→</span>
+                                    <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                                        <div className="glass-pill rounded-xl p-3 md:p-4 flex items-center justify-between">
+                                            <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-white">View Details</span>
+                                            <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-secondary flex items-center justify-center text-dark">
+                                                <span className="text-lg md:text-xl leading-none">→</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="relative">
-                                    <span className="absolute -left-8 top-0 text-6xl font-black text-dark/5 leading-none select-none">0{idx + 1}</span>
-                                    <h3 className="text-3xl md:text-4xl font-black text-dark mb-6 group-hover:text-primary transition-colors">
+                                    <span className="absolute -left-6 top-0 text-5xl md:text-6xl font-black text-dark/5 leading-none select-none">0{idx + 1}</span>
+                                    <h3 className="text-2xl md:text-3xl font-black text-dark mb-4 md:mb-6 group-hover:text-primary transition-colors">
                                         {service.title}
                                     </h3>
-                                    <p className="text-lg md:text-xl leading-relaxed text-dark/50 font-medium italic border-l-2 border-secondary/30 pl-6">
+                                    <p className="text-base md:text-lg leading-relaxed text-dark/50 font-medium italic border-l-2 border-secondary/30 pl-4 md:pl-6">
                                         {service.description}
                                     </p>
                                 </div>
@@ -530,35 +545,53 @@ export default function Welcome({ settings }) {
                         </h2>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16 md:gap-24 pb-20">
-                        {portfolioItems.map((item, i) => (
-                            <div key={i} className="group relative h-[500px] md:h-[650px] bg-dark rounded-[48px] overflow-hidden shadow-2xl hover:shadow-secondary/20 transition-all duration-700">
-                                <img src={item.image} className="absolute inset-0 w-full h-full object-cover opacity-60 grayscale group-hover:scale-110 group-hover:opacity-80 group-hover:grayscale-0 transition-all duration-1000 ease-out" alt={item.category} />
+                        {portfolioItems.slice(0, 6).map((item, i) => (
+                            <div
+                                key={i}
+                                className="group cursor-pointer relative"
+                            >
+                                {/* Image card */}
+                                <div className="relative overflow-hidden rounded-[40px] md:rounded-[48px] shadow-2xl group-hover:shadow-secondary/20 transition-all duration-700 bg-dark h-[400px] md:h-[450px] lg:h-[550px]">
+                                    <img
+                                        src={item.image}
+                                        className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0 group-hover:rotate-1"
+                                        alt={item.category}
+                                    />
+                                    {/* Glass Overlay on Hover */}
+                                    <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-overlay" />
 
-                                {/* Gradient overly */}
-                                <div className="absolute inset-0 bg-linear-to-t from-dark via-dark/20 to-transparent opacity-80" />
-
-                                {/* Category badge */}
-                                <div className="absolute top-8 left-8">
-                                    <div className="glass-pill px-4 py-1.5 rounded-full">
-                                        <span className="text-secondary text-[10px] font-black uppercase tracking-widest">{item.category}</span>
+                                    {/* Floating Badges */}
+                                    <div className="absolute top-6 left-6 flex flex-col gap-3">
+                                        <div className="glass-navbar border-white/20 px-4 py-2 rounded-2xl transform -translate-x-10 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500">
+                                            <span className="text-secondary text-[9px] font-black uppercase tracking-widest">{item.category}</span>
+                                        </div>
                                     </div>
+
+                                    {/* Content Overlay */}
+                                    <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-10 bg-linear-to-t from-dark/90 via-dark/20 to-transparent">
+                                        <div className="transform translate-y-6 group-hover:translate-y-0 transition-transform duration-700">
+                                            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-secondary mb-3 opacity-60 group-hover:opacity-100">{item.client} · {item.location}</p>
+                                            <h3 className="text-white font-black text-2xl md:text-3xl tracking-tighter leading-none mb-6 group-hover:text-glow-secondary transition-all">
+                                                {lang === 'jp' ? item.titleJp : lang === 'id' ? item.titleId : item.titleEn}
+                                            </h3>
+
+                                            <div className="flex items-center gap-4 text-white/40 text-[10px] font-black uppercase tracking-widest group-hover:text-white transition-colors">
+                                                <span>View Project</span>
+                                                <div className="w-8 h-px bg-white/20 transition-all group-hover:w-16 group-hover:bg-secondary" />
+                                                <ArrowUpRightIcon className="w-5 h-5" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Featured Glow */}
+                                    {item.featured && (
+                                        <div className="absolute top-6 right-6 w-3 h-3 rounded-full bg-secondary shadow-[0_0_20px_rgba(249,215,131,1)] animate-pulse" />
+                                    )}
                                 </div>
 
-                                {/* Content */}
-                                <div className="absolute inset-x-10 bottom-10 z-20">
-                                    <div className="h-px w-0 group-hover:w-full bg-secondary/50 mb-6 transition-all duration-700" />
-                                    <p className="text-white font-black text-3xl md:text-4xl mb-3 leading-none tracking-tighter uppercase">
-                                        {lang === 'jp' ? item.titleJp : lang === 'id' ? item.titleId : item.titleEn}
-                                    </p>
-                                    <div className="flex items-center gap-3 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">
-                                        <span className="text-secondary text-[10px] font-black uppercase tracking-[0.3em]">Full Case Study</span>
-                                        <div className="w-6 h-px bg-secondary/30" />
-                                    </div>
-                                </div>
-
-                                {/* Large Background Number */}
-                                <div className="absolute -right-8 bottom-0 text-[12rem] font-black text-white/5 leading-none select-none tracking-tighter">
-                                    0{i + 1}
+                                {/* Year Floating */}
+                                <div className="absolute -right-6 top-1/2 -translate-y-1/2 text-[10rem] font-black text-dark/4 select-none pointer-events-none group-hover:text-secondary/8 transition-all duration-1000 z-10">
+                                    {item.year}
                                 </div>
                             </div>
                         ))}
@@ -566,69 +599,37 @@ export default function Welcome({ settings }) {
                 </Container>
             </section>
 
-            {/* 5. CTA Section */}
-            <section id="cta" className="py-16 md:py-20 bg-white">
-                <Container>
-                    <div className="bg-dark rounded-[32px] md:rounded-[40px] p-8 md:p-16 text-left text-white relative overflow-hidden group flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10 shadow-2xl">
-                        {/* Animated background circles */}
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[100px] -mr-20 -mt-20 group-hover:scale-125 transition-transform duration-1000" />
-                        <div className="absolute bottom-0 left-1/3 w-48 h-48 bg-secondary/10 rounded-full blur-[80px] group-hover:scale-150 transition-transform duration-1000" />
-                        {/* Dot grid */}
-                        <div className="absolute inset-0 opacity-5 pointer-events-none" style={{
-                            backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.6) 1px, transparent 1px)',
-                            backgroundSize: '24px 24px'
-                        }} />
-                        <div className="relative z-10 max-w-2xl">
-                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tighter mb-6 uppercase leading-tight italic">
-                                {t.ctaTitle}
-                            </h2>
-                            <p className="text-white/40 text-base md:text-lg font-medium">
-                                {t.ctaDesc}
-                            </p>
-                        </div>
-                        <div className="relative z-10 shrink-0 w-full lg:w-auto">
-                            <Button variant="secondary" href="/contact" className="w-full lg:w-auto px-10 py-5 h-16 text-xs font-black tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl shadow-secondary/20">
-                                {t.ctaBtn}
-                            </Button>
-                        </div>
-                    </div>
-                </Container>
-            </section>
+
 
             {/* 6. Contact Section */}
-            <section id="contact" className="py-24 md:py-32 bg-dark">
+            <section id="contact" className="py-16 md:py-20 bg-dark">
                 <Container>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
                         <div>
-                            <span className="text-secondary font-black uppercase tracking-widest text-[10px] md:text-sm block mb-6">{t.contactTag}</span>
-                            <h2 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight text-white mb-10 leading-none">
+                            <span className="text-secondary font-black uppercase tracking-widest text-[10px] md:text-xs block mb-4">{t.contactTag}</span>
+                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white mb-6 leading-none">
                                 {t.contactTitle}
                             </h2>
-                            <div className="space-y-8 md:space-y-10">
-                                <div className="flex gap-6 items-start">
-                                    <div className="w-12 h-12 md:w-14 md:h-14 bg-white/5 rounded-xl md:rounded-2xl flex items-center justify-center shrink-0"><HandRaisedIcon className="w-6 h-6 md:w-7 md:h-7 text-primary" /></div>
-                                    <div><p className="text-white font-bold text-lg md:text-xl mb-2">{t.contactOffice}</p><p className="text-slate-400 text-sm md:text-base">{t.contactOfficeDesc}</p></div>
+                            <div className="space-y-6 md:space-y-8">
+                                <div className="flex gap-4 md:gap-5 items-start">
+                                    <div className="w-10 h-10 md:w-12 md:h-12 bg-white/5 rounded-xl flex items-center justify-center shrink-0"><HandRaisedIcon className="w-5 h-5 md:w-6 md:h-6 text-primary" /></div>
+                                    <div><p className="text-white font-bold text-base md:text-lg mb-1">{t.contactOffice}</p><p className="text-slate-400 text-sm">{t.contactOfficeDesc}</p></div>
                                 </div>
-                                <div className="flex gap-6 items-start">
-                                    <div className="w-12 h-12 md:w-14 md:h-14 bg-white/5 rounded-xl md:rounded-2xl flex items-center justify-center shrink-0"><InformationCircleIcon className="w-6 h-6 md:w-7 md:h-7 text-secondary" /></div>
-                                    <div><p className="text-white font-bold text-lg md:text-xl mb-2">{t.contactInq}</p><p className="text-slate-400 text-sm md:text-base">contact@sugoi8.id<br />+62 812 XXXX XXXX</p></div>
+                                <div className="flex gap-4 md:gap-5 items-start">
+                                    <div className="w-10 h-10 md:w-12 md:h-12 bg-white/5 rounded-xl flex items-center justify-center shrink-0"><InformationCircleIcon className="w-5 h-5 md:w-6 md:h-6 text-secondary" /></div>
+                                    <div><p className="text-white font-bold text-base md:text-lg mb-1">{t.contactInq}</p><p className="text-slate-400 text-sm">contact@sugoi8.id<br />+62 812 XXXX XXXX</p></div>
                                 </div>
                             </div>
                         </div>
-                        <div className="bg-white/5 p-8 md:p-14 rounded-[32px] md:rounded-[40px] border border-white/10">
-                            <h3 className="text-xl md:text-2xl font-bold text-white mb-8">{t.contactFormTitle}</h3>
-                            <form className="space-y-6">
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                    <input type="text" placeholder={t.formName} className="bg-white/5 border border-white/10 rounded-2xl p-4 text-white focus:border-primary outline-none transition-colors text-sm md:text-base" />
-                                    <input type="email" placeholder={t.formEmail} className="bg-white/5 border border-white/10 rounded-2xl p-4 text-white focus:border-primary outline-none transition-colors text-sm md:text-base" />
+                        <div className="bg-white/5 p-6 md:p-10 rounded-[28px] md:rounded-[32px] border border-white/10">
+                            <h3 className="text-lg md:text-xl font-bold text-white mb-6">{t.contactFormTitle}</h3>
+                            <form className="space-y-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <input type="text" placeholder={t.formName} className="bg-white/5 border border-white/10 rounded-xl p-3 md:p-4 text-white focus:border-primary outline-none transition-colors text-sm" />
+                                    <input type="email" placeholder={t.formEmail} className="bg-white/5 border border-white/10 rounded-xl p-3 md:p-4 text-white focus:border-primary outline-none transition-colors text-sm" />
                                 </div>
-                                <select className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white focus:border-primary outline-none transition-colors appearance-none text-sm md:text-base">
-                                    <option className="bg-dark">{t.formService}</option>
-                                    <option className="bg-dark">Event Organizer</option>
-                                    <option className="bg-dark">Show Management</option>
-                                </select>
-                                <textarea rows="3" placeholder={t.formMessage} className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white focus:border-primary outline-none transition-colors resize-none text-sm md:text-base"></textarea>
-                                <Button variant="primary" className="w-full h-16 text-xs font-black tracking-widest">{t.formBtn}</Button>
+                                <textarea rows="3" placeholder={t.formMessage} className="w-full bg-white/5 border border-white/10 rounded-xl p-3 md:p-4 text-white focus:border-primary outline-none transition-colors resize-none text-sm"></textarea>
+                                <Button variant="primary" className="w-full h-12 md:h-14 text-xs font-black tracking-widest rounded-xl">{t.formBtn}</Button>
                             </form>
                         </div>
                     </div>
