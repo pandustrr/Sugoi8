@@ -73,7 +73,8 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
             prodDesc: 'Sound, Lighting, & Support.',
             viewAll: 'View All Solutions',
             searchPlace: 'Search for services, portfolio, or news...',
-            searchTitle: 'Quick Search'
+            searchTitle: 'Quick Search',
+            login: 'LOGIN'
         },
         id: {
             home: 'Beranda',
@@ -93,7 +94,8 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
             prodDesc: 'Sound, Lighting, & Support.',
             viewAll: 'Lihat Semua Solusi',
             searchPlace: 'Cari layanan, portofolio, atau berita...',
-            searchTitle: 'Pencarian Cepat'
+            searchTitle: 'Pencarian Cepat',
+            login: 'LOGIN'
         },
         jp: {
             home: 'ホーム',
@@ -113,7 +115,8 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
             prodDesc: '音響、照明、サポート。',
             viewAll: 'すべてのサービスを見る',
             searchPlace: 'サービス、実績、ニュースを検索...',
-            searchTitle: 'クイック検索'
+            searchTitle: 'クイック検索',
+            login: 'ログイン'
         }
     };
 
@@ -202,7 +205,13 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                         </div>
                     </nav>
 
-                    <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+                    <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-3">
+                        <Link
+                            href="/tickets/check-status"
+                            className="px-6 py-2.5 text-[11px] font-black tracking-[0.2em] transition-all hover:text-secondary text-white flex items-center gap-2"
+                        >
+                            {cur.login}
+                        </Link>
                         <Button
                             variant="secondary"
                             href="/about#contact"
@@ -303,8 +312,15 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                                 </div>
                             </nav>
 
-                            <div className="mt-12 pt-12 border-t border-white/5">
-                                <Button variant="secondary" href="/contact" className="w-full h-16 text-xs font-black tracking-[0.2em]">
+                            <div className="mt-12 pt-12 border-t border-white/5 space-y-4">
+                                <Link
+                                    href="/tickets/check-status"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="w-full h-16 flex items-center justify-center text-xs font-black tracking-[0.2em] text-white border border-white/10 rounded-xl"
+                                >
+                                    {cur.login}
+                                </Link>
+                                <Button variant="secondary" href="/about#contact" className="w-full h-16 text-xs font-black tracking-[0.2em]" onClick={() => setMobileMenuOpen(false)}>
                                     {cur.contact}
                                 </Button>
                             </div>

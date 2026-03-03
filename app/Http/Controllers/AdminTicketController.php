@@ -43,6 +43,7 @@ class AdminTicketController extends Controller
             'tickets.*.title'              => 'required|string|max:255',
             'tickets.*.price'              => 'required|numeric|min:0',
             'tickets.*.stock'              => 'required|integer|min:0',
+            'tickets.*.gdrive_link'        => 'nullable|string',
         ]);
 
         DB::transaction(function () use ($request, $validated) {
@@ -68,6 +69,7 @@ class AdminTicketController extends Controller
                     'title' => $ticket['title'],
                     'price' => $ticket['price'],
                     'stock' => $ticket['stock'],
+                    'gdrive_link' => $ticket['gdrive_link'] ?? null,
                 ]);
             }
         });
@@ -126,6 +128,7 @@ class AdminTicketController extends Controller
             'title' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
+            'gdrive_link' => 'nullable|string',
         ]));
         return back()->with('success', 'Kategori berhasil ditambahkan.');
     }
@@ -136,6 +139,7 @@ class AdminTicketController extends Controller
             'title' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
+            'gdrive_link' => 'nullable|string',
         ]));
         return back()->with('success', 'Kategori berhasil diperbarui.');
     }
@@ -144,6 +148,26 @@ class AdminTicketController extends Controller
     {
         $ticket->delete();
         return back()->with('success', 'Kategori berhasil dihapus.');
+    }
+
+    public function downloadSubmission(Booking $booking)
+    {
+        if (!$booking->submission_file) {
+            return abort(404, 'File pendaftaran belum diunggah.');
+        }
+
+        // Tentukan disk berdasarkan format path
+        $isPublic = str_starts_with($booking->submission_file, '/storage/');
+        $disk = $isPublic ? 'public' : 'google';
+        $path = $isPublic ? str_replace('/storage/', '', $booking->submission_file) : $booking->submission_file;
+
+        try {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $storageDisk */
+            $storageDisk = Storage::disk($disk);
+            return $storageDisk->download($path);
+        } catch (\Exception $e) {
+            return abort(404, 'Gagal mendownload file: ' . $e->getMessage());
+        }
     }
 
     public function bookings()
@@ -159,6 +183,14 @@ class AdminTicketController extends Controller
             'status' => 'required|in:pending,confirmed,cancelled'
         ]));
         return back()->with('success', 'Status berhasil diperbarui.');
+    }
+
+    public function updateBookingGDrive(Request $request, Booking $booking)
+    {
+        $booking->update($request->validate([
+            'gdrive_link' => 'nullable|string'
+        ]));
+        return back()->with('success', 'Link Google Drive berhasil diperbarui.');
     }
 
     public function deleteBooking(Booking $booking)

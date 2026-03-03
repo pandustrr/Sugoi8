@@ -18,7 +18,10 @@ import {
     BuildingOfficeIcon,
     XMarkIcon,
     EyeIcon,
-    MapPinIcon
+    MapPinIcon,
+    DocumentArrowUpIcon,
+    ArrowDownTrayIcon,
+    CloudArrowUpIcon
 } from '@heroicons/react/24/outline';
 
 export default function Index({ bookings }) {
@@ -26,10 +29,16 @@ export default function Index({ bookings }) {
     const [filter, setFilter] = useState('all');
     const [divisionFilter, setDivisionFilter] = useState('all');
     const [eventFilter, setEventFilter] = useState('all');
+    const [categoryFilter, setCategoryFilter] = useState('all');
     const [selectedBooking, setSelectedBooking] = useState(null);
 
     const divisions = [...new Set(bookings.map(b => b.division).filter(Boolean))];
     const events = [...new Map(bookings.map(b => [b.ticket.event.id, b.ticket.event])).values()];
+
+    const availableCategories = [...new Set(bookings
+        .filter(b => eventFilter === 'all' || b.ticket.event.id === parseInt(eventFilter))
+        .map(b => b.ticket.title)
+    )];
 
     const updateStatus = (id, status) => {
         if (confirm(`Apakah Anda yakin ingin mengubah status pemesanan ini ke ${status}?`)) {
@@ -90,7 +99,8 @@ export default function Index({ bookings }) {
         const matchStatus = filter === 'all' || b.status === filter;
         const matchDivision = divisionFilter === 'all' || b.division === divisionFilter;
         const matchEvent = eventFilter === 'all' || b.ticket.event.id === parseInt(eventFilter);
-        return matchStatus && matchDivision && matchEvent;
+        const matchCategory = categoryFilter === 'all' || b.ticket.title === categoryFilter;
+        return matchStatus && matchDivision && matchEvent && matchCategory;
     });
 
     return (
@@ -105,19 +115,22 @@ export default function Index({ bookings }) {
                         <p className="text-[10px] text-dark/30 font-bold uppercase tracking-widest mt-0.5">Manajemen Pesanan Tiket & Konfirmasi</p>
                     </div>
 
-                    {/* Filters Row */}
-                    <div className="flex flex-wrap items-center justify-end gap-3 mt-4 lg:mt-0">
+                    {/* Filters Row - Forced Single Line */}
+                    <div className="flex flex-nowrap items-center justify-end gap-2 mt-4 lg:mt-0 overflow-x-auto pb-2 lg:pb-0 no-scrollbar">
                         {events.length > 0 && (
-                            <div className="flex items-center bg-light rounded-2xl border border-dark/5 shadow-inner hover:shadow-md transition-shadow pr-2 overflow-hidden">
-                                <div className="pl-4 pr-3 py-3 border-r border-dark/5 bg-white/50 text-dark/40">
+                            <div className="flex shrink-0 items-center bg-light rounded-2xl border border-dark/5 shadow-inner hover:shadow-md transition-shadow pr-2 overflow-hidden">
+                                <div className="pl-4 pr-3 py-2.5 border-r border-dark/5 bg-white/50 text-dark/40">
                                     <CalendarDaysIcon className="w-4 h-4" />
                                 </div>
                                 <select
                                     value={eventFilter}
-                                    onChange={(e) => setEventFilter(e.target.value)}
-                                    className="flex-1 lg:w-auto py-3 pl-3 pr-10 bg-transparent text-[10px] font-black uppercase tracking-widest text-dark border-none outline-none focus:ring-0 cursor-pointer hover:bg-white/50 transition-all truncate max-w-[200px]"
+                                    onChange={(e) => {
+                                        setEventFilter(e.target.value);
+                                        setCategoryFilter('all');
+                                    }}
+                                    className="w-auto py-2.5 pl-3 pr-10 bg-transparent text-[10px] font-black uppercase tracking-widest text-dark border-none outline-none focus:ring-0 cursor-pointer hover:bg-white/50 transition-all truncate max-w-[160px]"
                                 >
-                                    <option value="all">Semua Event</option>
+                                    <option value="all">Event</option>
                                     {events.map((ev) => (
                                         <option key={ev.id} value={ev.id}>{ev.title}</option>
                                     ))}
@@ -125,16 +138,16 @@ export default function Index({ bookings }) {
                             </div>
                         )}
 
-                        <div className="flex items-center bg-light rounded-2xl border border-dark/5 shadow-inner hover:shadow-md transition-shadow pr-2 overflow-hidden">
-                            <div className="pl-4 pr-3 py-3 border-r border-dark/5 bg-white/50 text-dark/40">
+                        <div className="flex shrink-0 items-center bg-light rounded-2xl border border-dark/5 shadow-inner hover:shadow-md transition-shadow pr-2 overflow-hidden">
+                            <div className="pl-4 pr-3 py-2.5 border-r border-dark/5 bg-white/50 text-dark/40">
                                 <FunnelIcon className="w-4 h-4" />
                             </div>
                             <select
                                 value={filter}
                                 onChange={(e) => setFilter(e.target.value)}
-                                className="flex-1 lg:w-auto py-3 pl-3 pr-10 bg-transparent text-[10px] font-black uppercase tracking-widest text-dark border-none outline-none focus:ring-0 cursor-pointer hover:bg-white/50 transition-all truncate"
+                                className="w-auto py-2.5 pl-3 pr-10 bg-transparent text-[10px] font-black uppercase tracking-widest text-dark border-none outline-none focus:ring-0 cursor-pointer hover:bg-white/50 transition-all truncate"
                             >
-                                <option value="all">Semua Status</option>
+                                <option value="all">Status</option>
                                 <option value="pending">Pending</option>
                                 <option value="confirmed">Konfirmasi</option>
                                 <option value="cancelled">Dibatalkan</option>
@@ -142,18 +155,36 @@ export default function Index({ bookings }) {
                         </div>
 
                         {divisions.length > 0 && (
-                            <div className="flex items-center bg-light rounded-2xl border border-dark/5 shadow-inner hover:shadow-md transition-shadow pr-2 overflow-hidden">
-                                <div className="pl-4 pr-3 py-3 border-r border-dark/5 bg-white/50 text-dark/40">
+                            <div className="flex shrink-0 items-center bg-light rounded-2xl border border-dark/5 shadow-inner hover:shadow-md transition-shadow pr-2 overflow-hidden">
+                                <div className="pl-4 pr-3 py-2.5 border-r border-dark/5 bg-white/50 text-dark/40">
                                     <TagIcon className="w-4 h-4" />
                                 </div>
                                 <select
                                     value={divisionFilter}
                                     onChange={(e) => setDivisionFilter(e.target.value)}
-                                    className="flex-1 lg:w-auto py-3 pl-3 pr-10 bg-transparent text-[10px] font-black uppercase tracking-widest text-dark border-none outline-none focus:ring-0 cursor-pointer hover:bg-white/50 transition-all truncate max-w-[150px]"
+                                    className="w-auto py-2.5 pl-3 pr-10 bg-transparent text-[10px] font-black uppercase tracking-widest text-dark border-none outline-none focus:ring-0 cursor-pointer hover:bg-white/50 transition-all truncate max-w-[130px]"
                                 >
-                                    <option value="all">Semua Divisi</option>
+                                    <option value="all">Divisi</option>
                                     {divisions.map((d) => (
                                         <option key={d} value={d}>{d}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        )}
+
+                        {availableCategories.length > 0 && (
+                            <div className="flex shrink-0 items-center bg-light rounded-2xl border border-dark/5 shadow-inner hover:shadow-md transition-shadow pr-2 overflow-hidden">
+                                <div className="pl-4 pr-3 py-2.5 border-r border-dark/5 bg-white/50 text-dark/40">
+                                    <ShoppingBagIcon className="w-4 h-4" />
+                                </div>
+                                <select
+                                    value={categoryFilter}
+                                    onChange={(e) => setCategoryFilter(e.target.value)}
+                                    className="w-auto py-2.5 pl-3 pr-10 bg-transparent text-[10px] font-black uppercase tracking-widest text-dark border-none outline-none focus:ring-0 cursor-pointer hover:bg-white/50 transition-all truncate max-w-[160px]"
+                                >
+                                    <option value="all">Kategori</option>
+                                    {availableCategories.map((cat) => (
+                                        <option key={cat} value={cat}>{cat}</option>
                                     ))}
                                 </select>
                             </div>
@@ -417,6 +448,86 @@ export default function Index({ bookings }) {
                                                             </div>
                                                         )}
                                                     </div>
+
+                                                    <div>
+                                                        <p className="text-[9px] font-black uppercase tracking-widest text-dark/40 mb-3 px-1">File Karya / Submission</p>
+                                                        {selectedBooking.submission_file ? (
+                                                            <div className="bg-emerald-50 border border-emerald-100 p-4 rounded-3xl flex items-center justify-between">
+                                                                <div className="flex items-center gap-3">
+                                                                    <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                                                                        <DocumentArrowUpIcon className="w-5 h-5 text-emerald-500" />
+                                                                    </div>
+                                                                    <div>
+                                                                        <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Terkumpul</p>
+                                                                        <p className="text-[10px] text-emerald-500 font-bold mt-0.5">
+                                                                            {new Date(selectedBooking.submission_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })} • {new Date(selectedBooking.submission_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <a
+                                                                    href={route('admin.bookings.downloadSubmission', selectedBooking.id)}
+                                                                    target="_blank"
+                                                                    className="w-10 h-10 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl flex items-center justify-center transition-all shadow-lg shadow-emerald-500/20"
+                                                                    title="Download File"
+                                                                >
+                                                                    <ArrowDownTrayIcon className="w-5 h-5" />
+                                                                </a>
+                                                            </div>
+                                                        ) : (
+                                                            <div className="bg-light p-4 rounded-3xl border border-dark/5 flex flex-col items-center justify-center text-dark/20 py-8">
+                                                                <CloudArrowUpIcon className="w-8 h-8 opacity-30 mb-2" />
+                                                                <p className="text-[9px] uppercase font-black tracking-widest italic">Belum Mengumpulkan</p>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* GDrive Link Section */}
+                                            <div className="mt-8 pt-8 border-t border-dark/5">
+                                                <div className="flex items-center gap-3 mb-6">
+                                                    <div className="w-1.5 h-6 bg-secondary rounded-full" />
+                                                    <h3 className="text-sm font-black text-dark uppercase tracking-widest leading-none">Akses Upload Karya</h3>
+                                                </div>
+
+                                                <div className="bg-light/30 border border-dark/5 rounded-[32px] p-6 lg:p-8 space-y-6">
+                                                    <div>
+                                                        <label className="block text-[10px] font-black uppercase tracking-widest text-dark/40 mb-3 px-1">Link Google Drive</label>
+                                                        <div className="flex flex-col sm:flex-row gap-3">
+                                                            <input
+                                                                type="text"
+                                                                value={selectedBooking.gdrive_link || ''}
+                                                                onChange={(e) => setSelectedBooking({ ...selectedBooking, gdrive_link: e.target.value })}
+                                                                className="grow bg-white border border-dark/10 rounded-2xl p-4 text-xs font-bold focus:border-primary outline-none transition-all placeholder:text-dark/10 shadow-sm"
+                                                                placeholder="Paste link folder GDrive di sini..."
+                                                            />
+                                                            <button
+                                                                onClick={() => {
+                                                                    router.patch(route('admin.bookings.updateGDrive', selectedBooking.id), {
+                                                                        gdrive_link: selectedBooking.gdrive_link
+                                                                    }, {
+                                                                        onSuccess: () => alert('Link GDrive berhasil diperbarui!')
+                                                                    });
+                                                                }}
+                                                                className="px-8 py-4 bg-dark text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-primary transition-all shadow-md active:scale-95 shrink-0"
+                                                            >
+                                                                Simpan Link
+                                                            </button>
+                                                        </div>
+                                                        <p className="mt-4 text-[9px] font-medium text-dark/30 italic px-1">
+                                                            * Link ini akan tampil di dashboard pendaftar setelah admin melakukan verifikasi pembayaran.
+                                                        </p>
+                                                    </div>
+
+                                                    <div className="flex items-center gap-4 bg-white/60 p-4 rounded-2xl border border-dark/5">
+                                                        <div className={`w-3 h-3 rounded-full ${selectedBooking.is_gdrive_opened ? 'bg-amber-500' : 'bg-emerald-500'} animate-pulse shadow-sm`} />
+                                                        <div>
+                                                            <p className="text-[10px] font-black text-dark/60 uppercase tracking-widest">Status Akses User</p>
+                                                            <p className="text-[11px] font-bold text-dark mt-0.5 uppercase">
+                                                                {selectedBooking.is_gdrive_opened ? 'Sudah Pernah Dibuka oleh Pendaftar' : 'Belum Pernah Diakses'}
+                                                            </p>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -445,6 +556,6 @@ export default function Index({ bookings }) {
                     </div>
                 </Dialog>
             </Transition>
-        </div>
+        </div >
     );
 }

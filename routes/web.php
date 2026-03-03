@@ -41,10 +41,18 @@ Route::get('/partners', function () {
 
 Route::redirect('/contact', '/about#contact', 301);
 
+// User Booking Monitoring
+Route::get('/tickets/check-status', [TicketController::class, 'checkStatus'])->name('tickets.checkStatus');
+Route::post('/tickets/check-status', [TicketController::class, 'doCheckStatus'])->name('tickets.doCheckStatus');
+Route::get('/tickets/dashboard/{booking}', [TicketController::class, 'dashboard'])->name('tickets.dashboard');
+Route::post('/tickets/dashboard/{booking}/submit', [TicketController::class, 'submitWork'])->name('tickets.submitWork');
+Route::post('/tickets/logout', [TicketController::class, 'logout'])->name('tickets.logout');
+
 // User Ticket Routes
 Route::get('/tickets', [TicketController::class, 'index'])->name('tickets.index');
 Route::get('/tickets/{ticket}', [TicketController::class, 'show'])->name('tickets.show');
 Route::post('/tickets/{ticket}/purchase', [TicketController::class, 'purchase'])->name('tickets.purchase');
+
 Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');
 Route::post('/admin/login', [AdminController::class, 'store'])->name('admin.login.post');
 
@@ -72,5 +80,7 @@ Route::middleware('auth')->group(function () {
     // Admin Booking Management
     Route::get('/admin/bookings', [AdminTicketController::class, 'bookings'])->name('admin.bookings.index');
     Route::patch('/admin/bookings/{booking}/status', [AdminTicketController::class, 'updateBookingStatus'])->name('admin.bookings.updateStatus');
+    Route::patch('/admin/bookings/{booking}/gdrive', [AdminTicketController::class, 'updateBookingGDrive'])->name('admin.bookings.updateGDrive');
+    Route::get('/admin/bookings/{booking}/download-submission', [AdminTicketController::class, 'downloadSubmission'])->name('admin.bookings.downloadSubmission');
     Route::delete('/admin/bookings/{booking}', [AdminTicketController::class, 'deleteBooking'])->name('admin.bookings.destroy');
 });

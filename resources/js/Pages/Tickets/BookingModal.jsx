@@ -306,7 +306,7 @@ export default function BookingModal({ isOpen, onClose, event, selectedTicket, s
 
                                         {/* Kategori Tiket */}
                                         <div>
-                                            <p className="text-[10px] font-black uppercase tracking-widest text-dark/30 mb-4 px-1">Pilih Paket</p>
+                                            <p className="text-[10px] font-black uppercase tracking-widest text-dark/30 mb-4 px-1">Pilih Kategori Tiket</p>
                                             <div className="space-y-3">
                                                 {event.tickets.map((cat) => (
                                                     <button
@@ -448,10 +448,20 @@ export default function BookingModal({ isOpen, onClose, event, selectedTicket, s
                                             </div>
                                         </div>
 
-                                        <div className="pt-8">
+                                        <div className="pt-8 space-y-4">
+                                            {/* Disclaimer Pembayaran */}
+                                            {(!data.payment_proof && !processing) && (
+                                                <div className="bg-red-50 border border-red-100 rounded-2xl p-4 flex items-center gap-3 animate-pulse">
+                                                    <span className="text-lg">⚠️</span>
+                                                    <p className="text-[11px] font-black text-red-600 uppercase tracking-widest leading-relaxed">
+                                                        Peringatan: Anda wajib mengunggah bukti pembayaran sebelum menekan tombol Daftar Sekarang.
+                                                    </p>
+                                                </div>
+                                            )}
+
                                             <button
                                                 type="submit"
-                                                disabled={processing || !selectedTicket}
+                                                disabled={processing || !selectedTicket || !data.payment_proof}
                                                 className="w-full bg-dark text-white py-5 rounded-[24px] font-black text-xs md:text-sm uppercase tracking-[0.3em] hover:bg-primary active:scale-[0.98] transition-all disabled:opacity-40 shadow-2xl shadow-dark/10 flex items-center justify-center gap-4 group"
                                             >
                                                 {processing ? (
