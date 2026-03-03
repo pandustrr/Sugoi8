@@ -92,6 +92,18 @@ export default function SuccessModal({ booking, onClose }) {
                                                                 <MapPinIcon className="w-4 h-4" />
                                                                 {booking.ticket.event ? booking.ticket.event.location : booking.ticket.location}
                                                             </div>
+                                                            {booking.division && (
+                                                                <div className="flex items-center gap-2 text-primary">
+                                                                    <span className="w-4 h-4 flex items-center justify-center">🏆</span>
+                                                                    Divisi: {booking.division}
+                                                                </div>
+                                                            )}
+                                                            {booking.school_name && (
+                                                                <div className="flex items-center gap-2 text-primary">
+                                                                    <span className="w-4 h-4 flex items-center justify-center">🏫</span>
+                                                                    Instansi: {booking.school_name}
+                                                                </div>
+                                                            )}
                                                         </div>
                                                     </div>
 
@@ -117,7 +129,7 @@ export default function SuccessModal({ booking, onClose }) {
                                                     <div className="bg-white/5 rounded-[32px] p-6 backdrop-blur-sm border border-white/10">
                                                         <div className="flex justify-between items-center mb-5">
                                                             <p className="text-[10px] font-black uppercase tracking-widest text-white/40">ID Pemesanan</p>
-                                                            <p className="font-black text-secondary">#{booking.id.toString().padStart(5, '0')}</p>
+                                                            <p className="font-black text-secondary">#{booking.booking_code || booking.id.toString().padStart(5, '0')}</p>
                                                         </div>
                                                         <div className="flex justify-between items-center mb-5">
                                                             <p className="text-[10px] font-black uppercase tracking-widest text-white/40">Jumlah</p>
@@ -131,7 +143,7 @@ export default function SuccessModal({ booking, onClose }) {
 
                                                     <div className="mt-8 lg:mt-0 flex flex-col gap-3">
                                                         <a
-                                                            href={`https://wa.me/6285954464539?text=Halo Sugoi 8 Management, saya ingin konfirmasi pembayaran tiket untuk pesanan %23${booking.id.toString().padStart(5, '0')} atas nama ${booking.customer_name}.`}
+                                                            href={`https://wa.me/6285954464539?text=Halo Sugoi 8 Management, saya ingin konfirmasi pembayaran tiket untuk pesanan %23${booking.booking_code || booking.id.toString().padStart(5, '0')} atas nama ${booking.customer_name}.%0A%0A*Detail Pesanan:*%0AKategori: ${encodeURIComponent(booking.ticket.title)}${booking.division ? '%0ADivisi: ' + encodeURIComponent(booking.division) : ''}${booking.school_name ? '%0AInstansi: ' + encodeURIComponent(booking.school_name) : ''}%0A%0ABerikut saya lampirkan bukti pembayarannya.`}
                                                             target="_blank"
                                                             rel="noopener noreferrer"
                                                             onClick={onClose}
@@ -159,7 +171,7 @@ export default function SuccessModal({ booking, onClose }) {
                                             </div>
                                             <div>
                                                 <h4 className="font-black text-dark uppercase tracking-tight mb-2">Penting!</h4>
-                                                <p className="text-dark/40 font-medium text-[11px] leading-relaxed">Simpan ID Pemesanan Anda atau lakukan konfirmasi via WhatsApp agar pesanan segera kami validasi. E-Tiket akan dikirimkan setelah status pembayaran dikonfirmasi oleh Admin.</p>
+                                                <p className="text-dark/40 font-medium text-[11px] leading-relaxed">Simpan ID Pemesanan Anda atau lakukan konfirmasi via WhatsApp. Ketika mengonfirmasi pembayaran, mohon berikan informasi yang lengkap (seperti divisi yang dipilih, kategori tiket, dll beserta bukti transfer) agar pesanan dapat segera divalidasi. E-Tiket akan dikirimkan setelah status pembayaran dikonfirmasi oleh Admin.</p>
                                             </div>
                                         </div>
                                     </div>
