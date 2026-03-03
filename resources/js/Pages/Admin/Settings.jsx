@@ -7,7 +7,9 @@ import {
     ShieldCheckIcon,
     LockClosedIcon,
     PhotoIcon,
-    BanknotesIcon
+    BanknotesIcon,
+    EnvelopeIcon,
+    PhoneIcon,
 } from '@heroicons/react/24/outline';
 import SidebarAdmin from '../../Components/SidebarAdmin';
 
@@ -21,6 +23,8 @@ export default function Settings() {
         password_confirmation: '',
         payment_methods: settings?.payment_methods || '',
         payment_qris_image: null,
+        contact_email: settings?.contact_email || '',
+        contact_wa: settings?.contact_wa || '',
     });
 
     const [qrisPreview, setQrisPreview] = useState(settings?.payment_qris_image || null);
@@ -224,6 +228,66 @@ export default function Settings() {
                             </div>
                         </form>
                     </div>
+
+                    {/* Contact Settings Module */}
+                    <form onSubmit={handleSubmit} className="mt-10 bg-white rounded-[40px] border border-dark/5 p-10 md:p-12 shadow-sm hover:shadow-md transition-all duration-500 space-y-8">
+                        <div className="flex items-center gap-5 mb-2">
+                            <div className="w-2.5 h-10 bg-primary rounded-full" />
+                            <div>
+                                <h2 className="text-base font-black text-dark uppercase tracking-tight">Info Kontak Publik</h2>
+                                <p className="text-[11px] text-dark/30 font-bold uppercase tracking-wider mt-1">Email &amp; WhatsApp yang tampil di seluruh halaman</p>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {/* Email */}
+                            <div className="space-y-2">
+                                <label className="block text-[11px] font-black uppercase tracking-widest text-dark/40 ml-1">Email</label>
+                                <div className="relative group">
+                                    <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                                        <EnvelopeIcon className="h-5 w-5 text-dark/20 group-focus-within:text-primary transition-colors" />
+                                    </div>
+                                    <input
+                                        type="email"
+                                        value={data.contact_email}
+                                        onChange={e => setData('contact_email', e.target.value)}
+                                        className="block w-full pl-14 pr-5 py-4 bg-light border-none rounded-2xl text-dark text-sm font-medium placeholder:text-dark/20 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                        placeholder="hello@sugoi8.id"
+                                    />
+                                </div>
+                                {errors.contact_email && <p className="text-xs text-red-500 font-bold ml-1">{errors.contact_email}</p>}
+                            </div>
+
+                            {/* WA Number */}
+                            <div className="space-y-2">
+                                <label className="block text-[11px] font-black uppercase tracking-widest text-dark/40 ml-1">Nomor WhatsApp</label>
+                                <div className="relative group">
+                                    <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                                        <PhoneIcon className="h-5 w-5 text-dark/20 group-focus-within:text-primary transition-colors" />
+                                    </div>
+                                    <input
+                                        type="text"
+                                        value={data.contact_wa}
+                                        onChange={e => setData('contact_wa', e.target.value)}
+                                        className="block w-full pl-14 pr-5 py-4 bg-light border-none rounded-2xl text-dark text-sm font-medium placeholder:text-dark/20 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                        placeholder="0859-5446-4539"
+                                    />
+                                </div>
+                                <p className="text-[10px] text-dark/30 font-bold ml-1">Masukkan nomor WhatsApp (contoh: 0859-5446-4539 atau 62859...)</p>
+                                {errors.contact_wa && <p className="text-xs text-red-500 font-bold ml-1">{errors.contact_wa}</p>}
+                            </div>
+                        </div>
+
+                        <div className="pt-6 flex justify-end border-t border-dark/5">
+                            <button
+                                type="submit"
+                                disabled={processing}
+                                className="px-10 py-4 bg-primary text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-primary/10 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50"
+                            >
+                                {processing ? 'Menyimpan...' : 'Simpan Info Kontak'}
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </main>
         </div>

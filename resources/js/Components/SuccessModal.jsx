@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import {
     TicketIcon,
     MapPinIcon,
@@ -15,6 +15,9 @@ import {
 import { FingerPrintIcon } from '@heroicons/react/24/solid';
 
 export default function SuccessModal({ booking, onClose }) {
+    const { settings } = usePage().props;
+    const waNumber = (settings?.contact_wa || '6285954464539').replace(/[^0-9]/g, '').replace(/^0/, '62');
+
     if (!booking) return null;
 
     return (
@@ -184,7 +187,7 @@ export default function SuccessModal({ booking, onClose }) {
 
                                                     <div className="mt-8 lg:mt-0 flex flex-col gap-3">
                                                         <a
-                                                            href={`https://wa.me/6285954464539?text=Halo Sugoi 8 Management, saya ingin konfirmasi pembayaran tiket untuk pesanan %23${booking.booking_code || booking.id.toString().padStart(5, '0')} atas nama ${booking.customer_name}.%0A%0A*Detail Pesanan:*%0AKategori: ${encodeURIComponent(booking.ticket.title)}${booking.division ? '%0ADivisi: ' + encodeURIComponent(booking.division) : ''}${booking.school_name ? '%0AInstansi: ' + encodeURIComponent(booking.school_name) : ''}%0A%0ABerikut saya lampirkan bukti pembayarannya.`}
+                                                            href={`https://wa.me/${waNumber}?text=Halo Sugoi 8 Management, saya ingin konfirmasi pembayaran tiket untuk pesanan %23${booking.booking_code || booking.id.toString().padStart(5, '0')} atas nama ${booking.customer_name}.%0A%0A*Detail Pesanan:*%0AKategori: ${encodeURIComponent(booking.ticket.title)}${booking.division ? '%0ADivisi: ' + encodeURIComponent(booking.division) : ''}${booking.school_name ? '%0AInstansi: ' + encodeURIComponent(booking.school_name) : ''}%0A%0ABerikut saya lampirkan bukti pembayarannya.`}
                                                             target="_blank"
                                                             rel="noopener noreferrer"
                                                             className="w-full bg-secondary text-dark py-4 rounded-[20px] font-black text-[11px] uppercase tracking-[0.2em] shadow-xl shadow-secondary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"

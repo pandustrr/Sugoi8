@@ -22,7 +22,8 @@ import Navbar from '../../Components/Navbar';
 import Footer from '../../Components/Footer';
 
 export default function Dashboard({ booking }) {
-    const { flash } = usePage().props;
+    const { flash, settings } = usePage().props;
+    const waNumber = (settings?.contact_wa || '6285954464539').replace(/[^0-9]/g, '').replace(/^0/, '62');
 
     const { data, setData, post, processing, errors, progress } = useForm({
         submission_file: null,
@@ -243,7 +244,7 @@ export default function Dashboard({ booking }) {
                                         Jika mengalami kendala teknis saat mengunggah karya, silakan hubungi Customer Service kami.
                                     </p>
                                     <a
-                                        href="https://wa.me/628123456789"
+                                        href={`https://wa.me/${waNumber}`}
                                         target="_blank"
                                         className="w-full bg-emerald-500 py-3.5 rounded-2xl flex items-center justify-center gap-3 font-black text-[10px] uppercase tracking-widest hover:bg-emerald-600 transition-colors shadow-lg shadow-emerald-500/20"
                                     >
