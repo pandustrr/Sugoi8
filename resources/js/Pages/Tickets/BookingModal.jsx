@@ -180,7 +180,7 @@ export default function BookingModal({ isOpen, onClose, event, selectedTicket, s
 
                             {/* ── RIGHT: Info + Form ── */}
                             <div
-                                className="flex-1 overflow-y-auto p-6 md:p-10 space-y-6 overscroll-contain"
+                                className="flex-1 overflow-y-auto p-5 md:p-8 space-y-5 overscroll-contain"
                                 style={{ WebkitOverflowScrolling: 'touch' }}
                             >
 
@@ -198,10 +198,10 @@ export default function BookingModal({ isOpen, onClose, event, selectedTicket, s
                                     </button>
                                 </div>
 
-                                <div className="space-y-6">
+                                <div className="space-y-5">
                                     {/* Description segments */}
                                     <div className="space-y-4">
-                                        <h2 className="md:hidden text-2xl font-black text-dark uppercase tracking-tighter italic leading-tight">{event.title}</h2>
+                                        <h2 className="md:hidden text-xl font-black text-dark uppercase tracking-tighter italic leading-tight">{event.title}</h2>
 
                                         {desc.general && (
                                             <p className="text-dark/60 text-sm font-bold leading-relaxed border-l-3 border-primary pl-4 py-1">
@@ -306,27 +306,27 @@ export default function BookingModal({ isOpen, onClose, event, selectedTicket, s
 
                                         {/* Kategori Tiket */}
                                         <div>
-                                            <p className="text-[10px] font-black uppercase tracking-widest text-dark/30 mb-4 px-1">Pilih Paket</p>
-                                            <div className="space-y-3">
+                                            <p className="text-[9px] font-black uppercase tracking-widest text-dark/30 mb-3 px-1">Pilih Kategori Tiket</p>
+                                            <div className="space-y-2">
                                                 {event.tickets.map((cat) => (
                                                     <button
                                                         key={cat.id}
                                                         type="button"
                                                         onClick={() => setSelectedTicket(cat)}
-                                                        className={`w-full p-5 rounded-[24px] border-2 transition-all flex items-center justify-between text-left ${selectedTicket?.id === cat.id
+                                                        className={`w-full p-4 rounded-[20px] border-2 transition-all flex items-center justify-between text-left ${selectedTicket?.id === cat.id
                                                             ? 'border-primary bg-primary/5 shadow-xl shadow-primary/5'
                                                             : 'border-dark/5 bg-light hover:border-primary/20'
                                                             }`}
                                                     >
-                                                        <div className="flex items-center gap-5">
-                                                            <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${selectedTicket?.id === cat.id ? 'border-primary' : 'border-dark/10'}`}>
-                                                                {selectedTicket?.id === cat.id && <div className="w-3 h-3 bg-primary rounded-full transition-all scale-110" />}
+                                                        <div className="flex items-center gap-4">
+                                                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${selectedTicket?.id === cat.id ? 'border-primary' : 'border-dark/10'}`}>
+                                                                {selectedTicket?.id === cat.id && <div className="w-2.5 h-2.5 bg-primary rounded-full transition-all scale-110" />}
                                                             </div>
                                                             <div>
-                                                                <p className={`text-base font-black uppercase tracking-tight italic leading-none ${selectedTicket?.id === cat.id ? 'text-primary' : 'text-dark'}`}>
+                                                                <p className={`text-sm md:text-base font-black uppercase tracking-tight italic leading-none ${selectedTicket?.id === cat.id ? 'text-primary' : 'text-dark'}`}>
                                                                     {cat.title}
                                                                 </p>
-                                                                <p className="text-[10px] font-bold text-dark/30 uppercase tracking-widest mt-1.5 flex items-center gap-2">
+                                                                <p className="text-[9px] font-bold text-dark/30 uppercase tracking-widest mt-1.5 flex items-center gap-2">
                                                                     <span className={cat.stock > 0 ? 'text-green-500/60' : 'text-red-500/60'}>
                                                                         {cat.stock > 0 ? `${cat.stock} Sisa` : 'Habis'}
                                                                     </span>
@@ -336,7 +336,7 @@ export default function BookingModal({ isOpen, onClose, event, selectedTicket, s
                                                             </div>
                                                         </div>
                                                         <div className="text-right">
-                                                            <p className={`text-lg font-black italic tracking-tighter ${selectedTicket?.id === cat.id ? 'text-dark' : 'text-dark/40'}`}>
+                                                            <p className={`text-base font-black italic tracking-tighter ${selectedTicket?.id === cat.id ? 'text-dark' : 'text-dark/40'}`}>
                                                                 Rp {fmtPrice(cat.price)}
                                                             </p>
                                                         </div>
@@ -381,20 +381,20 @@ export default function BookingModal({ isOpen, onClose, event, selectedTicket, s
                                         </div>
 
                                         {/* Payment Info & Proof Upload */}
-                                        <div className="bg-emerald-50/50 rounded-[32px] border-2 border-dashed border-emerald-100 p-6 md:p-8 space-y-6">
+                                        <div className="bg-emerald-50/50 rounded-[24px] border-2 border-dashed border-emerald-100 p-5 md:p-6 space-y-5">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shrink-0">
-                                                    <BanknotesIcon className="w-5 h-5 text-white" />
+                                                <div className="w-9 h-9 bg-emerald-500 rounded-lg flex items-center justify-center shrink-0">
+                                                    <BanknotesIcon className="w-4 h-4 text-white" />
                                                 </div>
                                                 <div>
-                                                    <p className="text-[10px] font-black uppercase tracking-widest text-emerald-800/40 leading-none mb-1">Metode Pembayaran</p>
-                                                    <p className="text-sm font-black text-emerald-900 uppercase">Instruksi Transfer</p>
+                                                    <p className="text-[9px] font-black uppercase tracking-widest text-emerald-800/40 leading-none mb-1">Metode Pembayaran</p>
+                                                    <p className="text-[13px] font-black text-emerald-900 uppercase">Instruksi Transfer</p>
                                                 </div>
                                             </div>
 
                                             {settings?.payment_methods && (
-                                                <div className="bg-white/80 p-5 rounded-2xl border border-emerald-100 shadow-sm">
-                                                    <p className="text-sm font-bold text-dark whitespace-pre-line leading-relaxed italic">
+                                                <div className="bg-white/80 p-4 rounded-xl border border-emerald-100 shadow-sm">
+                                                    <p className="text-xs font-bold text-dark whitespace-pre-line leading-relaxed italic">
                                                         {settings.payment_methods}
                                                     </p>
                                                 </div>
@@ -402,15 +402,15 @@ export default function BookingModal({ isOpen, onClose, event, selectedTicket, s
 
                                             {settings?.payment_qris_image && (
                                                 <div className="flex flex-col items-center gap-3">
-                                                    <p className="text-[10px] font-black text-emerald-800/40 uppercase tracking-[0.2em]">Atau Scan QRIS</p>
-                                                    <div className="bg-white p-3 rounded-2xl border border-emerald-100 shadow-sm w-full max-w-[240px] aspect-square overflow-hidden cursor-zoom-in hover:shadow-xl transition-all" onClick={() => onPreview(settings.payment_qris_image)}>
+                                                    <p className="text-[9px] font-black text-emerald-800/40 uppercase tracking-[0.2em]">Atau Scan QRIS</p>
+                                                    <div className="bg-white p-2.5 rounded-xl border border-emerald-100 shadow-sm w-full max-w-[200px] aspect-square overflow-hidden cursor-zoom-in hover:shadow-xl transition-all" onClick={() => onPreview(settings.payment_qris_image)}>
                                                         <img src={settings.payment_qris_image} className="w-full h-full object-contain" alt="QRIS" />
                                                     </div>
                                                 </div>
                                             )}
 
-                                            <div className="border-t border-emerald-100 pt-6">
-                                                <p className="text-[10px] font-black uppercase tracking-widest text-emerald-800/40 mb-4 px-1">Unggah Bukti Pembayaran</p>
+                                            <div className="border-t border-emerald-100 pt-5">
+                                                <p className="text-[9px] font-black uppercase tracking-widest text-emerald-800/40 mb-3 px-1">Unggah Bukti Pembayaran</p>
                                                 <div className="relative group">
                                                     <input
                                                         type="file"
@@ -422,37 +422,47 @@ export default function BookingModal({ isOpen, onClose, event, selectedTicket, s
                                                     />
                                                     <label
                                                         htmlFor="payment_proof"
-                                                        className={`flex flex-col items-center justify-center gap-3 p-6 rounded-2xl border-2 border-dashed transition-all cursor-pointer ${data.payment_proof
+                                                        className={`flex flex-col items-center justify-center gap-2.5 p-5 rounded-xl border-2 border-dashed transition-all cursor-pointer ${data.payment_proof
                                                             ? 'bg-emerald-500 border-emerald-500 text-white'
                                                             : 'bg-white border-emerald-200 text-emerald-600 hover:border-emerald-400'
                                                             }`}
                                                     >
                                                         {data.payment_proof ? (
                                                             <>
-                                                                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center shrink-0">
-                                                                    <PhotoIcon className="w-6 h-6" />
+                                                                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center shrink-0">
+                                                                    <PhotoIcon className="w-5 h-5" />
                                                                 </div>
-                                                                <p className="text-xs font-black uppercase tracking-widest text-center italic line-clamp-1">{data.payment_proof.name}</p>
+                                                                <p className="text-[10px] font-black uppercase tracking-widest text-center italic line-clamp-1">{data.payment_proof.name}</p>
                                                             </>
                                                         ) : (
                                                             <>
-                                                                <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center shrink-0">
-                                                                    <PhotoIcon className="w-6 h-6" />
+                                                                <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center shrink-0">
+                                                                    <PhotoIcon className="w-5 h-5" />
                                                                 </div>
-                                                                <p className="text-xs font-black uppercase tracking-widest text-center">Pilih Gambar Bukti Transfer</p>
+                                                                <p className="text-[10px] font-black uppercase tracking-widest text-center">Pilih Gambar Bukti Transfer</p>
                                                             </>
                                                         )}
                                                     </label>
                                                 </div>
-                                                {errors.payment_proof && <p className="text-[10px] text-red-500 font-bold mt-2 ml-1">{errors.payment_proof}</p>}
+                                                {errors.payment_proof && <p className="text-[9px] text-red-500 font-bold mt-2 ml-1">{errors.payment_proof}</p>}
                                             </div>
                                         </div>
 
-                                        <div className="pt-8">
+                                        <div className="pt-6 space-y-4">
+                                            {/* Disclaimer Pembayaran */}
+                                            {(!data.payment_proof && !processing) && (
+                                                <div className="bg-red-50 border border-red-100 rounded-xl p-3 flex items-center gap-3 animate-pulse">
+                                                    <span className="text-base">⚠️</span>
+                                                    <p className="text-[10px] font-black text-red-600 uppercase tracking-widest leading-relaxed">
+                                                        Wajib unggah bukti pembayaran.
+                                                    </p>
+                                                </div>
+                                            )}
+
                                             <button
                                                 type="submit"
-                                                disabled={processing || !selectedTicket}
-                                                className="w-full bg-dark text-white py-5 rounded-[24px] font-black text-xs md:text-sm uppercase tracking-[0.3em] hover:bg-primary active:scale-[0.98] transition-all disabled:opacity-40 shadow-2xl shadow-dark/10 flex items-center justify-center gap-4 group"
+                                                disabled={processing || !selectedTicket || !data.payment_proof}
+                                                className="w-full bg-dark text-white py-4 md:py-5 rounded-[20px] font-black text-[11px] md:text-xs uppercase tracking-[0.3em] hover:bg-primary active:scale-[0.98] transition-all disabled:opacity-40 shadow-2xl shadow-dark/10 flex items-center justify-center gap-4 group"
                                             >
                                                 {processing ? (
                                                     <span className="flex items-center gap-3">

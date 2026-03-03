@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 import WhatsAppWidget from '../Components/UI/WhatsAppWidget';
 
 export default function MainLayout({ children, lang = 'en', onLangChange, darkMode, onDarkModeToggle }) {
     const [isMounted, setIsMounted] = useState(false);
+    const { settings } = usePage().props;
 
     useEffect(() => {
         setIsMounted(true);
@@ -27,8 +28,13 @@ export default function MainLayout({ children, lang = 'en', onLangChange, darkMo
                 {children}
             </main>
 
-            <Footer darkMode={darkMode} />
-            <WhatsAppWidget />
+            <Footer darkMode={darkMode} settings={settings} />
+            <WhatsAppWidget
+                phoneNumber={(settings?.contact_wa || '6285954464539')
+                    .replace(/[^0-9]/g, '')     // Hanya ambil angka
+                    .replace(/^0/, '62')        // Ganti 0 di depan dengan 62
+                }
+            />
         </div>
     );
 }

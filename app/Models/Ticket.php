@@ -19,6 +19,7 @@ class Ticket extends Model
         'time',
         'location',
         'image_url',
+        'gdrive_link',
     ];
 
     public function event()

@@ -40,8 +40,8 @@ export default function Edit({ event }) {
     const [isAddingCategory, setIsAddingCategory] = useState(false);
     const [editingCategory, setEditingCategory] = useState(null);
 
-    const categoryForm = useForm({ title: '', price: '', stock: '' });
-    const editCategoryForm = useForm({ title: '', price: '', stock: '' });
+    const categoryForm = useForm({ title: '', price: '', stock: '', gdrive_link: '' });
+    const editCategoryForm = useForm({ title: '', price: '', stock: '', gdrive_link: '' });
 
     const handleAddCategory = (e) => {
         e.preventDefault();
@@ -296,6 +296,8 @@ export default function Edit({ event }) {
                                                             <input type="number" className="w-full bg-white border border-dark/5 rounded-xl p-2.5 text-[11px] font-bold outline-none focus:border-primary"
                                                                 value={editCategoryForm.data.stock} onChange={e => editCategoryForm.setData('stock', e.target.value)} placeholder="Stok" />
                                                         </div>
+                                                        <input className="w-full bg-white border border-dark/5 rounded-xl p-2.5 text-[11px] font-bold outline-none focus:border-primary"
+                                                            value={editCategoryForm.data.gdrive_link} onChange={e => editCategoryForm.setData('gdrive_link', e.target.value)} placeholder="Link Google Drive (Opsional)" />
                                                         <div className="flex gap-2">
                                                             <button type="submit" className="grow bg-primary text-white py-2 rounded-xl text-[9px] font-black uppercase tracking-widest">Simpan</button>
                                                             <button type="button" onClick={() => setEditingCategory(null)} className="px-4 bg-dark/5 text-dark/40 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest">Batal</button>
@@ -309,7 +311,7 @@ export default function Edit({ event }) {
                                                                 <p className="text-[10px] font-bold text-primary italic">Rp {new Intl.NumberFormat('id-ID').format(cat.price)}</p>
                                                             </div>
                                                             <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                                <button onClick={() => { setEditingCategory(cat); editCategoryForm.setData({ title: cat.title, price: cat.price, stock: cat.stock }); }}
+                                                                <button onClick={() => { setEditingCategory(cat); editCategoryForm.setData({ title: cat.title, price: cat.price, stock: cat.stock, gdrive_link: cat.gdrive_link || '' }); }}
                                                                     className="p-2 text-dark/20 hover:text-primary transition-colors">
                                                                     <PencilSquareIcon className="w-4 h-4" />
                                                                 </button>
@@ -341,6 +343,8 @@ export default function Edit({ event }) {
                                                         <input type="number" className="w-full bg-white border border-dark/5 rounded-xl p-3 text-[11px] font-bold outline-none focus:border-primary"
                                                             value={categoryForm.data.stock} onChange={e => categoryForm.setData('stock', e.target.value)} placeholder="Kuota" />
                                                     </div>
+                                                    <input className="w-full bg-white border border-dark/5 rounded-xl p-3 text-[11px] font-bold outline-none focus:border-primary"
+                                                        value={categoryForm.data.gdrive_link} onChange={e => categoryForm.setData('gdrive_link', e.target.value)} placeholder="Link Google Drive (Opsional)" />
                                                     <div className="flex gap-2">
                                                         <button type="submit" className="grow bg-primary text-white py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-primary/20">Tambah</button>
                                                         <button type="button" onClick={() => setIsAddingCategory(false)} className="px-6 bg-dark text-white py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest">Batal</button>

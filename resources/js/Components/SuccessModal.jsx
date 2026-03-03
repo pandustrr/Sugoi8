@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
+import { Link, usePage } from '@inertiajs/react';
 import {
     TicketIcon,
     MapPinIcon,
@@ -11,8 +12,12 @@ import {
     PhoneIcon,
     InformationCircleIcon,
 } from '@heroicons/react/24/outline';
+import { FingerPrintIcon } from '@heroicons/react/24/solid';
 
 export default function SuccessModal({ booking, onClose }) {
+    const { settings } = usePage().props;
+    const waNumber = (settings?.contact_wa || '6285954464539').replace(/[^0-9]/g, '').replace(/^0/, '62');
+
     if (!booking) return null;
 
     return (
@@ -67,6 +72,37 @@ export default function SuccessModal({ booking, onClose }) {
                                             </p>
                                         </div>
 
+                                        {/* SCREENSHOT WARNING & LOGIN INFO */}
+                                        <div className="w-full mb-10 space-y-4">
+                                            <div className="bg-red-50 border-2 border-dashed border-red-200 rounded-[32px] p-6 text-center animate-pulse">
+                                                <p className="text-red-600 font-black uppercase tracking-[0.2em] text-sm mb-2">📸 HARAP SCREENSHOT HALAMAN INI!</p>
+                                                <p className="text-red-500/80 font-bold text-[11px] leading-relaxed uppercase tracking-widest">
+                                                    Gunakan informasi akun di bawah ini untuk memantau status & detail tiket Anda.
+                                                </p>
+                                            </div>
+
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <div className="bg-primary/5 rounded-[24px] border border-primary/10 p-5 flex items-center gap-4">
+                                                    <div className="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center">
+                                                        <UserCircleIcon className="w-5 h-5 text-primary" />
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-[9px] font-black uppercase tracking-widest text-primary/40 leading-none mb-1">Username Login</p>
+                                                        <p className="text-xs font-black text-dark truncate max-w-[150px] md:max-w-none">{booking.customer_email}</p>
+                                                    </div>
+                                                </div>
+                                                <div className="bg-secondary/10 rounded-[24px] border border-secondary/20 p-5 flex items-center gap-4">
+                                                    <div className="w-10 h-10 bg-secondary/30 rounded-xl flex items-center justify-center">
+                                                        <InformationCircleIcon className="w-5 h-5 text-dark" />
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-[9px] font-black uppercase tracking-widest text-dark/30 leading-none mb-1">Password (ID Pesan)</p>
+                                                        <p className="text-[13px] font-black text-dark uppercase">{booking.booking_code || booking.id.toString().padStart(5, '0')}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         {/* Order Detail Card */}
                                         <div className="w-full bg-dark rounded-[40px] p-6 md:p-10 text-white shadow-2xl relative overflow-hidden group">
                                             {/* Card Decor */}
@@ -77,8 +113,8 @@ export default function SuccessModal({ booking, onClose }) {
                                             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
                                                 <div>
                                                     <div className="flex items-center gap-3 mb-8">
-                                                        <div className="w-1.5 h-1.5 bg-secondary rounded-full" />
-                                                        <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">Status: {booking.status.toUpperCase()}</h2>
+                                                        <div className="w-3 h-3 bg-secondary rounded-full animate-pulse shadow-[0_0_10px_rgba(249,215,131,0.5)]" />
+                                                        <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">Status Pendaftaran: {booking.status.toUpperCase()}</h2>
                                                     </div>
 
                                                     <div className="mb-8">
@@ -93,13 +129,13 @@ export default function SuccessModal({ booking, onClose }) {
                                                                 {booking.ticket.event ? booking.ticket.event.location : booking.ticket.location}
                                                             </div>
                                                             {booking.division && (
-                                                                <div className="flex items-center gap-2 text-primary">
+                                                                <div className="flex items-center gap-2 text-secondary font-black">
                                                                     <span className="w-4 h-4 flex items-center justify-center">🏆</span>
                                                                     Divisi: {booking.division}
                                                                 </div>
                                                             )}
                                                             {booking.school_name && (
-                                                                <div className="flex items-center gap-2 text-primary">
+                                                                <div className="flex items-center gap-2 text-white/70">
                                                                     <span className="w-4 h-4 flex items-center justify-center">🏫</span>
                                                                     Instansi: {booking.school_name}
                                                                 </div>
@@ -107,25 +143,33 @@ export default function SuccessModal({ booking, onClose }) {
                                                         </div>
                                                     </div>
 
-                                                    <div className="space-y-5 pt-8 border-t border-white/5">
+                                                    <div className="space-y-4 pt-8 border-t border-white/5 bg-white/5 rounded-3xl p-5 mt-4">
+                                                        <p className="text-[10px] font-black uppercase text-secondary/50 tracking-[0.2em] mb-4">Verifikasi Data Pendaftar</p>
                                                         <div className="flex items-center gap-4">
-                                                            <UserCircleIcon className="w-5 h-5 text-secondary" />
+                                                            <UserCircleIcon className="w-4 h-4 text-white/20" />
                                                             <div>
-                                                                <p className="text-[9px] font-black uppercase tracking-widest text-white/30 mb-0.5">Pemesan</p>
-                                                                <p className="font-bold text-sm">{booking.customer_name}</p>
+                                                                <p className="text-[8px] font-black uppercase tracking-widest text-white/30">Nama Lengkap</p>
+                                                                <p className="font-bold text-xs">{booking.customer_name}</p>
                                                             </div>
                                                         </div>
                                                         <div className="flex items-center gap-4">
-                                                            <PhoneIcon className="w-5 h-5 text-secondary" />
+                                                            <PhoneIcon className="w-4 h-4 text-white/20" />
                                                             <div>
-                                                                <p className="text-[9px] font-black uppercase tracking-widest text-white/30 mb-0.5">WhatsApp</p>
-                                                                <p className="font-bold text-sm">{booking.customer_phone}</p>
+                                                                <p className="text-[8px] font-black uppercase tracking-widest text-white/30">No. WhatsApp</p>
+                                                                <p className="font-bold text-xs">{booking.customer_phone}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex items-center gap-4">
+                                                            <InformationCircleIcon className="w-4 h-4 text-white/20" />
+                                                            <div>
+                                                                <p className="text-[8px] font-black uppercase tracking-widest text-white/30">Email</p>
+                                                                <p className="font-bold text-xs truncate max-w-[200px]">{booking.customer_email}</p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div className="flex flex-col justify-between">
+                                                <div className="flex flex-col justify-between pt-4 lg:pt-0">
                                                     <div className="bg-white/5 rounded-[32px] p-6 backdrop-blur-sm border border-white/10">
                                                         <div className="flex justify-between items-center mb-5">
                                                             <p className="text-[10px] font-black uppercase tracking-widest text-white/40">ID Pemesanan</p>
@@ -143,20 +187,26 @@ export default function SuccessModal({ booking, onClose }) {
 
                                                     <div className="mt-8 lg:mt-0 flex flex-col gap-3">
                                                         <a
-                                                            href={`https://wa.me/6285954464539?text=Halo Sugoi 8 Management, saya ingin konfirmasi pembayaran tiket untuk pesanan %23${booking.booking_code || booking.id.toString().padStart(5, '0')} atas nama ${booking.customer_name}.%0A%0A*Detail Pesanan:*%0AKategori: ${encodeURIComponent(booking.ticket.title)}${booking.division ? '%0ADivisi: ' + encodeURIComponent(booking.division) : ''}${booking.school_name ? '%0AInstansi: ' + encodeURIComponent(booking.school_name) : ''}%0A%0ABerikut saya lampirkan bukti pembayarannya.`}
+                                                            href={`https://wa.me/${waNumber}?text=Halo Sugoi 8 Management, saya ingin konfirmasi pembayaran tiket untuk pesanan %23${booking.booking_code || booking.id.toString().padStart(5, '0')} atas nama ${booking.customer_name}.%0A%0A*Detail Pesanan:*%0AKategori: ${encodeURIComponent(booking.ticket.title)}${booking.division ? '%0ADivisi: ' + encodeURIComponent(booking.division) : ''}${booking.school_name ? '%0AInstansi: ' + encodeURIComponent(booking.school_name) : ''}%0A%0ABerikut saya lampirkan bukti pembayarannya.`}
                                                             target="_blank"
                                                             rel="noopener noreferrer"
-                                                            onClick={onClose}
                                                             className="w-full bg-secondary text-dark py-4 rounded-[20px] font-black text-[11px] uppercase tracking-[0.2em] shadow-xl shadow-secondary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
                                                         >
                                                             <PhoneIcon className="w-4 h-4" />
                                                             Konfirmasi WhatsApp
                                                         </a>
+                                                        <Link
+                                                            href={route('tickets.checkStatus')}
+                                                            className="w-full bg-primary text-white py-4 rounded-[20px] font-black text-[11px] uppercase tracking-[0.2em] shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                                                        >
+                                                            <FingerPrintIcon className="w-4 h-4" />
+                                                            Cek Status Pendaftaran
+                                                        </Link>
                                                         <button
                                                             onClick={onClose}
                                                             className="w-full bg-white/5 text-white/40 hover:text-white py-4 rounded-[20px] font-black text-[10px] uppercase tracking-[0.2em] hover:bg-white/10 transition-all flex items-center justify-center gap-2"
                                                         >
-                                                            Kembali Jelajahi Event
+                                                            Selesai
                                                             <ArrowRightIcon className="w-3 h-3" />
                                                         </button>
                                                     </div>
@@ -170,8 +220,8 @@ export default function SuccessModal({ booking, onClose }) {
                                                 <InformationCircleIcon className="w-6 h-6 text-primary" />
                                             </div>
                                             <div>
-                                                <h4 className="font-black text-dark uppercase tracking-tight mb-2">Penting!</h4>
-                                                <p className="text-dark/40 font-medium text-[11px] leading-relaxed">Simpan ID Pemesanan Anda atau lakukan konfirmasi via WhatsApp. Ketika mengonfirmasi pembayaran, mohon berikan informasi yang lengkap (seperti divisi yang dipilih, kategori tiket, dll beserta bukti transfer) agar pesanan dapat segera divalidasi. E-Tiket akan dikirimkan setelah status pembayaran dikonfirmasi oleh Admin.</p>
+                                                <h4 className="font-black text-dark uppercase tracking-tight mb-2">Instruksi Penting!</h4>
+                                                <p className="text-dark/40 font-medium text-[11px] leading-relaxed italic">Simpan ID Pemesanan Anda atau lakukan konfirmasi via WhatsApp segera. Anda dapat menggunakan tombol <b>"Cek Status Pendaftaran"</b> di atas untuk login dan memantau status karya. Akun monitoring pendaftaran Anda akan aktif setelah konfirmasi oleh Admin. Pastikan data pendaftar yang tertera di atas sudah benar.</p>
                                             </div>
                                         </div>
                                     </div>

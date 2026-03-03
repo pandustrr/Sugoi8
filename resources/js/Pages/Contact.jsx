@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import MainLayout from '../Layouts/MainLayout';
 import Container from '../Components/UI/Container';
+import TextRun from '../Components/UI/TextRun';
 import Button from '../Components/UI/Button';
 import {
     EnvelopeIcon,
@@ -11,8 +12,13 @@ import {
 } from '@heroicons/react/24/outline';
 
 export default function Contact() {
+    const { settings } = usePage().props;
     const [lang, setLang] = useState('en');
     const [darkMode, setDarkMode] = useState(false);
+
+    const email = settings?.contact_email || 'hello@sugoi8.id';
+    const waDisplay = settings?.contact_wa || '0859-5446-4539';
+    const waNumber = waDisplay.replace(/[^0-9]/g, '').replace(/^0/, '62');
 
     const t = {
         en: {
@@ -22,7 +28,7 @@ export default function Contact() {
             formTitle: "Send a Message",
             office: "Our HQ",
             officeDesc: "Jl. Piere Tendean, Sumber Beringin, Karangrejo, Kec. Sumbersari, Kab. Jember, Jawa Timur 68124",
-            phone: "0859-5446-4539",
+            phone: waDisplay,
             btn: "Submit Message"
         },
         id: {
@@ -32,7 +38,7 @@ export default function Contact() {
             formTitle: "Kirim Pesan",
             office: "Kantor Pusat",
             officeDesc: "Jl. Piere Tendean, Sumber Beringin, Karangrejo, Kec. Sumbersari, Kab. Jember, Jawa Timur 68124",
-            phone: "0859-5446-4539",
+            phone: waDisplay,
             btn: "Kirim Pesan"
         }
     }[lang];
@@ -69,6 +75,7 @@ export default function Contact() {
                     </h1>
                 </Container>
             </section>
+            <TextRun />
 
             <section className="py-32 md:py-64 bg-white relative">
                 <div className="absolute top-0 inset-x-0 h-64 bg-linear-to-b from-primary/5 to-transparent pointer-events-none" />
@@ -86,7 +93,7 @@ export default function Contact() {
                                     </div>
                                     <div className="pt-2">
                                         <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.3em] text-dark/30 mb-3">Email Us</p>
-                                        <p className="text-2xl md:text-3xl font-black text-dark group-hover:text-primary transition-colors">hello@sugoi8.id</p>
+                                        <p className="text-2xl md:text-3xl font-black text-dark group-hover:text-primary transition-colors">{email}</p>
                                     </div>
                                 </div>
                                 <div className="flex gap-8 group transition-all">
@@ -95,7 +102,7 @@ export default function Contact() {
                                     </div>
                                     <div className="pt-2">
                                         <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.3em] text-dark/30 mb-3">WhatsApp</p>
-                                        <a href="https://wa.me/6285954464539" target="_blank" rel="noopener noreferrer" className="text-2xl md:text-3xl font-black text-dark group-hover:text-secondary transition-colors">{t.phone}</a>
+                                        <a href={`https://wa.me/${waNumber}`} target="_blank" rel="noopener noreferrer" className="text-2xl md:text-3xl font-black text-dark group-hover:text-secondary transition-colors">{waDisplay}</a>
                                     </div>
                                 </div>
                                 <div className="flex gap-8 group transition-all">

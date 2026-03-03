@@ -1,8 +1,9 @@
 import { useState, useRef } from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import MainLayout from '../Layouts/MainLayout';
 import Container from '../Components/UI/Container';
 import Button from '../Components/UI/Button';
+import TextRun from '../Components/UI/TextRun';
 import {
     UsersIcon,
     StarIcon,
@@ -14,12 +15,16 @@ import {
     ChatBubbleLeftEllipsisIcon,
 } from '@heroicons/react/24/outline';
 
-export default function About({ settings }) {
+export default function About() {
+    const { settings } = usePage().props;
     const [lang, setLang] = useState('en');
     const [darkMode, setDarkMode] = useState(false);
     const contactRef = useRef(null);
 
     const heroImage = settings?.about_hero_bg || "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=2000";
+    const contactEmail = settings?.contact_email || 'hello@sugoi8.id';
+    const contactWaDisplay = settings?.contact_wa || '0859-5446-4539';
+    const contactWa = contactWaDisplay.replace(/[^0-9]/g, '').replace(/^0/, '62');
 
     const content = {
         en: {
@@ -50,8 +55,8 @@ export default function About({ settings }) {
             contactFormTitle: "Send a Message",
             contactOffice: "Our HQ",
             contactOfficeAddr: "Jl. Piere Tendean, Sumber Beringin, Karangrejo, Kec. Sumbersari, Kab. Jember, Jawa Timur 68124",
-            contactPhone: "0859-5446-4539",
-            contactEmail: "hello@sugoi8.id",
+            contactPhone: contactWaDisplay,
+            contactEmail: contactEmail,
             contactPhoneLabel: "Phone / WhatsApp",
             contactBtn: "Submit Message",
             formName: "Your Name",
@@ -99,8 +104,8 @@ export default function About({ settings }) {
             contactFormTitle: "Kirim Pesan",
             contactOffice: "Kantor Pusat",
             contactOfficeAddr: "Jl. Piere Tendean, Sumber Beringin, Karangrejo, Kec. Sumbersari, Kab. Jember, Jawa Timur 68124",
-            contactPhone: "0859-5446-4539",
-            contactEmail: "hello@sugoi8.id",
+            contactPhone: contactWaDisplay,
+            contactEmail: contactEmail,
             contactPhoneLabel: "Telepon / WhatsApp",
             contactBtn: "Kirim Pesan",
             formName: "Nama Anda",
@@ -148,8 +153,8 @@ export default function About({ settings }) {
             contactFormTitle: "メッセージを送る",
             contactOffice: "本社",
             contactOfficeAddr: "Jl. Piere Tendean, Sumber Beringin, Karangrejo, Kec. Sumbersari, Kab. Jember, Jawa Timur 68124",
-            contactPhone: "0859-5446-4539",
-            contactEmail: "hello@sugoi8.id",
+            contactPhone: contactWaDisplay,
+            contactEmail: contactEmail,
             contactPhoneLabel: "電話 / WhatsApp",
             contactBtn: "メッセージを送信",
             formName: "お名前",
@@ -223,43 +228,31 @@ export default function About({ settings }) {
                     </p>
                 </Container>
             </section>
+            <TextRun />
 
-            {/* ── 2. STATS ── */}
-            <section className="border-y border-white/10 bg-primary/95">
-                <Container>
-                    <div className="grid grid-cols-2 md:grid-cols-4">
-                        {t.stats.map((stat, i) => (
-                            <div key={i} className={`py-8 px-6 text-center ${i < 3 ? 'border-r border-white/10' : ''}`}>
-                                <p className="text-2xl md:text-3xl font-black text-secondary mb-1">{stat.value}</p>
-                                <p className="text-[10px] font-semibold uppercase tracking-widest text-white/30">{stat.label}</p>
-                            </div>
-                        ))}
-                    </div>
-                </Container>
-            </section>
 
             {/* ── 3. VISION & MISSION ── */}
-            <section className="py-24 md:py-40 bg-white">
+            <section className="py-20 md:py-32 bg-white">
                 <Container>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-center">
-                        <div className="space-y-12 md:space-y-16 order-2 lg:order-1">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+                        <div className="space-y-10 md:space-y-12 order-2 lg:order-1">
                             <div>
-                                <div className="w-14 h-14 md:w-16 md:h-16 bg-primary/5 rounded-2xl flex items-center justify-center mb-6 md:mb-8">
-                                    <StarIcon className="w-7 h-7 md:w-8 md:h-8 text-primary" />
+                                <div className="w-12 h-12 md:w-14 md:h-14 bg-primary/5 rounded-2xl flex items-center justify-center mb-5 md:mb-6">
+                                    <StarIcon className="w-6 h-6 md:w-7 md:h-7 text-primary" />
                                 </div>
-                                <h2 className="text-3xl md:text-4xl font-black text-dark uppercase mb-4 md:mb-6">{t.vision}</h2>
-                                <p className="text-lg md:text-xl text-dark/60 leading-relaxed font-medium">{t.visionDesc}</p>
+                                <h2 className="text-2xl md:text-3xl font-black text-dark uppercase mb-3 md:mb-4">{t.vision}</h2>
+                                <p className="text-base md:text-lg text-dark/60 leading-relaxed font-medium">{t.visionDesc}</p>
                             </div>
                             <div>
-                                <div className="w-14 h-14 md:w-16 md:h-16 bg-secondary/10 rounded-2xl flex items-center justify-center mb-6 md:mb-8">
-                                    <LightBulbIcon className="w-7 h-7 md:w-8 md:h-8 text-secondary" />
+                                <div className="w-12 h-12 md:w-14 md:h-14 bg-secondary/10 rounded-2xl flex items-center justify-center mb-5 md:mb-6">
+                                    <LightBulbIcon className="w-6 h-6 md:w-7 md:h-7 text-secondary" />
                                 </div>
-                                <h2 className="text-3xl md:text-4xl font-black text-dark uppercase mb-4 md:mb-6">{t.mission}</h2>
-                                <p className="text-lg md:text-xl text-dark/60 leading-relaxed font-medium">{t.missionDesc}</p>
+                                <h2 className="text-2xl md:text-3xl font-black text-dark uppercase mb-3 md:mb-4">{t.mission}</h2>
+                                <p className="text-base md:text-lg text-dark/60 leading-relaxed font-medium">{t.missionDesc}</p>
                             </div>
                         </div>
                         <div className="relative order-1 lg:order-2">
-                            <div className="aspect-4/5 rounded-[40px] md:rounded-[60px] overflow-hidden shadow-2xl">
+                            <div className="aspect-4/5 h-[400px] md:h-auto rounded-[32px] md:rounded-[48px] overflow-hidden shadow-2xl">
                                 <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=1200" className="w-full h-full object-cover" alt="Team" />
                             </div>
                             <div className="absolute -bottom-10 -left-10 w-48 h-48 md:w-64 md:h-64 bg-primary/10 rounded-full blur-[80px] -z-10" />
@@ -269,17 +262,17 @@ export default function About({ settings }) {
             </section>
 
             {/* ── 4. VALUES ── */}
-            <section className="py-24 md:py-40 bg-light">
+            <section className="py-20 md:py-32 bg-light">
                 <Container>
-                    <div className="text-center mb-16 md:mb-24">
-                        <h2 className="text-4xl md:text-5xl font-black text-dark uppercase tracking-tighter">{t.coreTitle}</h2>
+                    <div className="text-center mb-12 md:mb-16">
+                        <h2 className="text-3xl md:text-5xl font-black text-dark uppercase tracking-tighter">{t.coreTitle}</h2>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
                         {t.values.map((v, i) => (
-                            <div key={i} className="bg-white p-8 md:p-12 rounded-[32px] md:rounded-[40px] shadow-sm hover:shadow-xl transition-all border border-dark/5">
-                                <v.icon className="w-10 h-10 md:w-12 md:h-12 text-primary mb-6 md:mb-8" />
-                                <h3 className="text-xl md:text-2xl font-black text-dark mb-4">{v.title}</h3>
-                                <p className="text-sm md:text-base text-dark/40 font-medium">{v.desc}</p>
+                            <div key={i} className="bg-white p-7 md:p-10 rounded-[24px] md:rounded-[32px] shadow-sm hover:shadow-xl transition-all border border-dark/5">
+                                <v.icon className="w-8 h-8 md:w-10 md:h-10 text-primary mb-5 md:mb-6" />
+                                <h3 className="text-lg md:text-2xl font-black text-dark mb-3 md:mb-4">{v.title}</h3>
+                                <p className="text-xs md:text-base text-dark/40 font-medium leading-relaxed">{v.desc}</p>
                             </div>
                         ))}
                     </div>
@@ -287,30 +280,30 @@ export default function About({ settings }) {
             </section>
 
             {/* ── 4.5 BRANDING & TYPOGRAPHY ── */}
-            <section className="py-24 md:py-40 bg-zinc-50 overflow-hidden">
+            <section className="py-20 md:py-32 bg-zinc-50 overflow-hidden">
                 <Container>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-center">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
                         <div>
-                            <span className="text-secondary font-black uppercase tracking-[0.4em] text-[10px] block mb-4">{t.brandingSubtitle}</span>
-                            <h2 className="text-4xl md:text-5xl font-black text-dark uppercase tracking-tighter mb-8">{t.brandingTitle}</h2>
-                            <p className="text-lg text-dark/60 font-medium mb-12 leading-relaxed max-w-xl">
+                            <span className="text-secondary font-black uppercase tracking-[0.4em] text-[9px] md:text-[10px] block mb-3 md:mb-4">{t.brandingSubtitle}</span>
+                            <h2 className="text-3xl md:text-5xl font-black text-dark uppercase tracking-tighter mb-6 md:mb-8">{t.brandingTitle}</h2>
+                            <p className="text-base md:text-lg text-dark/60 font-medium mb-10 leading-relaxed max-w-xl">
                                 {t.brandingDesc}
                             </p>
 
-                            <div className="space-y-10">
-                                <div className="bg-white p-8 rounded-3xl border border-dark/5 shadow-sm">
-                                    <h3 className="text-xl font-black text-dark mb-4 flex items-center gap-3">
-                                        <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center text-primary font-black text-xs">Aa</div>
+                            <div className="space-y-8">
+                                <div className="bg-white p-6 md:p-8 rounded-3xl border border-dark/5 shadow-sm">
+                                    <h3 className="text-lg md:text-xl font-black text-dark mb-3 md:mb-4 flex items-center gap-3">
+                                        <div className="w-7 h-7 bg-primary/10 rounded-lg flex items-center justify-center text-primary font-black text-[10px]">Aa</div>
                                         {t.fontMainTitle}
                                     </h3>
-                                    <p className="text-sm text-dark/50 font-medium mb-6 leading-relaxed">
+                                    <p className="text-xs md:text-sm text-dark/50 font-medium mb-5 md:mb-6 leading-relaxed">
                                         {t.fontMainDesc}
                                     </p>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                                         {t.fontDetails.map((f, i) => (
-                                            <div key={i} className="p-4 rounded-2xl bg-light/50 border border-dark/5">
-                                                <p className="text-xs font-black text-dark mb-2 uppercase tracking-wider">{f.name}</p>
-                                                <p className="text-[11px] text-dark/40 font-medium leading-relaxed">{f.detail}</p>
+                                            <div key={i} className="p-3 md:p-4 rounded-2xl bg-light/50 border border-dark/5">
+                                                <p className="text-[10px] font-black text-dark mb-1 md:mb-2 uppercase tracking-wider">{f.name}</p>
+                                                <p className="text-[10px] md:text-[11px] text-dark/40 font-medium leading-relaxed">{f.detail}</p>
                                             </div>
                                         ))}
                                     </div>
@@ -319,18 +312,18 @@ export default function About({ settings }) {
                         </div>
 
                         <div className="relative">
-                            <div className="p-8 md:p-12 bg-primary rounded-[40px] md:rounded-[60px] text-white shadow-2xl relative z-10">
-                                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-secondary/60 mb-12">Visual Composition</p>
+                            <div className="p-6 md:p-12 bg-primary rounded-[32px] md:rounded-[56px] text-white shadow-2xl relative z-10">
+                                <p className="text-[9px] font-black uppercase tracking-[0.4em] text-secondary/60 mb-8 md:mb-12">Visual Composition</p>
 
-                                <div className="space-y-12">
+                                <div className="space-y-8 md:space-y-12">
                                     {t.typoDetails.map((item, i) => (
                                         <div key={i} className="group">
-                                            <div className="flex flex-col mb-4">
-                                                <span className={`text-white transition-all duration-500 ${item.part === 'SUGOI' ? 'text-6xl md:text-8xl font-black tracking-tight' : 'text-xl md:text-2xl font-bold tracking-[0.4em]'}`}>
+                                            <div className="flex flex-col mb-3 md:mb-4">
+                                                <span className={`text-white transition-all duration-500 ${item.part === 'SUGOI' ? 'text-4xl md:text-8xl font-black tracking-tight' : 'text-sm md:text-2xl font-bold tracking-[0.4em]'}`}>
                                                     {item.part}
                                                 </span>
                                             </div>
-                                            <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-white/30">
+                                            <div className="flex items-center gap-3 md:gap-4 text-[9px] md:text-[10px] font-black uppercase tracking-widest text-white/30">
                                                 <span className="text-secondary">{item.font}</span>
                                                 <div className="w-1 h-1 rounded-full bg-white/10" />
                                                 <span>{item.style}</span>
@@ -355,8 +348,8 @@ export default function About({ settings }) {
                 className="py-16 md:py-20 bg-white scroll-mt-24"
             >
                 <Container>
-                    <div className="mb-10 md:mb-16">
-                        <span className="text-secondary font-black uppercase tracking-[0.4em] text-[10px] block mb-3">{t.contactTag}</span>
+                    <div className="mb-8 md:mb-12 text-center lg:text-left">
+                        <span className="text-secondary font-black uppercase tracking-[0.4em] text-[9px] md:text-[10px] block mb-2 md:mb-3">{t.contactTag}</span>
                         <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-dark uppercase leading-none">
                             {t.contactTitle}
                         </h2>
@@ -364,13 +357,13 @@ export default function About({ settings }) {
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
                         {/* Left: info kontak */}
-                        <div className="space-y-6 md:space-y-8">
-                            <p className="text-lg md:text-xl font-medium text-dark/50 leading-relaxed">{t.contactDesc}</p>
+                        <div className="space-y-5 md:space-y-6">
+                            <p className="text-base md:text-xl font-medium text-dark/50 leading-relaxed text-center lg:text-left">{t.contactDesc}</p>
 
                             <div className="space-y-4">
                                 {/* WhatsApp / Phone */}
                                 <a
-                                    href="https://wa.me/6285954464539"
+                                    href={`https://wa.me/${contactWa}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="flex gap-4 md:gap-5 border-b border-dark/5 pb-4 group"

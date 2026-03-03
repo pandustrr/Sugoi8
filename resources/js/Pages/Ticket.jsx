@@ -4,6 +4,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import MainLayout from '../Layouts/MainLayout';
 import Container from '../Components/UI/Container';
 import SuccessModal from '../Components/SuccessModal';
+import TextRun from '../Components/UI/TextRun';
 import {
     TicketIcon,
     MapPinIcon,
@@ -64,25 +65,25 @@ function EventCard({ event, onOpen, onPreview }) {
                     )}
                 </div>
 
-                <div className="absolute top-4 right-4 md:top-6 md:right-6">
-                    <span className="px-3 py-1.5 md:px-4 md:py-2 bg-white/95 backdrop-blur-sm rounded-xl md:rounded-2xl text-dark text-[10px] font-black uppercase tracking-widest shadow-lg">
+                <div className="absolute top-3 right-3 md:top-4 md:right-4">
+                    <span className="px-2.5 py-1 md:px-3 md:py-1.5 bg-white/95 backdrop-blur-sm rounded-lg md:rounded-xl text-dark text-[9px] font-black uppercase tracking-widest shadow-lg">
                         Mulai Rp {fmtPrice(minPrice)}
                     </span>
                 </div>
             </div>
 
             {/* Info */}
-            <div className="p-6 md:p-8 flex flex-col grow">
-                <div className="flex items-center gap-2 text-dark/30 text-[9px] font-black uppercase tracking-[0.2em] mb-3 font-mono">
-                    <CalendarDaysIcon className="w-3.5 h-3.5 shrink-0" />
+            <div className="p-5 md:p-6 flex flex-col grow">
+                <div className="flex items-center gap-2 text-dark/30 text-[8px] font-black uppercase tracking-[0.2em] mb-2 font-mono">
+                    <CalendarDaysIcon className="w-3 h-3 shrink-0" />
                     {event.date}
                 </div>
-                <h3 className="text-xl md:text-2xl font-black text-dark uppercase tracking-tighter leading-tight mb-6 group-hover:text-primary transition-colors italic line-clamp-2">
+                <h3 className="text-lg md:text-xl font-black text-dark uppercase tracking-tighter leading-tight mb-4 group-hover:text-primary transition-colors italic line-clamp-2">
                     {event.title}
                 </h3>
                 <button
                     onClick={() => onOpen(event)}
-                    className="mt-auto w-full bg-dark text-white py-3.5 md:py-4 rounded-xl md:rounded-[20px] font-black text-[10px] md:text-xs uppercase tracking-[0.2em] hover:bg-primary active:scale-[0.98] transition-all"
+                    className="mt-auto w-full bg-dark text-white py-3 md:py-3.5 rounded-lg md:rounded-[16px] font-black text-[9px] md:text-[10px] uppercase tracking-[0.2em] hover:bg-primary active:scale-[0.98] transition-all"
                 >
                     Lihat Detail
                 </button>
@@ -232,32 +233,11 @@ export default function Ticket({ events, auth, settings }) {
             </section>
 
             {/* ── MARQUEE STRIP ── */}
-            <div className="bg-secondary py-3 overflow-hidden">
-                <div className="flex items-center whitespace-nowrap" style={{ animation: 'marquee 25s linear infinite' }}>
-                    {Array(2).fill(null).map((_, gi) => (
-                        <span key={gi} className="flex items-center gap-8 px-8 shrink-0">
-                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Event Organizer</span>
-                            <span className="text-dark/40 text-lg">✦</span>
-                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Show Management</span>
-                            <span className="text-dark/40 text-lg">✦</span>
-                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">MICE Services</span>
-                            <span className="text-dark/40 text-lg">✦</span>
-                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Production</span>
-                            <span className="text-dark/40 text-lg">✦</span>
-                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Event Branding</span>
-                            <span className="text-dark/40 text-lg">✦</span>
-                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Talent Handling</span>
-                            <span className="text-dark/40 text-lg">✦</span>
-                            <span className="text-dark font-black uppercase tracking-widest text-[10px]">Sugoi 8 Management</span>
-                            <span className="text-dark/40 text-lg">✦</span>
-                        </span>
-                    ))}
-                </div>
-            </div>
+            <TextRun />
 
             {/* Event Grid */}
-            <section className="py-20 md:py-32 bg-white relative">
-                <div className="absolute top-0 inset-x-0 h-40 bg-linear-to-b from-light to-transparent pointer-events-none" />
+            <section className="py-12 md:py-20 bg-white relative">
+                <div className="absolute top-0 inset-x-0 h-24 bg-linear-to-b from-light to-transparent pointer-events-none" />
 
                 <Container>
                     {events.length === 0 ? (
@@ -267,7 +247,7 @@ export default function Ticket({ events, auth, settings }) {
                             <p className="text-dark/30 font-bold mt-2">Nantikan berbagai kejutan event seru dari kami segera!</p>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 px-4 md:px-0">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 px-4 md:px-0">
                             {events.map((event) => (
                                 <EventCard
                                     key={event.id}

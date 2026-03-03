@@ -16,7 +16,11 @@ class Booking extends Model
         'quantity',
         'total_price',
         'status',
-        'payment_proof'
+        'payment_proof',
+        'gdrive_link',
+        'is_gdrive_opened',
+        'submission_file',
+        'submission_at'
     ];
 
     protected $appends = ['booking_code'];

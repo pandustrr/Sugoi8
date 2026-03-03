@@ -1,7 +1,11 @@
 import Container from './UI/Container';
 import { Link } from '@inertiajs/react';
 
-export default function Footer() {
+export default function Footer({ settings = {} }) {
+    const email = settings?.contact_email || 'hello@sugoi8.id';
+    const waDisplay = settings?.contact_wa || '0859-5446-4539';
+    const waNumber = waDisplay.replace(/[^0-9]/g, '').replace(/^0/, '62');
+
     return (
         <footer className="bg-primary text-white pt-16 pb-8 border-t border-white/5">
             <Container>
@@ -71,7 +75,7 @@ export default function Footer() {
                             </div>
                             <div>
                                 <p className="text-[10px] font-black uppercase tracking-widest text-secondary mb-2">Inquiries</p>
-                                <p className="text-sm font-bold text-white/60">hello@sugoi8.id</p>
+                                <p className="text-sm font-bold text-white/60">{email}</p>
                             </div>
                             <Link href="/contact" className="inline-block text-[10px] font-black uppercase tracking-widest bg-white/5 px-6 py-3 rounded-xl border border-white/10 hover:bg-white/10 transition-all">
                                 Get in touch

@@ -40,7 +40,7 @@ export default function Create() {
 
     // Local state for adding a category
     const [isAddingCategory, setIsAddingCategory] = useState(true);
-    const [newCat, setNewCat] = useState({ title: '', price: '', stock: '' });
+    const [newCat, setNewCat] = useState({ title: '', price: '', stock: '', gdrive_link: '' });
 
     // Local state for adding a step
     const [isAddingStep, setIsAddingStep] = useState(false);
@@ -54,7 +54,7 @@ export default function Create() {
 
         const updatedTickets = [...data.tickets, { ...newCat, id: Date.now() }];
         setData('tickets', updatedTickets);
-        setNewCat({ title: '', price: '', stock: '' });
+        setNewCat({ title: '', price: '', stock: '', gdrive_link: '' });
         setIsAddingCategory(false);
     };
 
@@ -329,6 +329,10 @@ export default function Create() {
                                                         <label className="text-[8px] font-bold uppercase text-dark/30 mb-2 block">Kuota</label>
                                                         <input type="number" className="w-full bg-white border border-dark/5 rounded-xl p-3 text-[11px] font-bold outline-none focus:border-primary" value={newCat.stock} onChange={e => setNewCat({ ...newCat, stock: e.target.value })} placeholder="Jml" />
                                                     </div>
+                                                </div>
+                                                <div>
+                                                    <label className="text-[8px] font-bold uppercase text-dark/30 mb-2 block">Link Google Drive (Opsional)</label>
+                                                    <input className="w-full bg-white border border-dark/5 rounded-xl p-3 text-[11px] font-bold outline-none focus:border-primary" value={newCat.gdrive_link} onChange={e => setNewCat({ ...newCat, gdrive_link: e.target.value })} placeholder="Link folder upload untuk paket ini" />
                                                 </div>
                                                 <div className="flex gap-2">
                                                     <button type="button" onClick={handleAddCategoryLocal} className="grow bg-primary text-white py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-primary/20">Tambah</button>

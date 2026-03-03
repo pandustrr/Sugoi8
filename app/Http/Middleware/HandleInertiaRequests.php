@@ -46,6 +46,7 @@ class HandleInertiaRequests extends Middleware
                 'success' => fn() => $request->session()->get('success'),
                 'successBooking' => fn() => $request->session()->get('successBooking'),
             ],
+            'settings' => \App\Models\SiteSetting::all()->pluck('value', 'key'),
         ];
     }
 }

@@ -2,13 +2,18 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.2",
         "inertiajs/inertia-laravel": "^2.0",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
+        "google/apiclient": "^2.15",
+        "masbug/flysystem-google-drive-ext": "^2.4",
         "tightenco/ziggy": "^2.6"
     },
     "require-dev": {
@@ -52,10 +57,13 @@
     "extra": {
         "branch-alias": {
             "dev-master": "11.x-dev"
-        },
+        },  
         "laravel": {
             "dont-discover": []
-        }
+        },
+        "google/apiclient-services": [
+            "Drive"
+        ]
     },
     "config": {
         "optimize-autoloader": true,

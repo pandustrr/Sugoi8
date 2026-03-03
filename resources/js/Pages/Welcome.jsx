@@ -1,7 +1,8 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import { useState, useEffect, useRef } from 'react';
 import MainLayout from '../Layouts/MainLayout';
 import Container from '../Components/UI/Container';
+import TextRun from '../Components/UI/TextRun';
 import Button from '../Components/UI/Button';
 import {
     SparklesIcon,
@@ -20,20 +21,11 @@ import {
 } from '@heroicons/react/24/outline';
 
 const servicesList = [
-    { id: 'eo', icon: UserGroupIcon, color: 'text-primary', bg: 'bg-primary/5', image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&q=80&w=800' },
-    { id: 'show', icon: TicketIcon, color: 'text-secondary', bg: 'bg-secondary/5', image: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=800' },
-    { id: 'mice', icon: PresentationChartBarIcon, color: 'text-accent-deep', bg: 'bg-accent-deep/5', image: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&q=80&w=800' },
-    { id: 'production', icon: WrenchScrewdriverIcon, color: 'text-accent-fresh', bg: 'bg-accent-fresh/5', image: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&q=80&w=800' },
-    { id: 'web', icon: SparklesIcon, color: 'text-primary', bg: 'bg-primary/5', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800' }
-];
-
-const portfolioItems = [
-    { titleEn: 'Global Tech Summit', titleId: 'Pertemuan Teknologi Global', titleJp: 'グローバルテックサミット', category: 'MICE • 2024', image: 'https://images.unsplash.com/photo-1540575861501-7c037137b204?auto=format&fit=crop&q=80&w=800' },
-    { titleEn: 'Neon Lights Festival', titleId: 'Festival Lampu Neon', titleJp: 'ネオンライトフェスティバル', category: 'Show Management • 2023', image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=800' },
-    { titleEn: 'Luxury Brand Launch', titleId: 'Peluncuran Brand Mewah', titleJp: 'ラグジュアリーブランドローンチ', category: 'Event Branding • 2024', image: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&q=80&w=800' },
-    { titleEn: 'Corporate Gala Dinner', titleId: 'Makan Malam Gala Korporat', titleJp: 'コーポレートガラディナー', category: 'EO • 2023', image: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&q=80&w=800' },
-    { titleEn: 'Digital Innovation Expo', titleId: 'Pameran Inovasi Digital', titleJp: 'デジタルイノベーション展', category: 'Production • 2024', image: 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&q=80&w=800' },
-    { titleEn: 'Influencer Gathering', titleId: 'Pertemuan Influencer', titleJp: 'インフルエンサーギャザリング', category: 'Talent Handling • 2024', image: 'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&q=80&w=800' },
+    { id: 'eo', icon: UserGroupIcon, color: 'text-primary', bg: 'bg-primary/5', settingKey: 'service_img_event_organizer', defaultImg: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=800" },
+    { id: 'show', icon: TicketIcon, color: 'text-secondary', bg: 'bg-secondary/5', settingKey: 'service_img_show_management', defaultImg: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&q=80&w=800" },
+    { id: 'mice', icon: PresentationChartBarIcon, color: 'text-accent-deep', bg: 'bg-accent-deep/5', settingKey: 'service_img_mice', defaultImg: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&q=80&w=800" },
+    { id: 'production', icon: WrenchScrewdriverIcon, color: 'text-accent-fresh', bg: 'bg-accent-fresh/5', settingKey: 'service_img_production', defaultImg: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&q=80&w=800" },
+    { id: 'digital', icon: SparklesIcon, color: 'text-primary', bg: 'bg-primary/5', settingKey: 'service_img_digital', defaultImg: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=800" }
 ];
 
 const translations = {
@@ -204,7 +196,8 @@ const translations = {
     }
 };
 
-export default function Welcome({ settings }) {
+export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [] }) {
+    const { settings } = usePage().props;
     const [lang, setLang] = useState('en');
     const [darkMode, setDarkMode] = useState(false);
     const [visible, setVisible] = useState({});
@@ -241,16 +234,30 @@ export default function Welcome({ settings }) {
         else if (s.id === 'show') { title = t.serviceShow; desc = t.serviceShowDesc; }
         else if (s.id === 'mice') { title = t.serviceMice; desc = t.serviceMiceDesc; }
         else if (s.id === 'production') { title = t.serviceProd; desc = t.serviceProdDesc; }
-        else { title = t.serviceWeb; desc = t.serviceWebDesc; }
-        return { ...s, title, description: desc };
+        else if (s.id === 'digital') { title = t.serviceWeb; desc = t.serviceWebDesc; }
+
+        // Dynamic content from settings
+        const settingTitleKey = `service_title_${s.id}_${lang}`;
+        const settingDescKey = `service_desc_${s.id}_${lang}`;
+        const image = settings?.[s.settingKey] || s.defaultImg;
+
+        return {
+            ...s,
+            title: settings?.[settingTitleKey] || title,
+            description: settings?.[settingDescKey] || desc,
+            image
+        };
     });
+
+    // Portfolio: pakai data DB jika ada, fallback ke data statis
+    const displayPortfolio = dbPortfolio.length > 0 ? dbPortfolio : [];
 
     return (
         <MainLayout lang={lang} onLangChange={setLang} darkMode={darkMode} onDarkModeToggle={setDarkMode}>
             <Head title={t.metaTitle} />
 
             {/* 1. Hero Section */}
-            <section className="relative min-h-[75vh] flex items-center pt-20 overflow-hidden bg-primary">
+            <section className="relative min-h-[60vh] md:min-h-[75vh] flex items-center pt-16 md:pt-20 overflow-hidden bg-primary">
 
                 {/* Background Image with Parallax */}
                 <div className="absolute inset-0 z-0">
@@ -341,23 +348,23 @@ export default function Welcome({ settings }) {
                     <div className="w-px h-8 bg-white/40 animate-bounce" />
                 </div>
 
-                <Container className="relative z-10 py-20">
+                <Container className="relative z-10 py-12 md:py-20">
                     <div className="max-w-5xl">
-                        <div className="mb-12 max-w-3xl group">
+                        <div className="mb-8 md:mb-12 max-w-3xl group">
                             <img
                                 src="/logo-hitam.png"
                                 alt="Sugoi Management 8"
                                 className="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.02] drop-shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
                             />
                             {/* Tagline below image */}
-                            <div className="mt-4 md:mt-6 flex flex-col items-start translate-x-1 w-fit">
-                                <p className="text-lg md:text-2xl lg:text-3xl font-black italic text-white tracking-tight leading-none mb-3 whitespace-nowrap">
+                            <div className="mt-3 md:mt-6 flex flex-col items-start translate-x-1 w-fit">
+                                <p className="text-sm md:text-2xl lg:text-3xl font-black italic text-white tracking-tight leading-none mb-2 md:mb-3 whitespace-nowrap">
                                     Designing Dreams, Crafting Experiences
                                 </p>
                                 <div className="w-full flex items-center">
-                                    <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-white shrink-0" />
+                                    <div className="w-1 h-1 md:w-2 md:h-2 rounded-full bg-white shrink-0" />
                                     <div className="h-px md:h-[2px] bg-white grow" />
-                                    <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-white shrink-0" />
+                                    <div className="w-1 h-1 md:w-2 md:h-2 rounded-full bg-white shrink-0" />
                                 </div>
                             </div>
                         </div>
@@ -372,20 +379,20 @@ export default function Welcome({ settings }) {
                             {/* Button + floating stats above it */}
                             <div className="relative shrink-0 w-full sm:w-auto pt-10">
                                 {/* Stats badge — floats above button */}
-                                <div className="absolute -top-1 left-0 flex items-center gap-4 bg-white/10 backdrop-blur-md border border-white/15 rounded-xl px-4 py-2 shadow-lg">
-                                    <div className="text-center">
-                                        <p className="text-sm font-black text-secondary leading-none">500+</p>
-                                        <p className="text-[8px] font-black uppercase tracking-widest text-white/50 mt-0.5">Events</p>
+                                <div className="absolute -top-4 left-0 right-0 sm:right-auto flex items-center justify-between sm:justify-start gap-3 md:gap-4 bg-white/10 backdrop-blur-md border border-white/15 rounded-xl px-3 py-2 shadow-lg scale-90 sm:scale-100 origin-left">
+                                    <div className="text-center px-1">
+                                        <p className="text-xs md:text-sm font-black text-secondary leading-none">500+</p>
+                                        <p className="text-[7px] md:text-[8px] font-black uppercase tracking-widest text-white/50 mt-0.5">Events</p>
                                     </div>
-                                    <div className="w-px h-6 bg-white/20" />
-                                    <div className="text-center">
-                                        <p className="text-sm font-black text-white leading-none">10+</p>
-                                        <p className="text-[8px] font-black uppercase tracking-widest text-white/50 mt-0.5">Years</p>
+                                    <div className="w-px h-5 md:h-6 bg-white/20" />
+                                    <div className="text-center px-1">
+                                        <p className="text-xs md:text-sm font-black text-white leading-none">10+</p>
+                                        <p className="text-[7px] md:text-[8px] font-black uppercase tracking-widest text-white/50 mt-0.5">Years</p>
                                     </div>
-                                    <div className="w-px h-6 bg-white/20" />
-                                    <div className="text-center">
-                                        <p className="text-sm font-black text-secondary leading-none">120+</p>
-                                        <p className="text-[8px] font-black uppercase tracking-widest text-white/50 mt-0.5">Partners</p>
+                                    <div className="w-px h-5 md:h-6 bg-white/20" />
+                                    <div className="text-center px-1">
+                                        <p className="text-xs md:text-sm font-black text-secondary leading-none">120+</p>
+                                        <p className="text-[7px] md:text-[8px] font-black uppercase tracking-widest text-white/50 mt-0.5">Partners</p>
                                     </div>
                                 </div>
 
@@ -400,24 +407,7 @@ export default function Welcome({ settings }) {
             </section>
 
             {/* Marquee Strip */}
-            <div className="bg-secondary py-4 overflow-hidden relative">
-                <div className="flex items-center gap-0 animate-marquee whitespace-nowrap" style={{ animation: 'marquee 20s linear infinite' }}>
-                    {Array(4).fill(null).map((_, i) => (
-                        <span key={i} className="flex items-center gap-20 px-20">
-                            <span className="text-dark font-black uppercase tracking-widest text-xs">Event Organizer</span>
-                            <span className="text-dark/40 text-xl">✦</span>
-                            <span className="text-dark font-black uppercase tracking-widest text-xs">Show Management</span>
-                            <span className="text-dark/40 text-xl">✦</span>
-                            <span className="text-dark font-black uppercase tracking-widest text-xs">Service MICE</span>
-                            <span className="text-dark/40 text-xl">✦</span>
-                            <span className="text-dark font-black uppercase tracking-widest text-xs">Production</span>
-                            <span className="text-dark/40 text-xl">✦</span>
-                            <span className="text-dark font-black uppercase tracking-widest text-xs">Sugoi 8 Management</span>
-                            <span className="text-dark/40 text-xl">✦</span>
-                        </span>
-                    ))}
-                </div>
-            </div>
+            <TextRun className="bg-secondary py-4" />
             {/* 2. About Section */}
             <section id="about" className="py-16 md:py-24 overflow-hidden bg-white" ref={el => sectionRefs.current['about'] = el}>
                 <Container>
@@ -449,9 +439,9 @@ export default function Welcome({ settings }) {
                         {/* Right: About Content with bullets */}
                         <div className={fadeIn('about', 'delay-200')}>
                             <span className="text-primary font-black uppercase tracking-[0.3em] text-[10px] block mb-3">{t.aboutTag}</span>
-                            <h2 className="font-black tracking-tighter leading-none mb-10 uppercase">
-                                <span className="block text-3xl md:text-5xl text-secondary">{t.aboutTitle1}</span>
-                                <span className="block text-2xl md:text-4xl text-primary">{t.aboutTitle2}</span>
+                            <h2 className="font-black tracking-tighter leading-none mb-8 md:mb-10 uppercase">
+                                <span className="block text-2xl md:text-5xl text-secondary">{t.aboutTitle1}</span>
+                                <span className="block text-xl md:text-4xl text-primary">{t.aboutTitle2}</span>
                             </h2>
                             <ul className="space-y-4 mb-12">
                                 {t.aboutBullets.map((bullet, i) => (
@@ -484,12 +474,12 @@ export default function Welcome({ settings }) {
                 <Container>
                     <div className={`flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10 mb-20 md:mb-32 ${fadeIn('services')}`}>
                         <div className="max-w-2xl">
-                            <span className="text-primary font-black uppercase tracking-[0.3em] text-[10px] block mb-6">{t.servicesTag}</span>
-                            <h2 className="text-4xl md:text-5xl lg:text-[5rem] font-black tracking-tighter mb-8 leading-none uppercase text-dark">
-                                {t.servicesTitle}
+                            <span className="text-primary font-black uppercase tracking-[0.3em] text-[9px] md:text-[10px] block mb-4 md:mb-6">{t.servicesTag}</span>
+                            <h2 className="text-3xl md:text-5xl lg:text-[5rem] font-black tracking-tighter mb-6 md:mb-8 leading-none uppercase text-dark">
+                                {settings?.[`services_title_${lang}`] || t.servicesTitle}
                             </h2>
-                            <p className="text-lg md:text-xl max-w-lg leading-relaxed text-dark/40">
-                                {t.servicesDesc}
+                            <p className="text-sm md:text-xl max-w-lg leading-relaxed text-dark/40">
+                                {settings?.[`services_desc_${lang}`] || t.servicesDesc}
                             </p>
                         </div>
                         <Button variant="outline" href="/services" className="w-full sm:w-auto text-[10px] tracking-widest py-4 px-10">{t.servicesExplore}</Button>
@@ -497,39 +487,43 @@ export default function Welcome({ settings }) {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 lg:gap-x-12 gap-y-16 lg:gap-y-20">
                         {services.map((service, idx) => (
-                            <div key={service.id} className={`group cursor-pointer ${fadeIn('services', `delay-${(idx % 3) * 100}`)}`}>
-                                <div className="aspect-video mb-6 lg:mb-8 overflow-hidden rounded-[30px] md:rounded-[40px] shadow-2xl relative bg-dark">
+                            <Link
+                                href="/services"
+                                key={service.id}
+                                className={`group cursor-pointer block ${fadeIn('services', `delay-${(idx % 3) * 100}`)}`}
+                            >
+                                <div className="aspect-video mb-5 lg:mb-8 overflow-hidden rounded-[24px] md:rounded-[40px] shadow-2xl relative bg-dark">
                                     <img src={service.image} className="w-full h-full object-cover opacity-80 grayscale group-hover:grayscale-0 group-hover:scale-110 group-hover:opacity-100 transition-all duration-1000" alt={service.title} />
                                     <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                                     {/* Spotlight hover effect */}
                                     <div className="absolute inset-0 bg-radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(249,215,131,0.15) 0%, transparent 80%) opacity-0 group-hover:opacity-100 transition-opacity" />
 
-                                    <div className="absolute top-6 left-6 md:top-8 md:left-8">
-                                        <div className={`w-12 h-12 md:w-14 md:h-14 ${service.bg} rounded-xl md:rounded-2xl flex items-center justify-center backdrop-blur-xl border border-white/20 shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
-                                            <service.icon className={`w-6 h-6 md:w-7 md:h-7 ${service.color}`} />
+                                    <div className="absolute top-4 left-4 md:top-8 md:left-8">
+                                        <div className={`w-10 h-10 md:w-14 md:h-14 ${service.bg} rounded-xl md:rounded-2xl flex items-center justify-center backdrop-blur-xl border border-white/20 shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
+                                            <service.icon className={`w-5 h-5 md:w-7 md:h-7 ${service.color}`} />
                                         </div>
                                     </div>
 
-                                    <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                                        <div className="glass-pill rounded-xl p-3 md:p-4 flex items-center justify-between">
-                                            <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-white">View Details</span>
+                                    <div className="absolute bottom-3 left-3 right-3 md:bottom-6 md:left-6 md:right-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                                        <div className="glass-pill rounded-lg md:rounded-xl p-2 md:p-4 flex items-center justify-between">
+                                            <span className="text-[8px] md:text-[10px] font-black uppercase tracking-widest text-white">View Details</span>
                                             <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-secondary flex items-center justify-center text-dark">
-                                                <span className="text-lg md:text-xl leading-none">→</span>
+                                                <span className="text-base md:text-xl leading-none">→</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="relative">
-                                    <span className="absolute -left-6 top-0 text-5xl md:text-6xl font-black text-dark/5 leading-none select-none">0{idx + 1}</span>
-                                    <h3 className="text-2xl md:text-3xl font-black text-dark mb-4 md:mb-6 group-hover:text-primary transition-colors">
+                                    <span className="absolute -left-4 md:-left-6 top-0 text-4xl md:text-6xl font-black text-dark/5 leading-none select-none">0{idx + 1}</span>
+                                    <h3 className="text-xl md:text-3xl font-black text-dark mb-3 md:mb-6 group-hover:text-primary transition-colors">
                                         {service.title}
                                     </h3>
-                                    <p className="text-base md:text-lg leading-relaxed text-dark/50 font-medium italic border-l-2 border-secondary/30 pl-4 md:pl-6">
+                                    <p className="text-sm md:text-lg leading-relaxed text-dark/50 font-medium italic border-l-2 border-secondary/30 pl-4 md:pl-6">
                                         {service.description}
                                     </p>
                                 </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 </Container>
@@ -538,68 +532,111 @@ export default function Welcome({ settings }) {
             {/* 4. Portfolio Section */}
             <section id="portfolio" className="py-24 md:py-40 bg-white" ref={el => sectionRefs.current['portfolio'] = el}>
                 <Container>
-                    <div className={`text-center max-w-3xl mx-auto mb-20 md:mb-32 ${fadeIn('portfolio')}`}>
-                        <span className="text-primary font-black uppercase tracking-[0.3em] text-[10px] block mb-6">{t.portfolioTag}</span>
-                        <h2 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter underline decoration-secondary decoration-4 sm:decoration-8 underline-offset-8 text-dark">
+                    <div className={`text-center max-w-3xl mx-auto mb-12 md:mb-32 ${fadeIn('portfolio')}`}>
+                        <span className="text-primary font-black uppercase tracking-[0.3em] text-[9px] md:text-[10px] block mb-4 md:mb-6">{t.portfolioTag}</span>
+                        <h2 className="text-3xl md:text-6xl lg:text-7xl font-black tracking-tighter underline decoration-secondary decoration-4 sm:decoration-8 underline-offset-8 text-dark px-4">
                             {t.portfolioTitle1} <span className="italic text-primary">{t.portfolioTitle2}</span>
                         </h2>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16 md:gap-24 pb-20">
-                        {portfolioItems.slice(0, 6).map((item, i) => (
-                            <div
-                                key={i}
-                                className="group cursor-pointer relative"
-                            >
-                                {/* Image card */}
-                                <div className="relative overflow-hidden rounded-[40px] md:rounded-[48px] shadow-2xl group-hover:shadow-secondary/20 transition-all duration-700 bg-dark h-[400px] md:h-[450px] lg:h-[550px]">
-                                    <img
-                                        src={item.image}
-                                        className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0 group-hover:rotate-1"
-                                        alt={item.category}
-                                    />
-                                    {/* Glass Overlay on Hover */}
-                                    <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-overlay" />
-
-                                    {/* Floating Badges */}
-                                    <div className="absolute top-6 left-6 flex flex-col gap-3">
-                                        <div className="glass-navbar border-white/20 px-4 py-2 rounded-2xl transform -translate-x-10 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500">
-                                            <span className="text-secondary text-[9px] font-black uppercase tracking-widest">{item.category}</span>
+                    {displayPortfolio.length > 0 ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 pb-20">
+                            {displayPortfolio.slice(0, 6).map((item, i) => (
+                                <div key={item.id || i} className="group cursor-pointer relative">
+                                    <div className="relative overflow-hidden rounded-[32px] md:rounded-[40px] shadow-2xl group-hover:shadow-secondary/20 transition-all duration-700 bg-dark h-[350px] md:h-[380px] lg:h-[420px]">
+                                        {item.image && <img src={item.image} className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0 group-hover:rotate-1" alt={item.title} />}
+                                        <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-overlay" />
+                                        <div className="absolute top-6 left-6 flex flex-col gap-3">
+                                            <div className="glass-navbar border-white/20 px-4 py-2 rounded-2xl transform -translate-x-10 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500">
+                                                <span className="text-secondary text-[9px] font-black uppercase tracking-widest">{item.category}</span>
+                                            </div>
                                         </div>
-                                    </div>
-
-                                    {/* Content Overlay */}
-                                    <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-10 bg-linear-to-t from-dark/90 via-dark/20 to-transparent">
-                                        <div className="transform translate-y-6 group-hover:translate-y-0 transition-transform duration-700">
-                                            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-secondary mb-3 opacity-60 group-hover:opacity-100">{item.client} · {item.location}</p>
-                                            <h3 className="text-white font-black text-2xl md:text-3xl tracking-tighter leading-none mb-6 group-hover:text-glow-secondary transition-all">
-                                                {lang === 'jp' ? item.titleJp : lang === 'id' ? item.titleId : item.titleEn}
-                                            </h3>
-
-                                            <div className="flex items-center gap-4 text-white/40 text-[10px] font-black uppercase tracking-widest group-hover:text-white transition-colors">
-                                                <span>View Project</span>
-                                                <div className="w-8 h-px bg-white/20 transition-all group-hover:w-16 group-hover:bg-secondary" />
-                                                <ArrowUpRightIcon className="w-5 h-5" />
+                                        <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-10 bg-linear-to-t from-dark/90 via-dark/20 to-transparent">
+                                            <div className="transform translate-y-6 group-hover:translate-y-0 transition-transform duration-700">
+                                                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-secondary mb-3 opacity-60 group-hover:opacity-100">
+                                                    {[item.client, item.location].filter(Boolean).join(' · ')}
+                                                </p>
+                                                <h3 className="text-white font-black text-lg md:text-2xl tracking-tighter leading-none mb-3 md:mb-4 group-hover:text-glow-secondary transition-all">
+                                                    {item.title}
+                                                </h3>
+                                                <div className="flex items-center gap-4 text-white/40 text-[10px] font-black uppercase tracking-widest group-hover:text-white transition-colors">
+                                                    <span>View Project</span>
+                                                    <div className="w-8 h-px bg-white/20 transition-all group-hover:w-16 group-hover:bg-secondary" />
+                                                    <ArrowUpRightIcon className="w-5 h-5" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-
-                                    {/* Featured Glow */}
-                                    {item.featured && (
-                                        <div className="absolute top-6 right-6 w-3 h-3 rounded-full bg-secondary shadow-[0_0_20px_rgba(249,215,131,1)] animate-pulse" />
-                                    )}
                                 </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-24">
+                            <p className="text-5xl mb-4">🎭</p>
+                            <p className="text-dark/20 font-black uppercase tracking-widest text-sm">Portofolio segera hadir</p>
+                        </div>
+                    )}
+                    {displayPortfolio.length > 0 && (
+                        <div className="text-center mt-12">
+                            <Button variant="outline" href="/portfolio" className="px-12 py-4 text-[10px] tracking-widest">Lihat Semua →</Button>
+                        </div>
+                    )}
 
-                                {/* Year Floating */}
-                                <div className="absolute -right-6 top-1/2 -translate-y-1/2 text-[10rem] font-black text-dark/4 select-none pointer-events-none group-hover:text-secondary/8 transition-all duration-1000 z-10">
-                                    {item.year}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
                 </Container>
             </section>
 
 
+
+            {/* 5. Partners Section */}
+            {partners.length > 0 && (
+                <section id="partners" className="py-20 md:py-32 bg-light/40 overflow-hidden" ref={el => sectionRefs.current['partners'] = el}>
+                    <Container>
+                        <div className={`flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-16 ${fadeIn('partners')}`}>
+                            <div>
+                                <span className="text-primary font-black uppercase tracking-[0.3em] text-[10px] block mb-3">
+                                    {lang === 'id' ? 'MITRA KAMI' : lang === 'jp' ? 'パートナー' : 'OUR PARTNERS'}
+                                </span>
+                                <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase text-dark leading-none">
+                                    {lang === 'id' ? 'Dipercaya Oleh' : lang === 'jp' ? '信頼のパートナー' : 'TRUSTED BY'}
+                                    <span className="text-secondary"> {partners.length}+</span>
+                                </h2>
+                            </div>
+                            <Button variant="outline" href="/partners" className="shrink-0 text-[10px] tracking-widest px-8 py-3">
+                                {lang === 'id' ? 'Lihat Semua Mitra' : lang === 'jp' ? 'すべて見る' : 'View All Partners'} →
+                            </Button>
+                        </div>
+
+                        {/* Logo scroll strip */}
+                        <div className="relative overflow-hidden">
+                            {/* Fade edges */}
+                            <div className="absolute left-0 top-0 bottom-0 w-16 bg-linear-to-r from-light/40 to-transparent z-10 pointer-events-none" />
+                            <div className="absolute right-0 top-0 bottom-0 w-16 bg-linear-to-l from-light/40 to-transparent z-10 pointer-events-none" />
+
+                            <div className="flex gap-6 items-center" style={{ animation: partners.length > 4 ? 'marquee 30s linear infinite' : 'none' }}>
+                                {(partners.length > 4 ? [...partners, ...partners] : partners).map((partner, i) => (
+                                    <div
+                                        key={i}
+                                        className="shrink-0 bg-white rounded-[24px] border border-dark/5 hover:border-secondary/30 hover:shadow-lg p-5 flex flex-col items-center justify-center gap-3 group transition-all duration-500 hover:scale-105 cursor-default"
+                                        style={{ width: '140px', minHeight: '120px' }}
+                                    >
+                                        {partner.logo ? (
+                                            <img
+                                                src={partner.logo}
+                                                alt={partner.name}
+                                                className="max-h-12 max-w-[100px] object-contain group-hover:scale-105 transition-transform duration-500"
+                                            />
+                                        ) : (
+                                            <div className="text-[9px] font-black uppercase tracking-widest text-dark/20 text-center leading-relaxed">{partner.name}</div>
+                                        )}
+                                        <p className="text-[8px] font-black uppercase tracking-widest text-dark/30 text-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                                            {partner.name}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </Container>
+                </section>
+            )}
 
             {/* 6. Contact Section */}
             <section id="contact" className="py-16 md:py-20 bg-dark">
@@ -617,7 +654,7 @@ export default function Welcome({ settings }) {
                                 </div>
                                 <div className="flex gap-4 md:gap-5 items-start">
                                     <div className="w-10 h-10 md:w-12 md:h-12 bg-white/5 rounded-xl flex items-center justify-center shrink-0"><InformationCircleIcon className="w-5 h-5 md:w-6 md:h-6 text-secondary" /></div>
-                                    <div><p className="text-white font-bold text-base md:text-lg mb-1">{t.contactInq}</p><p className="text-slate-400 text-sm">contact@sugoi8.id<br />+62 812 XXXX XXXX</p></div>
+                                    <div><p className="text-white font-bold text-base md:text-lg mb-1">{t.contactInq}</p><p className="text-slate-400 text-sm">{settings?.contact_email || 'hello@sugoi8.id'}<br />+{settings?.contact_wa || '0859-5446-4539'}</p></div>
                                 </div>
                             </div>
                         </div>
@@ -638,10 +675,6 @@ export default function Welcome({ settings }) {
 
             {/* CSS for marquee animation */}
             <style>{`
-                @keyframes marquee {
-                    from { transform: translateX(0); }
-                    to { transform: translateX(-50%); }
-                }
                 .delay-100 { transition-delay: 100ms; }
                 .delay-200 { transition-delay: 200ms; }
                 .delay-300 { transition-delay: 300ms; }
