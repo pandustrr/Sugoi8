@@ -86,7 +86,7 @@ class AdminController extends Controller
 
     public function siteSettings()
     {
-        return Inertia::render('Admin/HomeSettings', [
+        return Inertia::render('Admin/PageSettings', [
             'settings' => \App\Models\SiteSetting::all()->pluck('value', 'key'),
         ]);
     }
@@ -94,13 +94,14 @@ class AdminController extends Controller
     public function updateSiteSettings(Request $request)
     {
         $request->validate([
-            'hero_background_image' => ['nullable', 'image', 'max:2048'],
+            'image' => ['nullable', 'image', 'max:2048'],
+            'key' => ['required', 'string'],
         ]);
 
-        if ($request->hasFile('hero_background_image')) {
-            $path = $request->file('hero_background_image')->store('site', 'public');
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('site', 'public');
             \App\Models\SiteSetting::updateOrCreate(
-                ['key' => 'hero_background_image'],
+                ['key' => $request->key],
                 ['value' => '/storage/' . $path]
             );
         }

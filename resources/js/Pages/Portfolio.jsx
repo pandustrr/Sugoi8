@@ -165,12 +165,14 @@ const portfolioItems = [
     },
 ];
 
-export default function Portfolio() {
+export default function Portfolio({ settings }) {
     const [lang, setLang] = useState('en');
     const [darkMode, setDarkMode] = useState(false);
     const [activeFilter, setActiveFilter] = useState('All');
     const [visible, setVisible] = useState({});
     const sectionRefs = useRef({});
+
+    const heroImage = settings?.portfolio_hero_bg || "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=2000";
 
     const t = translations[lang] || translations['en'];
 
@@ -227,7 +229,7 @@ export default function Portfolio() {
                 {/* BG photo */}
                 <div className="absolute inset-0 z-0">
                     <img
-                        src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=2000"
+                        src={heroImage}
                         className="w-full h-full object-cover opacity-70 grayscale-0 scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
                         alt="Hero Background"
                     />

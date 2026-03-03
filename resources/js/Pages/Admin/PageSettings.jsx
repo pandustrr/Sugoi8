@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Head, usePage, useForm, router } from '@inertiajs/react';
+import { Head, usePage, useForm } from '@inertiajs/react';
 import {
     CheckCircleIcon,
     WrenchScrewdriverIcon,
@@ -7,30 +7,54 @@ import {
 } from '@heroicons/react/24/outline';
 import SidebarAdmin from '../../Components/SidebarAdmin';
 
+const PAGES = [
+    { id: 'home', label: 'Home' },
+    { id: 'about', label: 'About' },
+    { id: 'services', label: 'Services' },
+    { id: 'portfolio', label: 'Portfolio' },
+    { id: 'partners', label: 'Partners' },
+    { id: 'ticket', label: 'Ticket' },
+];
 
-export default function HomeSettings() {
+export default function PageSettings() {
     const { settings } = usePage().props;
     const [isSuccess, setIsSuccess] = useState(false);
+    const [activePageTab, setActivePageTab] = useState(PAGES[0].id);
 
     const { data, setData, post, processing, errors, reset } = useForm({
-        hero_background_image: null,
+        image: null,
+        key: `${PAGES[0].id}_hero_bg`,
     });
 
-    const [preview, setPreview] = useState(settings?.hero_background_image || null);
+    // Helper to get current preview - either from the form if the user just picked a file,
+    // or from existing settings if it exists.
+    const getPreview = (pageId) => {
+        if (activePageTab === pageId && data.image) {
+            return URL.createObjectURL(data.image);
+        }
+        return settings[`${pageId}_hero_bg`] || settings['hero_background_image']; // fallback to old key if home
+    };
 
-    const handleFileChange = (e, field) => {
+    const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            setData(field, file);
-            if (field === 'hero_background_image') setPreview(URL.createObjectURL(file));
+            setData('image', file);
         }
+    };
+
+    const handleTabChange = (pageId) => {
+        setActivePageTab(pageId);
+        setData({
+            image: null,
+            key: `${pageId}_hero_bg`
+        });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         post(route('admin.siteSettings.update'), {
             onSuccess: () => {
-                reset('hero_background_image');
+                reset('image');
                 setIsSuccess(true);
                 setTimeout(() => setIsSuccess(false), 3000);
             },
@@ -40,7 +64,7 @@ export default function HomeSettings() {
 
     return (
         <div className="min-h-screen bg-light selection:bg-primary/30 flex">
-            <Head title="Home Settings | Sugoi 8" />
+            <Head title="Page Settings | Sugoi 8" />
 
             <SidebarAdmin activePage="site-settings" />
 
@@ -52,11 +76,27 @@ export default function HomeSettings() {
                         <div className="w-10 h-10 bg-primary/5 rounded-xl flex items-center justify-center">
                             <WrenchScrewdriverIcon className="w-5 h-5 text-primary" />
                         </div>
-                        <h1 className="text-xl font-black text-dark uppercase tracking-tight">Home Setting</h1>
+                        <h1 className="text-xl font-black text-dark uppercase tracking-tight">Page Setting</h1>
                     </div>
                 </header>
 
                 <div className="p-10 max-w-4xl mx-auto">
+                    {/* Page Selector Tabs */}
+                    <div className="flex flex-wrap gap-2 mb-8">
+                        {PAGES.map((page) => (
+                            <button
+                                key={page.id}
+                                onClick={() => handleTabChange(page.id)}
+                                className={`px-6 py-3 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all ${activePageTab === page.id
+                                        ? 'bg-dark text-white shadow-lg'
+                                        : 'bg-white text-dark/40 hover:text-dark hover:bg-white/80 border border-dark/5'
+                                    }`}
+                            >
+                                {page.label}
+                            </button>
+                        ))}
+                    </div>
+
                     {isSuccess && (
                         <div className="mb-10 p-5 bg-emerald-50 border border-emerald-100/50 rounded-[24px] flex items-center gap-4 text-emerald-800 animate-in fade-in slide-in-from-top-2 duration-300">
                             <CheckCircleIcon className="w-6 h-6 text-emerald-500" />
@@ -70,7 +110,9 @@ export default function HomeSettings() {
                             <div className="flex items-center gap-5 mb-4">
                                 <div className="w-2.5 h-10 bg-primary rounded-full" />
                                 <div>
-                                    <h2 className="text-base font-black text-dark uppercase tracking-tight">Homepage Hero Settings</h2>
+                                    <h2 className="text-base font-black text-dark uppercase tracking-tight">
+                                        {PAGES.find(p => p.id === activePageTab)?.label} Hero Settings
+                                    </h2>
                                     <p className="text-[11px] text-dark/30 font-bold uppercase tracking-wider mt-1">Visual & Tampilan Utama</p>
                                 </div>
                             </div>
@@ -82,8 +124,8 @@ export default function HomeSettings() {
                                     <div className="space-y-8">
                                         {/* Preview Area */}
                                         <div className="relative aspect-video rounded-[32px] overflow-hidden bg-light border border-dark/5 flex items-center justify-center group shadow-inner bg-dark/5">
-                                            {preview ? (
-                                                <img src={preview} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Preview" />
+                                            {getPreview(activePageTab) ? (
+                                                <img src={getPreview(activePageTab)} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Preview" />
                                             ) : (
                                                 <div className="text-center opacity-20">
                                                     <PhotoIcon className="w-12 h-12 mx-auto mb-3" />
@@ -107,7 +149,7 @@ export default function HomeSettings() {
                                                         id="hero-image"
                                                         className="hidden"
                                                         accept="image/*"
-                                                        onChange={(e) => handleFileChange(e, 'hero_background_image')}
+                                                        onChange={handleFileChange}
                                                     />
                                                     <label
                                                         htmlFor="hero-image"
@@ -117,7 +159,7 @@ export default function HomeSettings() {
                                                     </label>
                                                 </div>
                                             </div>
-                                            {errors.hero_background_image && <p className="text-xs text-red-500 font-bold mt-4 ml-1">{errors.hero_background_image}</p>}
+                                            {errors.image && <p className="text-xs text-red-500 font-bold mt-4 ml-1">{errors.image}</p>}
                                         </div>
                                     </div>
                                 </div>

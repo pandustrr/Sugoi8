@@ -12,9 +12,11 @@ import {
     SparklesIcon
 } from '@heroicons/react/24/outline';
 
-export default function Services() {
+export default function Services({ settings }) {
     const [lang, setLang] = useState('en');
     const [darkMode, setDarkMode] = useState(false);
+
+    const heroImage = settings?.services_hero_bg || "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&q=80&w=2000";
 
     const content = {
         en: {
@@ -102,7 +104,7 @@ export default function Services() {
             <section className="relative min-h-[600px] pt-52 pb-24 bg-primary text-white overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <img
-                        src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&q=80&w=2000"
+                        src={heroImage}
                         className="w-full h-full object-cover opacity-70 grayscale-0 scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
                         alt="Hero Background"
                     />
