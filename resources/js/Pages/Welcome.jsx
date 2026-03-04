@@ -567,12 +567,12 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
                         </h2>
                     </div>
                     {displayPortfolio.length > 0 ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 pb-20">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 pb-20">
                             {displayPortfolio.slice(0, 6).map((item, i) => (
                                 <div key={item.id || i} className="group cursor-pointer relative">
-                                    <div className="relative overflow-hidden rounded-[32px] md:rounded-[40px] shadow-2xl group-hover:shadow-secondary/20 transition-all duration-700 bg-dark h-[350px] md:h-[380px] lg:h-[420px]">
-                                        {item.image && <img src={item.image} className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0 group-hover:rotate-1" alt={item.title} />}
-                                        <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-overlay" />
+                                    <div className="relative overflow-hidden rounded-[32px] md:rounded-[40px] shadow-2xl group-hover:shadow-secondary/20 transition-all duration-700 bg-dark aspect-video">
+                                        {item.image && <img src={item.image} className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-[1.03]" alt={item.title} />}
+
                                         <div className="absolute top-6 left-6 flex flex-col gap-3">
                                             <div className="glass-navbar border-white/20 px-4 py-2 rounded-2xl transform -translate-x-10 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500">
                                                 <span className="text-secondary text-[9px] font-black uppercase tracking-widest">{item.category}</span>

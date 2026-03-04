@@ -53,7 +53,7 @@ function EventCard({ event, onOpen, onPreview }) {
                 )}
 
                 {/* Overlays / Badges */}
-                <div className="absolute inset-x-0 bottom-0 p-4 md:p-6 bg-linear-to-t from-dark/80 via-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none md:pointer-events-auto flex items-end justify-between">
+                <div className="absolute inset-x-0 bottom-0 p-4 md:p-6 bg-linear-to-t from-dark/80 via-dark/20 to-transparent opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none md:pointer-events-auto flex items-end justify-between">
                     {src && (
                         <button
                             onClick={(e) => { e.stopPropagation(); onPreview(src); }}
