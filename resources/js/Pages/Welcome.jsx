@@ -418,15 +418,34 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
                 <Container>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-12 lg:gap-24 items-center">
                         {/* Left: Image + Tagline */}
-                        <div className={`relative ${fadeIn('about')}`}>
-                            <div className="relative z-10 rounded-[40px] md:rounded-[60px] overflow-hidden shadow-2xl group">
-                                <img
-                                    src={settings?.home_about_img || "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1200"}
-                                    alt="About"
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                                />
-                                {/* Overlay gradient on image */}
-                                <div className="absolute inset-0 bg-linear-to-t from-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <div className={`relative max-w-lg mx-auto lg:mx-0 ${fadeIn('about')}`}>
+                            <div className="space-y-4 md:space-y-5 relative z-10">
+                                {/* Main Image */}
+                                <div className="rounded-[28px] md:rounded-[40px] overflow-hidden shadow-2xl aspect-16/9 group">
+                                    <img
+                                        src={settings?.home_about_main || settings?.home_about_img || "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1200"}
+                                        alt="Main Gallery"
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                    />
+                                </div>
+
+                                {/* Secondary Images Row */}
+                                <div className="grid grid-cols-2 gap-3 md:gap-4">
+                                    <div className="rounded-xl md:rounded-2xl overflow-hidden shadow-xl aspect-square group">
+                                        <img
+                                            src={settings?.home_about_sub_1 || "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=800"}
+                                            alt="Sub Gallery 1"
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                        />
+                                    </div>
+                                    <div className="rounded-xl md:rounded-2xl overflow-hidden shadow-xl aspect-square group">
+                                        <img
+                                            src={settings?.home_about_sub_2 || "https://images.unsplash.com/photo-1522071823991-b9671f903f7f?auto=format&fit=crop&q=80&w=800"}
+                                            alt="Sub Gallery 2"
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                        />
+                                    </div>
+                                </div>
                             </div>
                             {/* Decorative dot accent */}
                             <div className="absolute -top-4 -left-4 w-24 h-24 rounded-full border-4 border-secondary/20 pointer-events-none" />

@@ -85,7 +85,7 @@ function EventCard({ event, onOpen, onPreview }) {
                     href={route('tickets.event.show', event.slug)}
                     className="mt-auto w-full bg-dark text-white py-3 md:py-3.5 rounded-lg md:rounded-[16px] font-black text-[9px] md:text-[10px] uppercase tracking-[0.2em] hover:bg-primary active:scale-[0.98] transition-all text-center flex items-center justify-center gap-2"
                 >
-                    Lihat Detail
+                    Join
                 </Link>
             </div>
         </div>
@@ -267,7 +267,7 @@ export default function Ticket({ events, auth, settings }) {
                 onClose={closeModal}
                 event={selectedEvent}
                 selectedTicket={selectedTicket}
-                setSelectedTicket={setSelectedTicket}
+                setSelectedTicket={setSelectedTicketf}
                 auth={auth}
                 onPreview={setPreviewSrc}
                 settings={settings}
