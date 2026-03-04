@@ -72,8 +72,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/settings', [AdminController::class, 'settings'])->name('admin.settings');
     Route::post('/admin/settings', [AdminController::class, 'updateSettings'])->name('admin.settings.update');
     Route::get('/admin/site-settings', [AdminController::class, 'siteSettings'])->name('admin.siteSettings');
-    Route::post('/admin/site-settings', [AdminController::class, 'updateSiteSettings'])->name('admin.siteSettings.update');
-    Route::post('/admin/service-image', [AdminController::class, 'updateServiceImage'])->name('admin.serviceImage.update');
+    Route::post('/admin/site-settings/update', [AdminController::class, 'updateSiteSettings'])->name('admin.siteSettings.update');
+    Route::post('/admin/site-settings/text/update', [AdminController::class, 'updateTextSettings'])->name('admin.siteSettings.text.update');
+    Route::post('/admin/site-settings/service-image', [AdminController::class, 'updateServiceImage'])->name('admin.serviceImage.update');
     Route::post('/admin/service-image/reset', [AdminController::class, 'resetServiceImage'])->name('admin.serviceImage.reset');
     Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 

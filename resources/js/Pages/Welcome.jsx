@@ -386,17 +386,17 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
                                 {/* Stats badge — floats above button */}
                                 <div className="absolute -top-4 left-0 right-0 sm:right-auto flex items-center justify-between sm:justify-start gap-3 md:gap-4 bg-white/10 backdrop-blur-md border border-white/15 rounded-xl px-3 py-2 shadow-lg scale-90 sm:scale-100 origin-left">
                                     <div className="text-center px-1">
-                                        <p className="text-xs md:text-sm font-black text-secondary leading-none">500+</p>
+                                        <p className="text-xs md:text-sm font-black text-secondary leading-none">{settings?.stat_events || "500+"}</p>
                                         <p className="text-[7px] md:text-[8px] font-black uppercase tracking-widest text-white/50 mt-0.5">Events</p>
                                     </div>
                                     <div className="w-px h-5 md:h-6 bg-white/20" />
                                     <div className="text-center px-1">
-                                        <p className="text-xs md:text-sm font-black text-white leading-none">10+</p>
+                                        <p className="text-xs md:text-sm font-black text-white leading-none">{settings?.stat_years || "10+"}</p>
                                         <p className="text-[7px] md:text-[8px] font-black uppercase tracking-widest text-white/50 mt-0.5">Years</p>
                                     </div>
                                     <div className="w-px h-5 md:h-6 bg-white/20" />
                                     <div className="text-center px-1">
-                                        <p className="text-xs md:text-sm font-black text-secondary leading-none">120+</p>
+                                        <p className="text-xs md:text-sm font-black text-secondary leading-none">{settings?.stat_partners || "120+"}</p>
                                         <p className="text-[7px] md:text-[8px] font-black uppercase tracking-widest text-white/50 mt-0.5">Partners</p>
                                     </div>
                                 </div>
@@ -420,7 +420,11 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
                         {/* Left: Image + Tagline */}
                         <div className={`relative ${fadeIn('about')}`}>
                             <div className="relative z-10 rounded-[40px] md:rounded-[60px] overflow-hidden shadow-2xl group">
-                                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1200" alt="About" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                                <img
+                                    src={settings?.home_about_img || "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1200"}
+                                    alt="About"
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                />
                                 {/* Overlay gradient on image */}
                                 <div className="absolute inset-0 bg-linear-to-t from-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                             </div>
@@ -458,10 +462,10 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
                             </ul>
                             <div className="grid grid-cols-2 gap-6 pt-8 border-t border-dark/5">
                                 {[
-                                    { num: '10+', label: t.aboutExp, color: 'text-primary' },
-                                    { num: '500+', label: t.aboutEvents, color: 'text-secondary' },
-                                    { num: '120+', label: t.aboutPartners, color: 'text-primary' },
-                                    { num: '50+', label: t.aboutMinds, color: 'text-secondary' },
+                                    { num: settings?.stat_years || '10+', label: t.aboutExp, color: 'text-primary' },
+                                    { num: settings?.stat_events || '500+', label: t.aboutEvents, color: 'text-secondary' },
+                                    { num: settings?.stat_partners || '120+', label: t.aboutPartners, color: 'text-primary' },
+                                    { num: settings?.stat_minds || '50+', label: t.aboutMinds, color: 'text-secondary' },
                                 ].map((stat, i) => (
                                     <div key={i} className="group cursor-default">
                                         <p className={`text-3xl md:text-4xl font-black ${stat.color} mb-1 group-hover:scale-110 transition-transform inline-block`}>{stat.num}</p>

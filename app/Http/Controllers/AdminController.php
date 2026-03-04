@@ -150,6 +150,22 @@ class AdminController extends Controller
         return back()->with('success', 'Pengaturan hero berhasil diperbarui.');
     }
 
+    public function updateTextSettings(Request $request)
+    {
+        $data = $request->validate([
+            'settings' => ['required', 'array'],
+        ]);
+
+        foreach ($data['settings'] as $key => $value) {
+            \App\Models\SiteSetting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value ?? '']
+            );
+        }
+
+        return back()->with('success', 'Statistik berhasil diperbarui.');
+    }
+
     public function updateServiceImage(Request $request)
     {
         $request->validate([

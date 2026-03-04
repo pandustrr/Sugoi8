@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Head, usePage, useForm } from '@inertiajs/react';
+import { Head, usePage, useForm, router } from '@inertiajs/react';
 import {
     CheckCircleIcon,
     WrenchScrewdriverIcon,
@@ -143,24 +143,131 @@ export default function PageSettings() {
                                         className="block w-full px-10 py-4 bg-white border border-dark/10 rounded-2xl text-center cursor-pointer hover:border-primary transition-all shadow-sm"
                                     >
                                         <p className="text-xs font-black text-dark hover:text-primary uppercase tracking-widest">
-                                            {data.image ? data.image.name : 'Ganti Gambar Hero'}
+                                            {data.image && data.key === `${activePageTab}_hero_bg` ? data.image.name : 'Ganti Gambar Hero'}
                                         </p>
                                     </label>
                                 </div>
                             </div>
-                            {errors.image && <p className="text-xs text-red-500 font-bold mt-4">{errors.image}</p>}
+                            {errors.image && data.key === `${activePageTab}_hero_bg` && <p className="text-xs text-red-500 font-bold mt-4">{errors.image}</p>}
                         </div>
 
                         <div className="pt-6 flex justify-end border-t border-dark/5">
                             <button
                                 type="submit"
-                                disabled={processing || !data.image}
+                                disabled={processing || !data.image || data.key !== `${activePageTab}_hero_bg`}
                                 className="px-12 py-4 bg-dark text-white rounded-2xl font-black text-xs uppercase tracking-[0.25em] shadow-xl shadow-dark/10 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-40"
                             >
-                                {processing ? 'Menyimpan...' : 'Simpan Perubahan'}
+                                {processing && data.key === `${activePageTab}_hero_bg` ? 'Menyimpan...' : 'Simpan Perubahan'}
                             </button>
                         </div>
                     </form>
+
+                    {/* Home Specific: Section About Image */}
+                    {activePageTab === 'home' && (
+                        <div className="bg-white rounded-[40px] border border-dark/5 p-10 md:p-12 shadow-sm space-y-10">
+                            <div className="flex items-center gap-5">
+                                <div className="w-2.5 h-10 bg-secondary rounded-full" />
+                                <div>
+                                    <h2 className="text-base font-black text-dark uppercase tracking-tight">Home — Section About Image</h2>
+                                    <p className="text-[11px] text-dark/30 font-bold uppercase tracking-wider mt-1">Gambar besar di samping teks "What is Sugoi 8"</p>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+                                <div className="relative aspect-4/3 rounded-3xl overflow-hidden bg-light border border-dark/5">
+                                    <img
+                                        src={(data.image && data.key === 'home_about_img') ? URL.createObjectURL(data.image) : (settings.home_about_img || "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1200")}
+                                        className="w-full h-full object-cover"
+                                        alt="About Section Preview"
+                                    />
+                                </div>
+
+                                <div className="space-y-6">
+                                    <input
+                                        type="file"
+                                        id="home-about-img"
+                                        className="hidden"
+                                        accept="image/*"
+                                        onChange={(e) => {
+                                            const file = e.target.files[0];
+                                            if (file) setData({ image: file, key: 'home_about_img' });
+                                        }}
+                                    />
+                                    <label
+                                        htmlFor="home-about-img"
+                                        className="block px-8 py-5 bg-light border-2 border-dashed border-dark/10 rounded-2xl text-center cursor-pointer hover:border-secondary transition-all"
+                                    >
+                                        <PhotoIcon className="w-8 h-8 mx-auto mb-2 text-dark/20" />
+                                        <p className="text-[10px] font-black text-dark uppercase tracking-widest">
+                                            {data.image && data.key === 'home_about_img' ? data.image.name : 'Pilih Foto Baru'}
+                                        </p>
+                                    </label>
+
+                                    <button
+                                        onClick={handleSubmit}
+                                        disabled={processing || !data.image || data.key !== 'home_about_img'}
+                                        className="w-full py-4 bg-secondary text-dark rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-secondary/20 hover:scale-[1.02] transition-all disabled:opacity-40"
+                                    >
+                                        {processing && data.key === 'home_about_img' ? 'Menyimpan...' : 'Update Foto Section'}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Home Specific: Website Stats */}
+                    {activePageTab === 'home' && (
+                        <div className="bg-white rounded-[40px] border border-dark/5 p-10 md:p-12 shadow-sm space-y-10">
+                            <div className="flex items-center gap-5">
+                                <div className="w-2.5 h-10 bg-emerald-500 rounded-full" />
+                                <div>
+                                    <h2 className="text-base font-black text-dark uppercase tracking-tight">Home — Website Stats</h2>
+                                    <p className="text-[11px] text-dark/30 font-bold uppercase tracking-wider mt-1">Angka pencapaian (10+, 500+, dsb.)</p>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                                {[
+                                    { key: 'stat_years', label: 'Experience', default: '10+' },
+                                    { key: 'stat_events', label: 'Events', default: '500+' },
+                                    { key: 'stat_partners', label: 'Partners', default: '120+' },
+                                    { key: 'stat_minds', label: 'Creative Minds', default: '50+' },
+                                ].map((stat) => (
+                                    <div key={stat.key} className="space-y-3">
+                                        <label className="text-[10px] font-black text-dark/40 uppercase tracking-widest ml-1">{stat.label}</label>
+                                        <input
+                                            type="text"
+                                            defaultValue={settings[stat.key] || stat.default}
+                                            id={`input-${stat.key}`}
+                                            className="w-full px-5 py-4 bg-light border border-dark/5 rounded-2xl font-black text-dark text-lg focus:border-emerald-500 transition-all"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="pt-6 flex justify-end border-t border-dark/5">
+                                <button
+                                    onClick={() => {
+                                        const values = {};
+                                        ['stat_years', 'stat_events', 'stat_partners', 'stat_minds'].forEach(k => {
+                                            values[k] = document.getElementById(`input-${k}`).value;
+                                        });
+                                        router.post(route('admin.siteSettings.text.update'), {
+                                            settings: values
+                                        }, {
+                                            onSuccess: () => {
+                                                setIsSuccess(true);
+                                                setTimeout(() => setIsSuccess(false), 3000);
+                                            }
+                                        });
+                                    }}
+                                    className="px-12 py-4 bg-emerald-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-emerald-900/10 hover:bg-emerald-700 transition-all"
+                                >
+                                    Update Semua Statistik
+                                </button>
+                            </div>
+                        </div>
+                    )}
 
                     {/* Service Images Panel — hanya muncul di tab Services */}
                     {activePageTab === 'services' && (
