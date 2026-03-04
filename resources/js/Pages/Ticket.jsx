@@ -1,5 +1,5 @@
 import { useState, Fragment, useEffect, useCallback } from 'react';
-import { Head, useForm, usePage, router } from '@inertiajs/react';
+import { Head, useForm, usePage, router, Link } from '@inertiajs/react';
 import { Dialog, Transition } from '@headlessui/react';
 import MainLayout from '../Layouts/MainLayout';
 import Container from '../Components/UI/Container';
@@ -81,12 +81,12 @@ function EventCard({ event, onOpen, onPreview }) {
                 <h3 className="text-lg md:text-xl font-black text-dark uppercase tracking-tighter leading-tight mb-4 group-hover:text-primary transition-colors italic line-clamp-2">
                     {event.title}
                 </h3>
-                <button
-                    onClick={() => onOpen(event)}
-                    className="mt-auto w-full bg-dark text-white py-3 md:py-3.5 rounded-lg md:rounded-[16px] font-black text-[9px] md:text-[10px] uppercase tracking-[0.2em] hover:bg-primary active:scale-[0.98] transition-all"
+                <Link
+                    href={route('tickets.event.show', event.slug)}
+                    className="mt-auto w-full bg-dark text-white py-3 md:py-3.5 rounded-lg md:rounded-[16px] font-black text-[9px] md:text-[10px] uppercase tracking-[0.2em] hover:bg-primary active:scale-[0.98] transition-all text-center flex items-center justify-center gap-2"
                 >
                     Lihat Detail
-                </button>
+                </Link>
             </div>
         </div>
     );

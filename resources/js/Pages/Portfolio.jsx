@@ -224,7 +224,7 @@ export default function Portfolio({ portfolioItems: dbItems }) {
             <Head>
                 <title>{t.metaTitle}</title>
                 <meta name="description" content={t.heroDesc} />
-                <meta name="keywords" content="portfolio sugoi 8, event projects, highlight events, show management portfolio" />
+                <meta name="keywords" content="portfolio sugoi 8, dokumentasi event jember, proyek sugoi 8, hasil kerja eo jember, show management jember" />
             </Head>
 
             {/* ── 1. HERO ── */}

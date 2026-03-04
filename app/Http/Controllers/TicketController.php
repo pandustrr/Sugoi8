@@ -24,6 +24,16 @@ class TicketController extends Controller
         ]);
     }
 
+    public function showEvent(Event $event)
+    {
+        return Inertia::render('Tickets/EventShow', [
+            'event' => $event->load(['tickets' => function ($query) {
+                $query->where('stock', '>', 0);
+            }]),
+            'settings' => \App\Models\SiteSetting::all()->pluck('value', 'key'),
+        ]);
+    }
+
     public function show(Ticket $ticket)
     {
         return Inertia::render('Tickets/Show', [

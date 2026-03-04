@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SitemapController;
+
 
 use Inertia\Inertia;
 use Illuminate\Foundation\Application;
@@ -45,6 +47,9 @@ Route::get('/contact', function () {
     return Inertia::render('Contact');
 });
 
+Route::get('/sitemap.xml', [SitemapController::class, 'index']);
+
+
 
 // User Booking Monitoring
 Route::get('/tickets/check-status', [TicketController::class, 'checkStatus'])->name('tickets.checkStatus');
@@ -55,6 +60,7 @@ Route::post('/tickets/logout', [TicketController::class, 'logout'])->name('ticke
 
 // User Ticket Routes
 Route::get('/tickets', [TicketController::class, 'index'])->name('tickets.index');
+Route::get('/tickets/event/{event:slug}', [TicketController::class, 'showEvent'])->name('tickets.event.show');
 Route::get('/tickets/{ticket}', [TicketController::class, 'show'])->name('tickets.show');
 Route::post('/tickets/{ticket}/purchase', [TicketController::class, 'purchase'])->name('tickets.purchase');
 
