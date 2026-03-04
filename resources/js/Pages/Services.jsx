@@ -110,7 +110,11 @@ export default function Services() {
 
     return (
         <MainLayout lang={lang} onLangChange={setLang} darkMode={darkMode} onDarkModeToggle={setDarkMode}>
-            <Head title={t.title} />
+            <Head>
+                <title>{t.title}</title>
+                <meta name="description" content={t.desc} />
+                <meta name="keywords" content="event services, stage management, production equipment hire, mice event agency, digital solutions event" />
+            </Head>
 
             <section className="relative min-h-[600px] pt-52 pb-24 bg-primary text-white overflow-hidden">
                 <div className="absolute inset-0 z-0">

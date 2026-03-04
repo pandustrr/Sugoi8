@@ -55,7 +55,11 @@ export default function Partners({ partners: dbPartners = [] }) {
 
     return (
         <MainLayout lang={lang} onLangChange={setLang} darkMode={darkMode} onDarkModeToggle={setDarkMode}>
-            <Head title={t.title} />
+            <Head>
+                <title>{t.title}</title>
+                <meta name="description" content={t.desc} />
+                <meta name="keywords" content="sugoi 8 partners, trusted by, corporate clients, event collaboration indonesia" />
+            </Head>
 
             {/* ── HERO ── */}
             <section className="relative min-h-[600px] pt-52 pb-24 bg-primary text-white overflow-hidden">

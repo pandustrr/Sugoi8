@@ -221,7 +221,11 @@ export default function Portfolio({ portfolioItems: dbItems }) {
 
     return (
         <MainLayout lang={lang} onLangChange={setLang} darkMode={darkMode} onDarkModeToggle={setDarkMode}>
-            <Head title={t.metaTitle} />
+            <Head>
+                <title>{t.metaTitle}</title>
+                <meta name="description" content={t.heroDesc} />
+                <meta name="keywords" content="portfolio sugoi 8, event projects, highlight events, show management portfolio" />
+            </Head>
 
             {/* ── 1. HERO ── */}
             <section className="relative min-h-[600px] pt-52 pb-24 bg-primary overflow-hidden">
@@ -359,7 +363,7 @@ export default function Portfolio({ portfolioItems: dbItems }) {
                             <p className="text-4xl mb-4">🎭</p>
                             <p className="text-dark/30 font-black uppercase tracking-widest text-sm">
                                 {portfolioData.length === 0
-                                    ? 'Belum ada portofolio. Tambahkan melalui panel admin.'
+                                    ? 'Segera Hadir: Koleksi Pengalaman Luar Biasa'
                                     : t.noProject}
                             </p>
                         </div>
