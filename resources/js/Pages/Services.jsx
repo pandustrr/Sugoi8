@@ -113,7 +113,7 @@ export default function Services() {
             <Head>
                 <title>{t.title}</title>
                 <meta name="description" content={t.desc} />
-                <meta name="keywords" content="event services, stage management, production equipment hire, mice event agency, digital solutions event" />
+                <meta name="keywords" content="layanan event jember, eo jember, jasa panggung jember, sewa alat panggung jember, mice jember, digital solution jember" />
             </Head>
 
             <section className="relative min-h-[600px] pt-52 pb-24 bg-primary text-white overflow-hidden">

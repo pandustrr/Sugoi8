@@ -48,7 +48,7 @@ export default function Contact() {
             <Head>
                 <title>{t.title}</title>
                 <meta name="description" content={t.desc} />
-                <meta name="keywords" content="contact sugoi 8, event organizer jember office, hire show management, event inquiry indonesia" />
+                <meta name="keywords" content="kontak sugoi 8, nomor wa eo jember, alamat sugoi 8 management jember, hubungi sugoi 8" />
             </Head>
 
             <section className="relative pt-48 pb-24 bg-primary text-white overflow-hidden text-center">

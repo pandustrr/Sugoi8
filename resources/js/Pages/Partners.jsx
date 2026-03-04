@@ -58,7 +58,7 @@ export default function Partners({ partners: dbPartners = [] }) {
             <Head>
                 <title>{t.title}</title>
                 <meta name="description" content={t.desc} />
-                <meta name="keywords" content="sugoi 8 partners, trusted by, corporate clients, event collaboration indonesia" />
+                <meta name="keywords" content="partner sugoi 8, mitra sugoi 8 jember, klien sugoi 8 management, kerjasama event jember" />
             </Head>
 
             {/* ── HERO ── */}

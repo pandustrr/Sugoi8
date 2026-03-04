@@ -94,7 +94,7 @@ export default function Show({ ticket }) {
                                     <InformationCircleIcon className="w-6 h-6 text-secondary shrink-0" />
                                     <div>
                                         <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/30 mb-2">Deskripsi</p>
-                                        <p className="text-white/60 font-medium leading-relaxed">{ticket.description || "Tidak ada deskripsi tersedia untuk event ini."}</p>
+                                        <p className="text-white/60 font-medium leading-relaxed whitespace-pre-wrap">{ticket.description || "Tidak ada deskripsi tersedia untuk event ini."}</p>
                                     </div>
                                 </div>
                             </div>

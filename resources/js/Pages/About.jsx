@@ -183,7 +183,7 @@ export default function About() {
             <Head>
                 <title>{t.metaTitle}</title>
                 <meta name="description" content={t.desc} />
-                <meta name="keywords" content="about sugoi 8, event management team, creative agency indonesia, vision mission sugoi 8" />
+                <meta name="keywords" content="sugoi 8 management, event organizer jember, show management jember, team sugoi 8, profile sugoi 8 jember" />
             </Head>
 
             {/* ── 1. HERO ── */}

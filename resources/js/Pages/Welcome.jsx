@@ -252,6 +252,13 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
                 <title>{t.metaTitle}</title>
                 <meta name="description" content={t.heroDesc} />
                 <meta name="keywords" content="sugoi 8 management, event organizer jember, show management indonesia, mice services, production stage" />
+
+                {/* Social Media Meta Tags */}
+                <meta property="og:title" content={t.metaTitle} />
+                <meta property="og:description" content={t.heroDesc} />
+                <meta property="og:image" content="https://sugoi8management.com/8-sugoi-trans.png" />
+                <meta property="og:url" content="https://sugoi8management.com" />
+                <meta name="twitter:card" content="summary_large_image" />
             </Head>
 
             {/* 1. Hero Section */}
