@@ -359,7 +359,7 @@ export default function Portfolio({ portfolioItems: dbItems }) {
                             <p className="text-4xl mb-4">🎭</p>
                             <p className="text-dark/30 font-black uppercase tracking-widest text-sm">
                                 {portfolioData.length === 0
-                                    ? 'Belum ada portofolio. Tambahkan melalui panel admin.'
+                                    ? 'Segera Hadir: Koleksi Pengalaman Luar Biasa'
                                     : t.noProject}
                             </p>
                         </div>
