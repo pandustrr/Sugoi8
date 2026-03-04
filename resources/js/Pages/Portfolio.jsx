@@ -238,22 +238,22 @@ export default function Portfolio({ portfolioItems: dbItems }) {
                         backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
                         backgroundSize: '48px 48px'
                     }} />
-                    <div className="absolute -top-1/4 -right-1/4 w-[800px] h-[800px] bg-secondary/10 rounded-full blur-[160px] animate-pulse" />
-                    <div className="absolute left-10 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-6 opacity-20">
-                        <div className="w-px h-24 bg-linear-to-b from-transparent via-white to-transparent" />
-                        <span className="text-[10px] font-black uppercase tracking-[0.5em] rotate-90 whitespace-nowrap">CREATIVE EXCELLENCE</span>
-                        <div className="w-px h-24 bg-linear-to-b from-transparent via-white to-transparent" />
+                    <div className="absolute -top-1/4 -right-1/4 w-[800px] h-[800px] bg-secondary/10 rounded-full blur-[120px] animate-pulse pointer-events-none transform-gpu" />
+                    <div className="absolute left-10 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-8 opacity-20 pointer-events-none">
+                        <div className="w-px h-32 bg-linear-to-b from-transparent via-white to-transparent" />
+                        <span className="text-[12px] font-black uppercase tracking-[0.5em] rotate-90 whitespace-nowrap">CREATIVE EXCELLENCE</span>
+                        <div className="w-px h-32 bg-linear-to-b from-transparent via-white to-transparent" />
                     </div>
                 </div>
                 <Container className="relative z-10">
                     <div className="max-w-4xl">
                         <span className="text-secondary font-black uppercase tracking-[0.5em] text-[10px] md:text-xs mb-8 block animate-in fade-in slide-in-from-bottom-4 duration-700">{t.heroTag}</span>
-                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase mb-8 leading-[0.9] text-white">
+                        <h1 className="text-3xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase mb-10 leading-[0.9] text-white">
                             {t.heroTitle.split('').map((char, i) => (
                                 <span key={i} className="inline-block animate-in slide-in-from-bottom-full duration-1000" style={{ transitionDelay: `${i * 30}ms` }}>{char}</span>
                             ))}
                         </h1>
-                        <p className="text-base md:text-xl text-white/50 font-medium leading-relaxed max-w-2xl mt-8 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500 italic border-l-4 border-secondary pl-6">
+                        <p className="text-sm md:text-xl text-white/50 font-medium leading-relaxed max-w-2xl mt-10 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500 italic border-l-4 border-secondary pl-6">
                             {t.heroDesc}
                         </p>
                     </div>

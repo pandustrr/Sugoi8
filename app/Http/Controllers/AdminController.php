@@ -33,10 +33,30 @@ class AdminController extends Controller
 
     public function dashboard()
     {
+        $today = now()->startOfDay();
+        $thisMonth = now()->startOfMonth();
+
         return Inertia::render('Admin/Dashboard', [
-            'totalTickets' => \App\Models\Ticket::count(),
-            'totalBookings' => \App\Models\Booking::count(),
-            'pendingBookings' => \App\Models\Booking::where('status', 'pending')->count(),
+            'stats' => [
+                'total_bookings'     => \App\Models\Booking::count(),
+                'pending_bookings'   => \App\Models\Booking::where('status', 'pending')->count(),
+                'confirmed_bookings' => \App\Models\Booking::where('status', 'confirmed')->count(),
+                'total_revenue'      => (float) \App\Models\Booking::where('status', 'confirmed')->sum('total_price'),
+                'revenue_today'      => (float) \App\Models\Booking::where('status', 'confirmed')->where('created_at', '>=', $today)->sum('total_price'),
+                'revenue_month'      => (float) \App\Models\Booking::where('status', 'confirmed')->where('created_at', '>=', $thisMonth)->sum('total_price'),
+                'total_events'       => \App\Models\Event::count(),
+                'total_portfolio'    => \App\Models\PortfolioItem::count(),
+                'total_partners'     => \App\Models\Partner::count(),
+            ],
+            'recentBookings' => \App\Models\Booking::with('ticket.event')->latest()->limit(5)->get(),
+            'upcomingEvents' => \App\Models\Event::with('tickets')->where('date', '>=', now()->toDateString())->orderBy('date')->limit(3)->get(),
+            'topTickets' => \App\Models\Booking::where('status', 'confirmed')
+                ->select('ticket_id', \Illuminate\Support\Facades\DB::raw('count(*) as total'))
+                ->groupBy('ticket_id')
+                ->orderByDesc('total')
+                ->with('ticket.event')
+                ->limit(5)
+                ->get(),
         ]);
     }
 

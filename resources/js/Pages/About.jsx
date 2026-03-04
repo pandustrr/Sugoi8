@@ -187,8 +187,8 @@ export default function About() {
                 <div className="absolute inset-0 z-0">
                     <img
                         src={heroImage}
-                        className="w-full h-full object-cover opacity-70 grayscale-0 scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
-                        style={{ transform: `scale(1.1) translateY(${scrollY * 0.15}px)` }}
+                        className="w-full h-full object-cover opacity-70 grayscale-0 scale-110 motion-safe:animate-[pulse_12s_ease-in-out_infinite] transform-gpu will-change-transform"
+                        style={{ transform: `scale(1.1) translate3d(0, ${scrollY * 0.15}px, 0)` }}
                         alt="Hero"
                     />
                     <div className="absolute inset-0 bg-linear-to-b from-primary/60 via-primary/25 to-transparent" />
@@ -203,14 +203,14 @@ export default function About() {
                     }} />
 
                     {/* Soft Glow Orbs */}
-                    <div className="absolute -top-1/4 -right-1/4 w-[800px] h-[800px] bg-secondary/10 rounded-full blur-[160px] animate-pulse" />
-                    <div className="absolute -bottom-1/4 -left-1/4 w-[600px] h-[600px] bg-white/5 rounded-full blur-[120px]" />
+                    <div className="absolute -top-1/4 -right-1/4 w-[800px] h-[800px] bg-secondary/10 rounded-full blur-[120px] animate-pulse pointer-events-none transform-gpu" />
+                    <div className="absolute -bottom-1/4 -left-1/4 w-[600px] h-[600px] bg-white/5 rounded-full blur-[100px] pointer-events-none transform-gpu" />
 
                     {/* Vertical Text Branding */}
-                    <div className="absolute left-10 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-6 opacity-20">
-                        <div className="w-px h-24 bg-linear-to-b from-transparent via-white to-transparent" />
-                        <span className="text-[10px] font-black uppercase tracking-[0.5em] rotate-90 whitespace-nowrap">CREATIVE EXCELLENCE</span>
-                        <div className="w-px h-24 bg-linear-to-b from-transparent via-white to-transparent" />
+                    <div className="absolute left-10 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-8 opacity-20">
+                        <div className="w-px h-32 bg-linear-to-b from-transparent via-white to-transparent" />
+                        <span className="text-[12px] font-black uppercase tracking-[0.5em] rotate-90 whitespace-nowrap">CREATIVE EXCELLENCE</span>
+                        <div className="w-px h-32 bg-linear-to-b from-transparent via-white to-transparent" />
                     </div>
 
                     {/* Giant Ghost "8" */}
@@ -220,10 +220,10 @@ export default function About() {
                 </div>
                 <Container className="relative z-10">
                     <span className="text-secondary font-black uppercase tracking-[0.5em] text-[10px] md:text-xs mb-8 block animate-in fade-in slide-in-from-bottom-4 duration-700">{t.subtitle}</span>
-                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase mb-8 text-white leading-[0.9]">
+                    <h1 className="text-3xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase mb-10 text-white leading-[0.9]">
                         {t.title}
                     </h1>
-                    <p className="text-base md:text-xl text-white/50 font-medium leading-relaxed max-w-2xl mt-8 italic border-l-4 border-secondary pl-6 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
+                    <p className="text-sm md:text-xl text-white/50 font-medium leading-relaxed max-w-2xl mt-10 italic border-l-4 border-secondary pl-6 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
                         {t.desc}
                     </p>
                 </Container>

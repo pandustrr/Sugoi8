@@ -206,12 +206,7 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
 
     const heroImage = settings?.home_hero_bg || settings?.hero_background_image || "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&q=80&w=2000";
 
-    const [scrollY, setScrollY] = useState(0);
-
     useEffect(() => {
-        const handleScroll = () => setScrollY(window.scrollY);
-        window.addEventListener('scroll', handleScroll, { passive: true });
-
         const observer = new IntersectionObserver(
             (entries) => entries.forEach(e => {
                 if (e.isIntersecting) setVisible(prev => ({ ...prev, [e.target.id]: true }));
@@ -220,7 +215,6 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
         );
         Object.values(sectionRefs.current).forEach(el => el && observer.observe(el));
         return () => {
-            window.removeEventListener('scroll', handleScroll);
             observer.disconnect();
         };
     }, []);
@@ -288,9 +282,9 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
                 </div>
 
                 {/* ── Orbs ── */}
-                <div className="absolute top-16 right-12 w-80 h-80 bg-secondary/15 rounded-full blur-[110px] animate-pulse pointer-events-none" />
-                <div className="absolute bottom-24 left-8 w-96 h-96 bg-secondary/10 rounded-full blur-[130px] animate-pulse pointer-events-none" style={{ animationDelay: '1.2s' }} />
-                <div className="absolute top-1/2 right-1/3 w-48 h-48 bg-white/5 rounded-full blur-[70px] animate-pulse pointer-events-none" style={{ animationDelay: '2.4s' }} />
+                <div className="absolute top-16 right-12 w-80 h-80 bg-secondary/15 rounded-full blur-[100px] animate-pulse pointer-events-none transform-gpu" />
+                <div className="absolute bottom-24 left-8 w-96 h-96 bg-secondary/10 rounded-full blur-[110px] animate-pulse pointer-events-none transform-gpu" style={{ animationDelay: '1.2s' }} />
+                <div className="absolute top-1/2 right-1/3 w-48 h-48 bg-white/5 rounded-full blur-[60px] animate-pulse pointer-events-none transform-gpu" style={{ animationDelay: '2.4s' }} />
 
                 {/* ── Animated concentric rings (bottom-right corner) ── */}
                 <div className="absolute bottom-0 right-[-40px] pointer-events-none hidden lg:block">

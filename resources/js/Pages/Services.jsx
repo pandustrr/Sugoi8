@@ -128,11 +128,11 @@ export default function Services() {
                         backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
                         backgroundSize: '48px 48px'
                     }} />
-                    <div className="absolute top-1/2 left-1/2 w-[1000px] h-[1000px] bg-secondary/10 rounded-full blur-[160px] -translate-x-1/2 -translate-y-1/2" />
-                    <div className="absolute left-10 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-6 opacity-20">
-                        <div className="w-px h-24 bg-linear-to-b from-transparent via-white to-transparent" />
-                        <span className="text-[10px] font-black uppercase tracking-[0.5em] rotate-90 whitespace-nowrap">CREATIVE EXCELLENCE</span>
-                        <div className="w-px h-24 bg-linear-to-b from-transparent via-white to-transparent" />
+                    <div className="absolute top-1/2 left-1/2 w-[1000px] h-[1000px] bg-secondary/10 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 pointer-events-none transform-gpu" />
+                    <div className="absolute left-10 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-8 opacity-20 pointer-events-none">
+                        <div className="w-px h-32 bg-linear-to-b from-transparent via-white to-transparent" />
+                        <span className="text-[12px] font-black uppercase tracking-[0.5em] rotate-90 whitespace-nowrap">CREATIVE EXCELLENCE</span>
+                        <div className="w-px h-32 bg-linear-to-b from-transparent via-white to-transparent" />
                     </div>
                     <div className="absolute -left-20 bottom-0 text-[30rem] font-black text-white/2 uppercase leading-none select-none tracking-tighter rotate-[-5deg]">
                         EXPERT
@@ -141,8 +141,8 @@ export default function Services() {
 
                 <Container className="relative z-10">
                     <div className="max-w-4xl text-left">
-                        <span className="text-secondary font-black uppercase tracking-[0.5em] text-[9px] md:text-[11px] mb-4 block animate-in fade-in slide-in-from-bottom-4 duration-700">{t.subtitle}</span>
-                        <h1 className="text-2xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase mb-6 text-white leading-[0.85] animate-in fade-in slide-in-from-bottom-10 duration-1000">
+                        <span className="text-secondary font-black uppercase tracking-[0.5em] text-[10px] md:text-xs mb-8 block animate-in fade-in slide-in-from-bottom-4 duration-700">{t.subtitle}</span>
+                        <h1 className="text-3xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase mb-10 text-white leading-[0.85] animate-in fade-in slide-in-from-bottom-10 duration-1000">
                             {(settings?.[`services_title_${lang}`] || t.title).split(' ').map((word, i) => (
                                 <span key={i} className="block overflow-hidden">
                                     <span className="block animate-in slide-in-from-bottom-full duration-1000" style={{ transitionDelay: `${i * 150}ms` }}>
@@ -151,7 +151,7 @@ export default function Services() {
                                 </span>
                             ))}
                         </h1>
-                        <p className="text-xs md:text-lg text-white/50 font-medium leading-relaxed max-w-2xl mt-6 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500 italic border-l-4 border-secondary pl-6">
+                        <p className="text-sm md:text-xl text-white/50 font-medium leading-relaxed max-w-2xl mt-10 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500 italic border-l-4 border-secondary pl-6">
                             {settings?.[`services_desc_${lang}`] || t.desc}
                         </p>
                     </div>
@@ -166,10 +166,10 @@ export default function Services() {
                         {t.list.map((s, i) => (
                             <div key={i} className={`flex flex-col lg:flex-row gap-8 md:gap-20 items-center ${i % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
                                 <div className="w-full lg:w-5/12 relative group max-w-2xl lg:max-w-none">
-                                    <div className="w-full h-[200px] md:h-[380px] lg:h-[450px] rounded-[20px] md:rounded-[40px] lg:rounded-[56px] overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.1)] relative">
+                                    <div className="w-full h-[200px] md:h-[380px] lg:h-[450px] rounded-[20px] md:rounded-[40px] lg:rounded-[56px] overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.1)] relative transform-gpu">
                                         <img
                                             src={s.image}
-                                            className="w-full h-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-110"
+                                            className="w-full h-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-110 will-change-transform"
                                             alt={s.title}
                                         />
                                         <div className="absolute inset-0 bg-primary/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
