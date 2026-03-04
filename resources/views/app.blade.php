@@ -5,7 +5,28 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title inertia>{{ config('app.name', 'Laravel') }}</title>
+    <title inertia>{{ config('app.name', 'Sugoi 8 Management') }}</title>
+
+    <!-- Meta SEO Dasar -->
+    <meta name="description" content="Sugoi 8 Management - Mewujudkan Mimpi & Merancang Pengalaman. Solusi total untuk event organizer, MICE, show management, dan produksi panggung profesional di Indonesia.">
+    <meta name="keywords" content="event organizer, show management, MICE, event production, sugoi 8, sugoi 8 management, jember, bali, jakarta, manajemen acara">
+    <meta name="author" content="Sugoi 8 Management">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Social Media (Facebook, WA, LinkedIn) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="Sugoi 8 Management - Designing Dreams & Crafting Experiences">
+    <meta property="og:description" content="Solusi total untuk event impian anda, dari konsep hingga eksekusi panggung profesional.">
+    <meta property="og:image" content="{{ asset('8-sugoi-trans.png') }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url()->current() }}">
+    <meta property="twitter:title" content="Sugoi 8 Management - Designing Dreams & Crafting Experiences">
+    <meta property="twitter:description" content="Solusi total untuk event impian anda, dari konsep hingga eksekusi panggung profesional.">
+    <meta property="twitter:image" content="{{ asset('8-sugoi-trans.png') }}">
+
     <link rel="icon" type="image/png" href="/8-sugoi-trans.png">
     <link rel="apple-touch-icon" href="/8-sugoi-trans.png">
 
@@ -18,6 +39,31 @@
     @routes
     @viteReactRefresh
     @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Sugoi 8 Management",
+            "url": "https://sugoi8management.com",
+            "logo": "https://sugoi8management.com/8-sugoi-trans.png",
+            "description": "Designing Dreams & Crafting Experiences. Sugoi 8 Management adalah penyedia solusi total untuk event organizer, MICE, dan manajemen pertunjukan profesional.",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Jl. Piere Tendean, Karangrejo, Sumbersari",
+                "addressLocality": "Jember",
+                "addressRegion": "Jawa Timur",
+                "postalCode": "68124",
+                "addressCountry": "ID"
+            },
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+6285954464539",
+                "contactType": "customer service"
+            }
+        }
+    </script>
+
     @inertiaHead
 </head>
 

@@ -248,7 +248,11 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
 
     return (
         <MainLayout lang={lang} onLangChange={setLang} darkMode={darkMode} onDarkModeToggle={setDarkMode}>
-            <Head title={t.metaTitle} />
+            <Head>
+                <title>{t.metaTitle}</title>
+                <meta name="description" content={t.heroDesc} />
+                <meta name="keywords" content="sugoi 8 management, event organizer jember, show management indonesia, mice services, production stage" />
+            </Head>
 
             {/* 1. Hero Section */}
             <section className="relative min-h-[60vh] md:min-h-[75vh] flex items-center pt-16 md:pt-20 overflow-hidden bg-primary">

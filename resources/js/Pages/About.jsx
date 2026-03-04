@@ -180,7 +180,11 @@ export default function About() {
 
     return (
         <MainLayout lang={lang} onLangChange={setLang} darkMode={darkMode} onDarkModeToggle={setDarkMode}>
-            <Head title={t.metaTitle} />
+            <Head>
+                <title>{t.metaTitle}</title>
+                <meta name="description" content={t.desc} />
+                <meta name="keywords" content="about sugoi 8, event management team, creative agency indonesia, vision mission sugoi 8" />
+            </Head>
 
             {/* ── 1. HERO ── */}
             <section className="relative min-h-[600px] pt-52 pb-24 bg-primary text-white overflow-hidden">

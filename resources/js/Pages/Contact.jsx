@@ -45,7 +45,11 @@ export default function Contact() {
 
     return (
         <MainLayout lang={lang} onLangChange={setLang} darkMode={darkMode} onDarkModeToggle={setDarkMode}>
-            <Head title={t.title} />
+            <Head>
+                <title>{t.title}</title>
+                <meta name="description" content={t.desc} />
+                <meta name="keywords" content="contact sugoi 8, event organizer jember office, hire show management, event inquiry indonesia" />
+            </Head>
 
             <section className="relative pt-48 pb-24 bg-primary text-white overflow-hidden text-center">
                 <div className="absolute inset-0 z-0">
