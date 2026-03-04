@@ -268,7 +268,58 @@ export default function PageSettings() {
                             </div>
                         </div>
                     )}
+                    {/* About Specific: Vision & Mission Image */}
+                    {activePageTab === 'about' && (
+                        <div className="bg-white rounded-[40px] border border-dark/5 p-10 md:p-12 shadow-sm space-y-10">
+                            <div className="flex items-center gap-5">
+                                <div className="w-2.5 h-10 bg-primary rounded-full" />
+                                <div>
+                                    <h2 className="text-base font-black text-dark uppercase tracking-tight">About — Vision & Mission Image</h2>
+                                    <p className="text-[11px] text-dark/30 font-bold uppercase tracking-wider mt-1">Gambar yang muncul di samping teks Visi & Misi</p>
+                                </div>
+                            </div>
 
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+                                <div className="relative aspect-4/5 rounded-3xl overflow-hidden bg-light border border-dark/5">
+                                    <img
+                                        src={(data.image && data.key === 'about_vision_mission_img') ? URL.createObjectURL(data.image) : (settings.about_vision_mission_img || "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=1200")}
+                                        className="w-full h-full object-cover"
+                                        alt="Vision & Mission Preview"
+                                    />
+                                </div>
+
+                                <div className="space-y-6">
+                                    <input
+                                        type="file"
+                                        id="about-vision-img"
+                                        className="hidden"
+                                        accept="image/*"
+                                        onChange={(e) => {
+                                            const file = e.target.files[0];
+                                            if (file) setData({ image: file, key: 'about_vision_mission_img' });
+                                        }}
+                                    />
+                                    <label
+                                        htmlFor="about-vision-img"
+                                        className="block px-8 py-5 bg-light border-2 border-dashed border-dark/10 rounded-2xl text-center cursor-pointer hover:border-secondary transition-all"
+                                    >
+                                        <PhotoIcon className="w-8 h-8 mx-auto mb-2 text-dark/20" />
+                                        <p className="text-[10px] font-black text-dark uppercase tracking-widest">
+                                            {data.image && data.key === 'about_vision_mission_img' ? data.image.name : 'Pilih Foto Baru'}
+                                        </p>
+                                    </label>
+
+                                    <button
+                                        onClick={handleSubmit}
+                                        disabled={processing || !data.image || data.key !== 'about_vision_mission_img'}
+                                        className="w-full py-4 bg-primary text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-[1.02] transition-all disabled:opacity-40"
+                                    >
+                                        {processing && data.key === 'about_vision_mission_img' ? 'Menyimpan...' : 'Update Foto Visi & Misi'}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                     {/* Service Images Panel — hanya muncul di tab Services */}
                     {activePageTab === 'services' && (
                         <ServiceImagesPanel settings={settings} />
