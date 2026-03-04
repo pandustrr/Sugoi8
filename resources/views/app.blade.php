@@ -27,8 +27,10 @@
     <meta property="twitter:description" content="Solusi total untuk event impian anda, dari konsep hingga eksekusi panggung profesional.">
     <meta property="twitter:image" content="{{ asset('8-sugoi-trans.png') }}">
 
-    <link rel="icon" type="image/png" href="/8-sugoi-trans.png">
-    <link rel="apple-touch-icon" href="/8-sugoi-trans.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/8-sugoi-trans.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/8-sugoi-trans.png">
+    <link rel="shortcut icon" href="/8-sugoi-trans.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/8-sugoi-trans.png">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
