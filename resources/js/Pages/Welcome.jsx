@@ -374,9 +374,9 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
                             </div>
                         </div>
 
-                        <div className="flex flex-col lg:flex-row items-start lg:items-end gap-8 md:gap-12 mt-12 md:mt-16 transition-all">
-                            <div className="grow max-w-xl">
-                                <p className="text-sm md:text-base text-white font-medium leading-relaxed drop-shadow-md">
+                        <div className="flex flex-col lg:flex-row items-start lg:items-end gap-10 md:gap-14 lg:gap-12 mt-12 md:mt-20 lg:mt-16 transition-all">
+                            <div className="grow max-w-2xl">
+                                <p className="text-sm md:text-lg lg:text-base text-white font-medium leading-relaxed drop-shadow-md">
                                     {t.heroDesc}
                                 </p>
                             </div>
@@ -414,9 +414,9 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
             {/* Marquee Strip */}
             <TextRun className="bg-secondary py-4" />
             {/* 2. About Section */}
-            <section id="about" className="py-16 md:py-24 overflow-hidden bg-white" ref={el => sectionRefs.current['about'] = el}>
+            <section id="about" className="py-20 md:py-32 overflow-hidden bg-white" ref={el => sectionRefs.current['about'] = el}>
                 <Container>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-12 lg:gap-24 items-center">
                         {/* Left: Image + Tagline */}
                         <div className={`relative ${fadeIn('about')}`}>
                             <div className="relative z-10 rounded-[40px] md:rounded-[60px] overflow-hidden shadow-2xl group">
@@ -448,9 +448,9 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
                         {/* Right: About Content with bullets */}
                         <div className={fadeIn('about', 'delay-200')}>
                             <span className="text-primary font-black uppercase tracking-[0.3em] text-[10px] block mb-3">{t.aboutTag}</span>
-                            <h2 className="font-black tracking-tighter leading-none mb-8 md:mb-10 uppercase">
-                                <span className="block text-2xl md:text-5xl text-secondary">{t.aboutTitle1}</span>
-                                <span className="block text-xl md:text-4xl text-primary">{t.aboutTitle2}</span>
+                            <h2 className="font-black tracking-tighter leading-none mb-6 md:mb-8 lg:mb-10 uppercase">
+                                <span className="block text-2xl md:text-3xl lg:text-5xl text-secondary">{t.aboutTitle1}</span>
+                                <span className="block text-xl md:text-2xl lg:text-4xl text-primary">{t.aboutTitle2}</span>
                             </h2>
                             <ul className="space-y-4 mb-12">
                                 {t.aboutBullets.map((bullet, i) => (
@@ -648,9 +648,9 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
             )}
 
             {/* 6. Contact Section */}
-            <section id="contact" className="py-16 md:py-20 bg-dark">
+            <section id="contact" className="py-20 md:py-32 bg-dark">
                 <Container>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 items-center">
                         <div>
                             <span className="text-secondary font-black uppercase tracking-widest text-[10px] md:text-xs block mb-4">{t.contactTag}</span>
                             <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white mb-6 leading-none">

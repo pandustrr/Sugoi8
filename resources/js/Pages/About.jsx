@@ -238,8 +238,8 @@ export default function About() {
             {/* ── 3. VISION & MISSION ── */}
             <section className="py-20 md:py-32 bg-white">
                 <Container>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-                        <div className="space-y-10 md:space-y-12 order-2 lg:order-1">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24 items-center">
+                        <div className="space-y-10 md:space-y-12 order-2 md:order-1">
                             <div>
                                 <div className="w-12 h-12 md:w-14 md:h-14 bg-primary/5 rounded-2xl flex items-center justify-center mb-5 md:mb-6">
                                     <StarIcon className="w-6 h-6 md:w-7 md:h-7 text-primary" />
@@ -255,9 +255,13 @@ export default function About() {
                                 <p className="text-base md:text-lg text-dark/60 leading-relaxed font-medium">{t.missionDesc}</p>
                             </div>
                         </div>
-                        <div className="relative order-1 lg:order-2">
+                        <div className="relative order-1 md:order-2">
                             <div className="aspect-4/5 h-[400px] md:h-auto rounded-[32px] md:rounded-[48px] overflow-hidden shadow-2xl">
-                                <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=1200" className="w-full h-full object-cover" alt="Team" />
+                                <img
+                                    src={settings?.about_vision_mission_img || "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=1200"}
+                                    className="w-full h-full object-cover"
+                                    alt="Vision & Mission"
+                                />
                             </div>
                             <div className="absolute -bottom-10 -left-10 w-48 h-48 md:w-64 md:h-64 bg-primary/10 rounded-full blur-[80px] -z-10" />
                         </div>
