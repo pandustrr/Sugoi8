@@ -152,129 +152,107 @@ export default function Services() {
                         onClick={closeModal}
                     />
 
-                    {/* Landscape on md+, portrait on mobile */}
-                    <div className="relative z-10 w-full max-w-4xl bg-white rounded-2xl md:rounded-[32px] shadow-[0_40px_100px_rgba(0,0,0,0.35)] border border-dark/5 flex flex-col md:flex-row animate-in zoom-in-95 duration-300" style={{ maxHeight: '92vh', overflow: 'hidden' }}>
+                    {/* Visual-First Modal: Photo & Gallery Only */}
+                    <div className="relative z-10 w-full max-w-3xl bg-white rounded-2xl md:rounded-[32px] shadow-[0_40px_100px_rgba(0,0,0,0.35)] border border-dark/5 flex flex-col animate-in zoom-in-95 duration-300" style={{ maxHeight: '92vh', overflow: 'hidden' }}>
 
-                        {/* Left — fixed image column */}
-                        <div className="hidden md:block w-2/5 shrink-0 relative">
-                            {(() => {
-                                const slug = isCategoryView ? null : selectedItem.toLowerCase().replace(/\s+/g, '_');
-                                const mainImg = isCategoryView
-                                    ? serviceImages[itemCatId === 'eo' ? 'event_organizer' : itemCatId === 'show' ? 'show_management' : itemCatId]
-                                    : settings?.[`service_item_${itemCatId}_${slug}_main`];
-                                return (
-                                    <img
-                                        src={mainImg || `https://placehold.co/600x800/1a1a1a/ffffff?text=${selectedItem}`}
-                                        className="absolute inset-0 w-full h-full object-cover"
-                                        alt={selectedItem}
-                                    />
-                                );
-                            })()}
-                            {/* gradient overlay */}
-                            <div className="absolute inset-0 bg-linear-to-r from-transparent to-white/10" />
-                            {/* title badge */}
-                            <div className="absolute bottom-6 left-6 right-6">
-                                <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-3">
-                                    <p className="text-[9px] font-black text-white/70 uppercase tracking-[0.2em]">Sugoi Creative</p>
-                                    <h3 className="text-lg font-black text-white uppercase leading-tight tracking-tight">{selectedItem}</h3>
-                                </div>
+                        {/* Header */}
+                        <div className="px-5 py-4 md:px-6 md:py-5 border-b border-dark/5 flex items-center justify-between shrink-0 bg-white z-20">
+                            <div className="flex items-center gap-3">
+                                <div className="w-1.5 h-1.5 bg-secondary rounded-full" />
+                                <h4 className="text-[10px] font-black text-dark uppercase tracking-widest">
+                                    {isCategoryView ? 'SERVICE CAPABILITIES' : 'PROJECT GALLERY'}
+                                </h4>
                             </div>
+                            <button onClick={closeModal} className="p-2 bg-light hover:bg-dark text-dark/40 hover:text-white rounded-full transition-all">
+                                <XMarkIcon className="w-5 h-5" />
+                            </button>
                         </div>
 
-                        {/* Right — scrollable content column */}
-                        <div className="flex flex-col flex-1 min-w-0" style={{ minHeight: 0, overflow: 'hidden' }}>
-                            <div className="px-5 py-4 md:px-8 md:py-6 border-b border-dark/5 flex items-center justify-between shrink-0">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-2 h-2 bg-secondary rounded-full animate-pulse" />
-                                    <h4 className="text-[10px] font-black text-dark uppercase tracking-widest">
-                                        {isCategoryView ? 'SERVICE OVERVIEW' : 'SERVICE GALLERY'}
-                                    </h4>
-                                </div>
-                                <button onClick={closeModal} className="p-2.5 bg-light hover:bg-dark text-dark/40 hover:text-white rounded-full transition-all shadow-sm">
-                                    <XMarkIcon className="w-5 h-5" />
-                                </button>
-                            </div>
+                        {/* Body */}
+                        <div className="flex-1 overflow-y-auto min-h-0 bg-[#fefefe]">
 
-                            {/* Mobile image (only shown on small screens) */}
-                            <div className="md:hidden aspect-video w-full shrink-0 overflow-hidden">
+                            {/* Banner Image */}
+                            <div className="w-full aspect-21/9 md:aspect-2.5/1 relative overflow-hidden group">
                                 {(() => {
                                     const slug = isCategoryView ? null : selectedItem.toLowerCase().replace(/\s+/g, '_');
                                     const mainImg = isCategoryView
                                         ? serviceImages[itemCatId === 'eo' ? 'event_organizer' : itemCatId === 'show' ? 'show_management' : itemCatId]
                                         : settings?.[`service_item_${itemCatId}_${slug}_main`];
-                                    return <img src={mainImg || `https://placehold.co/800x450/1a1a1a/ffffff?text=${selectedItem}`} className="w-full h-full object-cover" alt={selectedItem} />;
+                                    return (
+                                        <img
+                                            src={mainImg || `https://placehold.co/1200x500/1a1a1a/ffffff?text=${selectedItem}`}
+                                            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                                            alt={selectedItem}
+                                        />
+                                    );
                                 })()}
+                                <div className="absolute inset-0 bg-linear-to-t from-dark/70 via-transparent to-transparent" />
+                                <div className="absolute bottom-6 left-6 md:left-8 text-left">
+                                    <p className="text-[9px] font-black text-white/60 uppercase tracking-[0.4em] mb-1">SUGOI GALLERY</p>
+                                    <h3 className="text-xl md:text-3xl font-black text-white uppercase tracking-tighter">{selectedItem}</h3>
+                                </div>
                             </div>
 
-                            {/* Scrollable body */}
-                            <div className="flex-1 px-5 py-4 md:px-8 md:py-6 space-y-5" style={{ overflowY: 'auto', minHeight: 0 }}>
-                                {/* Service title */}
-                                <div className="space-y-1 text-left">
-                                    <h3 className="text-xl font-black text-dark uppercase tracking-tighter">{selectedItem}</h3>
-                                    <p className="text-[10px] font-black text-secondary tracking-[0.25em] uppercase">Creative Excellence · Sugoi</p>
-                                </div>
+                            {/* Content Section */}
+                            <div className="px-5 py-6 md:px-10 md:py-10">
+                                {isCategoryView ? (
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-left">
+                                        {t.list.find(l => {
+                                            const ids = ['eo', 'show', 'mice', 'production', 'digital'];
+                                            return ids[t.list.indexOf(l)] === itemCatId;
+                                        })?.items.map((item, idx) => (
+                                            <div key={idx} className="flex items-center gap-3 p-3.5 bg-white rounded-xl border border-dark/5 hover:border-secondary/20 transition-all shadow-sm">
+                                                <div className="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
+                                                <span className="font-bold text-dark text-[11px] uppercase tracking-wide">{item}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="space-y-6">
+                                        <div className="flex items-center gap-4">
+                                            <p className="text-[10px] font-black text-dark/30 uppercase tracking-[0.3em] shrink-0">Photos</p>
+                                            <div className="h-px w-full bg-dark/5" />
+                                        </div>
 
-                                {/* Gallery or Category list */}
-                                {(() => {
-                                    if (isCategoryView) {
-                                        return (
-                                            <div className="space-y-3">
-                                                <p className="text-[10px] font-black text-dark/30 uppercase tracking-[0.15em]">Included Services</p>
-                                                <div className="grid grid-cols-1 gap-2">
-                                                    {t.list.find(l => {
-                                                        const ids = ['eo', 'show', 'mice', 'production', 'digital'];
-                                                        return ids[t.list.indexOf(l)] === itemCatId;
-                                                    })?.items.map((item, idx) => (
-                                                        <div key={idx} className="flex items-center gap-3 p-3 bg-light/60 rounded-xl border border-dark/5 hover:border-secondary/20 hover:bg-white transition-all group">
-                                                            <div className="w-1.5 h-1.5 rounded-full bg-secondary shrink-0 group-hover:scale-125 transition-transform" />
-                                                            <span className="font-bold text-dark text-[11px] uppercase tracking-wide">{item}</span>
+                                        {(() => {
+                                            const slug = selectedItem.toLowerCase().replace(/\s+/g, '_');
+                                            const subImgs = [];
+                                            if (slug) {
+                                                let idx = 1;
+                                                while (idx <= 100) {
+                                                    const img = settings?.[`service_item_${itemCatId}_${slug}_sub_${idx}`];
+                                                    if (!img && idx > 6) break;
+                                                    subImgs.push({ i: idx, img: img || null });
+                                                    idx++;
+                                                }
+                                            }
+
+                                            return (
+                                                <div className="grid grid-cols-3 gap-2 md:gap-4">
+                                                    {subImgs.map(({ i, img }) => (
+                                                        <div key={i} className={`aspect-square rounded-xl md:rounded-2xl overflow-hidden border border-dark/5 bg-light ${img ? 'shadow-md group cursor-zoom-in' : 'opacity-[0.15]'}`}>
+                                                            {img
+                                                                ? <img src={img} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={`Gallery ${i}`} />
+                                                                : <div className="w-full h-full flex items-center justify-center"><div className="w-1 h-1 rounded-full bg-dark/10" /></div>
+                                                            }
                                                         </div>
                                                     ))}
                                                 </div>
-                                            </div>
-                                        );
-                                    }
-
-                                    // Gallery — dynamically collect all sub images (no fixed limit)
-                                    const slug = selectedItem.toLowerCase().replace(/\s+/g, '_');
-                                    const subImgs = [];
-                                    let idx = 1;
-                                    while (idx <= 100) {
-                                        const img = settings?.[`service_item_${itemCatId}_${slug}_sub_${idx}`];
-                                        if (!img && idx > 3) break; // show at least 3 placeholders, then stop
-                                        subImgs.push({ i: idx, img: img || null });
-                                        idx++;
-                                    }
-
-                                    return (
-                                        <div className="space-y-4">
-                                            <p className="text-[10px] font-black text-dark/30 uppercase tracking-[0.15em]">
-                                                Project Gallery · {subImgs.filter(s => s.img).length} photos
-                                            </p>
-                                            <div className="grid grid-cols-3 gap-2 md:gap-3">
-                                                {subImgs.map(({ i, img }) => (
-                                                    <div key={i} className={`aspect-square rounded-xl md:rounded-2xl overflow-hidden border border-dark/5 bg-light ${img ? 'shadow-md group cursor-zoom-in' : 'opacity-20'}`}>
-                                                        {img
-                                                            ? <img src={img} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={`Gallery ${i}`} />
-                                                            : <div className="w-full h-full flex items-center justify-center"><div className="w-1 h-1 rounded-full bg-dark/10" /></div>
-                                                        }
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    );
-                                })()}
+                                            );
+                                        })()}
+                                    </div>
+                                )}
                             </div>
+                        </div>
 
-                            {/* Footer */}
-                            <div className="px-5 py-4 md:px-8 md:py-6 border-t border-dark/5 shrink-0">
-                                <button
-                                    onClick={closeModal}
-                                    className="w-full py-4 bg-dark text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-primary transition-all shadow-lg"
-                                >
-                                    CLOSE
-                                </button>
-                            </div>
+                        {/* Footer */}
+                        <div className="px-5 py-4 md:px-8 md:py-6 border-t border-dark/5 shrink-0 bg-white">
+                            <button
+                                onClick={closeModal}
+                                className="w-full py-4 bg-dark text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-secondary transition-all"
+                            >
+                                CLOSE
+                            </button>
                         </div>
                     </div>
                 </div>
