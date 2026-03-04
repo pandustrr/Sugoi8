@@ -421,7 +421,7 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
                         <div className={`relative max-w-lg mx-auto lg:mx-0 ${fadeIn('about')}`}>
                             <div className="space-y-4 md:space-y-5 relative z-10">
                                 {/* Main Image */}
-                                <div className="rounded-[28px] md:rounded-[40px] overflow-hidden shadow-2xl aspect-16/9 group">
+                                <div className="rounded-[28px] md:rounded-[40px] overflow-hidden shadow-2xl aspect-video group">
                                     <img
                                         src={settings?.home_about_main || settings?.home_about_img || "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1200"}
                                         alt="Main Gallery"
