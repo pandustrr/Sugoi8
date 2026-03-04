@@ -521,8 +521,7 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
                                 className={`group cursor-pointer block ${fadeIn('services', `delay-${(idx % 3) * 100}`)}`}
                             >
                                 <div className="aspect-video mb-5 lg:mb-8 overflow-hidden rounded-[24px] md:rounded-[40px] shadow-2xl relative bg-dark">
-                                    <img src={service.image} className="w-full h-full object-cover opacity-80 grayscale group-hover:grayscale-0 group-hover:scale-110 group-hover:opacity-100 transition-all duration-1000" alt={service.title} />
-                                    <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                    <img src={service.image} className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110" alt={service.title} />
 
                                     {/* Spotlight hover effect */}
                                     <div className="absolute inset-0 bg-radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(249,215,131,0.15) 0%, transparent 80%) opacity-0 group-hover:opacity-100 transition-opacity" />

@@ -256,12 +256,33 @@ export default function About() {
                             </div>
                         </div>
                         <div className="relative order-1 md:order-2">
-                            <div className="aspect-4/5 h-[400px] md:h-auto rounded-[32px] md:rounded-[48px] overflow-hidden shadow-2xl">
-                                <img
-                                    src={settings?.about_vision_mission_img || "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=1200"}
-                                    className="w-full h-full object-cover"
-                                    alt="Vision & Mission"
-                                />
+                            <div className="space-y-4 md:space-y-5 relative z-10 max-w-lg mx-auto md:ml-auto md:mr-0">
+                                {/* Main Image */}
+                                <div className="rounded-[28px] md:rounded-[40px] overflow-hidden shadow-2xl aspect-video group">
+                                    <img
+                                        src={settings?.about_vision_main || settings?.about_vision_mission_img || "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=1200"}
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                        alt="Vision Main"
+                                    />
+                                </div>
+
+                                {/* Secondary Images Row */}
+                                <div className="grid grid-cols-2 gap-3 md:gap-4">
+                                    <div className="rounded-xl md:rounded-2xl overflow-hidden shadow-xl aspect-square group">
+                                        <img
+                                            src={settings?.about_vision_sub_1 || "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800"}
+                                            alt="Vision Sub 1"
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                        />
+                                    </div>
+                                    <div className="rounded-xl md:rounded-2xl overflow-hidden shadow-xl aspect-square group">
+                                        <img
+                                            src={settings?.about_vision_sub_2 || "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800"}
+                                            alt="Vision Sub 2"
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                        />
+                                    </div>
+                                </div>
                             </div>
                             <div className="absolute -bottom-10 -left-10 w-48 h-48 md:w-64 md:h-64 bg-primary/10 rounded-full blur-[80px] -z-10" />
                         </div>

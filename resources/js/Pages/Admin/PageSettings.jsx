@@ -288,54 +288,74 @@ export default function PageSettings() {
                             </div>
                         </div>
                     )}
-                    {/* About Specific: Vision & Mission Image */}
+                    {/* About Specific: Section Vision Gallery */}
                     {activePageTab === 'about' && (
-                        <div className="bg-white rounded-[40px] border border-dark/5 p-10 md:p-12 shadow-sm space-y-10">
-                            <div className="flex items-center gap-5">
-                                <div className="w-2.5 h-10 bg-primary rounded-full" />
+                        <div className="bg-white rounded-[32px] border border-dark/5 p-8 shadow-sm space-y-8 text-left">
+                            <div className="flex items-center gap-4">
+                                <div className="w-2 h-8 bg-primary rounded-full" />
                                 <div>
-                                    <h2 className="text-base font-black text-dark uppercase tracking-tight">About — Vision & Mission Image</h2>
-                                    <p className="text-[11px] text-dark/30 font-bold uppercase tracking-wider mt-1">Gambar yang muncul di samping teks Visi & Misi</p>
+                                    <h2 className="text-sm font-black text-dark uppercase tracking-tight">About — Vision Gallery</h2>
+                                    <p className="text-[10px] text-dark/30 font-bold uppercase tracking-wider">1 Gambar Utama & 2 Gambar Pendukung</p>
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-                                <div className="relative aspect-4/5 rounded-3xl overflow-hidden bg-light border border-dark/5">
-                                    <img
-                                        src={(data.image && data.key === 'about_vision_mission_img') ? URL.createObjectURL(data.image) : (settings.about_vision_mission_img || "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=1200")}
-                                        className="w-full h-full object-cover"
-                                        alt="Vision & Mission Preview"
-                                    />
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                                {/* Main Image Side */}
+                                <div className="space-y-4 text-left">
+                                    <p className="text-[9px] font-black uppercase text-dark/40 tracking-widest ml-1">Main Image (Vision)</p>
+                                    <div className="bg-light/50 p-5 rounded-2xl border border-dark/5 space-y-4">
+                                        <div className="aspect-video max-w-xs mx-auto rounded-xl overflow-hidden bg-white shadow-sm border border-dark/5">
+                                            <img
+                                                src={(data.image && data.key === 'about_vision_main') ? URL.createObjectURL(data.image) : (settings.about_vision_main || settings.about_vision_mission_img || "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=400")}
+                                                className="w-full h-full object-cover"
+                                                alt="Vision Main Preview"
+                                            />
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <input type="file" id="about-vision-main" className="hidden" accept="image/*" onChange={(e) => setData({ image: e.target.files[0], key: 'about_vision_main' })} />
+                                            <label htmlFor="about-vision-main" className="grow px-4 py-3 bg-white border border-dark/10 rounded-xl text-center cursor-pointer hover:border-primary transition-all">
+                                                <p className="text-[9px] font-black text-dark uppercase tracking-widest">{data.image && data.key === 'about_vision_main' ? 'Terpilih' : 'Pilih Foto'}</p>
+                                            </label>
+                                            <button
+                                                onClick={handleSubmit}
+                                                disabled={processing || data.key !== 'about_vision_main'}
+                                                className="px-6 py-3 bg-primary text-white rounded-xl font-black text-[9px] uppercase tracking-widest disabled:opacity-30"
+                                            >
+                                                Update
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div className="space-y-6">
-                                    <input
-                                        type="file"
-                                        id="about-vision-img"
-                                        className="hidden"
-                                        accept="image/*"
-                                        onChange={(e) => {
-                                            const file = e.target.files[0];
-                                            if (file) setData({ image: file, key: 'about_vision_mission_img' });
-                                        }}
-                                    />
-                                    <label
-                                        htmlFor="about-vision-img"
-                                        className="block px-8 py-5 bg-light border-2 border-dashed border-dark/10 rounded-2xl text-center cursor-pointer hover:border-secondary transition-all"
-                                    >
-                                        <PhotoIcon className="w-8 h-8 mx-auto mb-2 text-dark/20" />
-                                        <p className="text-[10px] font-black text-dark uppercase tracking-widest">
-                                            {data.image && data.key === 'about_vision_mission_img' ? data.image.name : 'Pilih Foto Baru'}
-                                        </p>
-                                    </label>
-
-                                    <button
-                                        onClick={handleSubmit}
-                                        disabled={processing || !data.image || data.key !== 'about_vision_mission_img'}
-                                        className="w-full py-4 bg-primary text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-[1.02] transition-all disabled:opacity-40"
-                                    >
-                                        {processing && data.key === 'about_vision_mission_img' ? 'Menyimpan...' : 'Update Foto Visi & Misi'}
-                                    </button>
+                                {/* Sub Images Side */}
+                                <div className="space-y-4 text-left">
+                                    <p className="text-[9px] font-black uppercase text-dark/40 tracking-widest ml-1">Sub Images (Vision)</p>
+                                    <div className="grid grid-cols-2 gap-4 h-full">
+                                        {[1, 2].map((i) => (
+                                            <div key={i} className="bg-light/50 p-4 rounded-2xl border border-dark/5 flex flex-col justify-between space-y-4">
+                                                <div className="aspect-square w-20 mx-auto rounded-lg overflow-hidden bg-white border border-dark/5">
+                                                    <img
+                                                        src={(data.image && data.key === `about_vision_sub_${i}`) ? URL.createObjectURL(data.image) : (settings[`about_vision_sub_${i}`] || (i === 1 ? "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=200" : "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=200"))}
+                                                        className="w-full h-full object-cover"
+                                                        alt={`Vision Sub ${i} Preview`}
+                                                    />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <input type="file" id={`about-vision-sub-${i}`} className="hidden" accept="image/*" onChange={(e) => setData({ image: e.target.files[0], key: `about_vision_sub_${i}` })} />
+                                                    <label htmlFor={`about-vision-sub-${i}`} className="block w-full py-2 bg-white border border-dark/10 rounded-lg text-center cursor-pointer hover:bg-light transition-all">
+                                                        <p className="text-[8px] font-black text-dark uppercase tracking-widest">Pilih {i}</p>
+                                                    </label>
+                                                    <button
+                                                        onClick={handleSubmit}
+                                                        disabled={processing || data.key !== `about_vision_sub_${i}`}
+                                                        className="w-full py-2 bg-dark text-white rounded-lg font-black text-[8px] uppercase tracking-widest disabled:opacity-30"
+                                                    >
+                                                        Save
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>

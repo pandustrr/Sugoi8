@@ -173,10 +173,9 @@ export default function Services() {
                                     <div className="w-full h-[200px] md:h-[380px] lg:h-[450px] rounded-[20px] md:rounded-[40px] lg:rounded-[56px] overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.1)] relative transform-gpu">
                                         <img
                                             src={s.image}
-                                            className="w-full h-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-110 will-change-transform"
+                                            className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 will-change-transform"
                                             alt={s.title}
                                         />
-                                        <div className="absolute inset-0 bg-primary/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                                     </div>
                                     <div className="absolute -z-10 -bottom-8 -right-8 w-48 h-48 bg-secondary/10 rounded-full blur-[80px] group-hover:bg-secondary/20 transition-all duration-700" />
                                 </div>
