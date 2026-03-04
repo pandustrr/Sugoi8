@@ -267,7 +267,7 @@ export default function Ticket({ events, auth, settings }) {
                 onClose={closeModal}
                 event={selectedEvent}
                 selectedTicket={selectedTicket}
-                setSelectedTicket={setSelectedTicketf}
+                setSelectedTicket={setSelectedTicket}
                 auth={auth}
                 onPreview={setPreviewSrc}
                 settings={settings}
