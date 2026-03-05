@@ -15,6 +15,7 @@ export default function Create() {
         slug: '',
         description: '',
         date: '',
+        end_date: '',
         time: '',
         location: '',
         image: null,
@@ -170,15 +171,28 @@ export default function Create() {
                                             {errors.description && <p className="mt-2 text-xs font-bold text-red-500">{errors.description}</p>}
                                         </div>
 
-                                        <div>
-                                            <label className="block text-[10px] font-black uppercase tracking-widest text-dark/40 mb-3 px-1">Tanggal</label>
-                                            <input
-                                                type="date"
-                                                value={data.date}
-                                                onChange={e => setData('date', e.target.value)}
-                                                className="w-full bg-light border border-dark/5 rounded-2xl p-4 text-dark font-bold focus:border-primary outline-none transition-all"
-                                            />
-                                            {errors.date && <p className="mt-2 text-xs font-bold text-red-500">{errors.date}</p>}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:col-span-2">
+                                            <div>
+                                                <label className="block text-[10px] font-black uppercase tracking-widest text-dark/40 mb-3 px-1">Tanggal Mulai</label>
+                                                <input
+                                                    type="date"
+                                                    value={data.date}
+                                                    onChange={e => setData('date', e.target.value)}
+                                                    className="w-full bg-light border border-dark/5 rounded-2xl p-4 text-dark font-bold focus:border-primary outline-none transition-all"
+                                                />
+                                                {errors.date && <p className="mt-2 text-xs font-bold text-red-500">{errors.date}</p>}
+                                            </div>
+
+                                            <div>
+                                                <label className="block text-[10px] font-black uppercase tracking-widest text-dark/40 mb-3 px-1">Tanggal Selesai</label>
+                                                <input
+                                                    type="date"
+                                                    value={data.end_date}
+                                                    onChange={e => setData('end_date', e.target.value)}
+                                                    className="w-full bg-light border border-dark/5 rounded-2xl p-4 text-dark font-bold focus:border-primary outline-none transition-all"
+                                                />
+                                                {errors.end_date && <p className="mt-2 text-xs font-bold text-red-500">{errors.end_date}</p>}
+                                            </div>
                                         </div>
 
                                         <div>

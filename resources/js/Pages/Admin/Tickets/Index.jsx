@@ -132,7 +132,7 @@ export default function Index({ events }) {
                                                         <div>
                                                             <div className="flex items-center gap-3 text-dark/30 text-[10px] font-black uppercase tracking-[0.2em] mb-2 font-mono italic">
                                                                 <CalendarDaysIcon className="w-3.5 h-3.5" />
-                                                                {event.date} • {event.time}
+                                                                {event.date} {event.end_date ? ` - ${event.end_date}` : ''} • {event.time}
                                                             </div>
                                                             <h3 className="text-2xl font-black text-dark uppercase tracking-tighter leading-tight">{event.title}</h3>
                                                         </div>

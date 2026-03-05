@@ -145,6 +145,7 @@ export default function EventShow({ event, settings, auth }) {
                                     </div>
                                     <p className="text-lg md:text-xl font-black uppercase tracking-tight italic">
                                         {new Date(event.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+                                        {event.end_date && ` - ${new Date(event.end_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`}
                                     </p>
                                 </div>
                                 <div className="space-y-3">

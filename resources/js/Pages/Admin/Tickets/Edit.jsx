@@ -24,6 +24,7 @@ export default function Edit({ event }) {
         slug: event.slug || '',
         description: event.description || '',
         date: event.date,
+        end_date: event.end_date || '',
         time: event.time,
         location: event.location,
         steps: Array.isArray(event.steps) ? event.steps : [],
@@ -201,11 +202,20 @@ export default function Edit({ event }) {
                                             </p>
                                         </div>
 
-                                        {/* Date */}
-                                        <div>
-                                            <label className="block text-[10px] font-black uppercase tracking-widest text-dark/40 mb-3 px-1">Tanggal</label>
-                                            <input type="date" value={data.date} onChange={e => setData('date', e.target.value)}
-                                                className="w-full bg-light border border-dark/5 rounded-2xl p-4 text-dark font-bold focus:border-primary outline-none transition-all" />
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:col-span-2">
+                                            <div>
+                                                <label className="block text-[10px] font-black uppercase tracking-widest text-dark/40 mb-3 px-1">Tanggal Mulai</label>
+                                                <input type="date" value={data.date} onChange={e => setData('date', e.target.value)}
+                                                    className="w-full bg-light border border-dark/5 rounded-2xl p-4 text-dark font-bold focus:border-primary outline-none transition-all" />
+                                                {errors.date && <p className="mt-2 text-xs font-bold text-red-500">{errors.date}</p>}
+                                            </div>
+
+                                            <div>
+                                                <label className="block text-[10px] font-black uppercase tracking-widest text-dark/40 mb-3 px-1">Tanggal Selesai (Opsional)</label>
+                                                <input type="date" value={data.end_date} onChange={e => setData('end_date', e.target.value)}
+                                                    className="w-full bg-light border border-dark/5 rounded-2xl p-4 text-dark font-bold focus:border-primary outline-none transition-all" />
+                                                {errors.end_date && <p className="mt-2 text-xs font-bold text-red-500">{errors.end_date}</p>}
+                                            </div>
                                         </div>
 
                                         {/* Time */}

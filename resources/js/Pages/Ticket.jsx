@@ -76,7 +76,7 @@ function EventCard({ event, onOpen, onPreview }) {
             <div className="p-5 md:p-6 flex flex-col grow">
                 <div className="flex items-center gap-2 text-dark/30 text-[8px] font-black uppercase tracking-[0.2em] mb-2 font-mono">
                     <CalendarDaysIcon className="w-3 h-3 shrink-0" />
-                    {event.date}
+                    {event.date} {event.end_date ? `- ${event.end_date}` : ''}
                 </div>
                 <h3 className="text-lg md:text-xl font-black text-dark uppercase tracking-tighter leading-tight mb-4 group-hover:text-primary transition-colors italic line-clamp-2">
                     {event.title}
