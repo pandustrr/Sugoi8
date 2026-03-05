@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\MainAudienceCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
@@ -20,7 +21,7 @@ class SitemapController extends Controller
             ['loc' => url('/contact'), 'lastmod' => date('Y-m-d'), 'changefreq' => 'yearly', 'priority' => '0.5'],
         ];
 
-        // Add dynamically indexed events
+        // Halaman detail event (lomba)
         $events = Event::orderBy('date', 'desc')->get();
         foreach ($events as $event) {
             $urls[] = [
@@ -28,6 +29,20 @@ class SitemapController extends Controller
                 'lastmod' => $event->updated_at->format('Y-m-d'),
                 'changefreq' => 'weekly',
                 'priority' => '0.9',
+            ];
+        }
+
+        // Halaman tiket penonton (audience categories)
+        $audienceCategories = MainAudienceCategory::where('is_active', true)
+            ->whereNotNull('slug')
+            ->orderBy('updated_at', 'desc')
+            ->get();
+        foreach ($audienceCategories as $cat) {
+            $urls[] = [
+                'loc' => url('/eventprogram/ticket/' . $cat->slug),
+                'lastmod' => $cat->updated_at->format('Y-m-d'),
+                'changefreq' => 'weekly',
+                'priority' => '0.85',
             ];
         }
 
