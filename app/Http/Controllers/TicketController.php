@@ -109,14 +109,14 @@ class TicketController extends Controller
 
         session()->put('auth_booking', $booking->id);
 
-        return redirect()->route('tickets.dashboard', $booking->id);
+        return redirect()->route('eventprogram.dashboard', $booking->id);
     }
 
     public function dashboard(Request $request, Booking $booking)
     {
         // Simple session-based auth for the specific booking
         if (session('auth_booking') != $booking->id) {
-            return redirect()->route('tickets.checkStatus');
+            return redirect()->route('eventprogram.checkStatus');
         }
 
         return Inertia::render('Tickets/Dashboard', [
@@ -218,6 +218,6 @@ class TicketController extends Controller
     public function logout()
     {
         session()->forget('auth_booking');
-        return redirect()->route('tickets.checkStatus');
+        return redirect()->route('eventprogram.checkStatus');
     }
 }

@@ -89,15 +89,15 @@ export default function EventShow({ event, settings, auth }) {
     return (
         <MainLayout>
             <Head>
-                <title>{`${event.title} | Sugoi 8 Management`}</title>
-                <meta name="description" content={event.description || `Ikuti event ${event.title} yang diselenggarakan oleh Sugoi 8 Management. Kualitas produksi dan manajemen show terbaik di Jember.`} />
-                <meta name="keywords" content={`tiket ${event.title}, pendaftaran ${event.title}, event jember, sugoi 8, lomba tari jember`} />
+                <title>{`Event Program: ${event.title} | Sugoi 8 Management`}</title>
+                <meta name="description" content={event.description || `Ikuti program event ${event.title} yang diselenggarakan oleh Sugoi 8 Management. Kualitas produksi dan manajemen show terbaik di Jember.`} />
+                <meta name="keywords" content={`program event ${event.title}, pendaftaran ${event.title}, event jember, sugoi 8, lomba tari jember`} />
 
                 {/* OG Tags */}
-                <meta property="og:title" content={`${event.title} | Sugoi 8 Management`} />
+                <meta property="og:title" content={`Event Program: ${event.title} | Sugoi 8 Management`} />
                 <meta property="og:description" content={event.description?.substring(0, 160)} />
                 <meta property="og:image" content={poster || "https://sugoi8management.com/8-sugoi-trans.png"} />
-                <meta property="og:url" content={`${window.location.origin}/tickets/event/${event.slug}`} />
+                <meta property="og:url" content={`${window.location.origin}/eventprogram/${event.slug}`} />
             </Head>
 
             <section className="relative pt-24 pb-16 lg:pt-36 lg:pb-24 bg-primary text-white overflow-hidden">
@@ -176,7 +176,7 @@ export default function EventShow({ event, settings, auth }) {
                                 </Button>
                                 <Button
                                     variant="outline-white"
-                                    href={route('tickets.index')}
+                                    href={route('eventprogram.index')}
                                     className="h-16 px-8 text-[9px] md:text-xs font-black tracking-widest opacity-60 hover:opacity-100"
                                 >
                                     LIHAT EVENT LAINNYA
@@ -227,7 +227,7 @@ export default function EventShow({ event, settings, auth }) {
                 booking={successBooking}
                 onClose={() => {
                     setSuccessBooking(null);
-                    router.visit(route('tickets.event.show', event.slug), { preserveScroll: true, replace: true });
+                    router.visit(route('eventprogram.show', event.slug), { preserveScroll: true, replace: true });
                 }}
             />
         </MainLayout>

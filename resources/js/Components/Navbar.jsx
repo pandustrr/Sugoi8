@@ -144,7 +144,7 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
         { name: cur.services, href: '/services' },
         { name: cur.portfolio, href: '/portfolio' },
         { name: cur.partners, href: '/partners' },
-        { name: cur.tickets, href: '/tickets' },
+        { name: cur.tickets, href: '/eventprogram' },
     ];
 
     const isActive = (path) => {
@@ -289,7 +289,7 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
 
                             <div className="mt-12 pt-12 border-t border-white/5 space-y-4">
                                 <Link
-                                    href="/tickets/check-status"
+                                    href="/eventprogram/check-status"
                                     onClick={() => setMobileMenuOpen(false)}
                                     className="w-full h-16 flex items-center justify-center text-xs font-black tracking-[0.2em] text-white border border-white/10 rounded-xl"
                                 >

@@ -82,7 +82,7 @@ function EventCard({ event, onOpen, onPreview }) {
                     {event.title}
                 </h3>
                 <Link
-                    href={route('tickets.event.show', event.slug)}
+                    href={route('eventprogram.show', event.slug)}
                     className="mt-auto w-full bg-dark text-white py-3 md:py-3.5 rounded-lg md:rounded-[16px] font-black text-[9px] md:text-[10px] uppercase tracking-[0.2em] hover:bg-primary active:scale-[0.98] transition-all text-center flex items-center justify-center gap-2"
                 >
                     Join
@@ -176,8 +176,8 @@ export default function Ticket({ events, auth, settings }) {
     return (
         <MainLayout>
             <Head>
-                <title>Pendaftaran Lomba & Tiket Event | Sugoi 8 Management</title>
-                <meta name="description" content="Daftarkan diri dalam berbagai lomba karya tari dan event seru dari Sugoi 8 Management." />
+                <title>Event Program & Pendaftaran | Sugoi 8 Management</title>
+                <meta name="description" content="Ikuti berbagai program event dan pendaftaran lomba karya tari seru dari Sugoi 8 Management." />
             </Head>
 
             {/* Hero */}
@@ -223,7 +223,7 @@ export default function Ticket({ events, auth, settings }) {
                         </span>
                         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white uppercase tracking-tighter leading-[0.9] mb-8 italic">
                             TEMUKAN <br />
-                            <span className="text-secondary block mt-2 drop-shadow-2xl">EVENT KAMI</span>
+                            <span className="text-secondary block mt-2 drop-shadow-2xl">EVENT PROGRAM</span>
                         </h1>
                         <p className="text-white/50 text-base md:text-xl font-medium leading-relaxed max-w-2xl mt-8 italic border-l-4 border-secondary pl-6 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
                             Pilih event favoritmu, daftarkan diri, dan jadilah bagian dari kreativitas bersama Sugoi 8 Management.
@@ -280,7 +280,7 @@ export default function Ticket({ events, auth, settings }) {
                 onClose={() => {
                     setSuccessBooking(null);
                     // Clear the query string/state or reload if needed to purge flash
-                    router.get(route('tickets.index'), {}, { preserveScroll: true, replace: true });
+                    router.get(route('eventprogram.index'), {}, { preserveScroll: true, replace: true });
                 }}
             />
         </MainLayout>

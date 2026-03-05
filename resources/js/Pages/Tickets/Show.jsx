@@ -37,14 +37,14 @@ export default function Show({ ticket }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('tickets.purchase', ticket.id));
+        post(route('eventprogram.purchase', ticket.id));
     };
 
     const totalPrice = ticket.price * data.quantity;
 
     return (
         <MainLayout lang="id">
-            <Head title={`${ticket.title} | Sugoi 8 Management`} />
+            <Head title={`Event Program: ${ticket.title} | Sugoi 8 Management`} />
 
             <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 bg-dark text-white overflow-hidden">
                 {/* Background Decor */}

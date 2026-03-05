@@ -52,17 +52,28 @@ Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
 
 // User Booking Monitoring
-Route::get('/tickets/check-status', [TicketController::class, 'checkStatus'])->name('tickets.checkStatus');
-Route::post('/tickets/check-status', [TicketController::class, 'doCheckStatus'])->name('tickets.doCheckStatus');
-Route::get('/tickets/dashboard/{booking}', [TicketController::class, 'dashboard'])->name('tickets.dashboard');
-Route::post('/tickets/dashboard/{booking}/submit', [TicketController::class, 'submitWork'])->name('tickets.submitWork');
-Route::post('/tickets/logout', [TicketController::class, 'logout'])->name('tickets.logout');
+Route::get('/eventprogram/check-status', [TicketController::class, 'checkStatus'])->name('eventprogram.checkStatus');
+Route::post('/eventprogram/check-status', [TicketController::class, 'doCheckStatus'])->name('eventprogram.doCheckStatus');
+Route::get('/eventprogram/dashboard/{booking}', [TicketController::class, 'dashboard'])->name('eventprogram.dashboard');
+Route::post('/eventprogram/dashboard/{booking}/submit', [TicketController::class, 'submitWork'])->name('eventprogram.submitWork');
+Route::post('/eventprogram/logout', [TicketController::class, 'logout'])->name('eventprogram.logout');
 
-// User Ticket Routes
-Route::get('/tickets', [TicketController::class, 'index'])->name('tickets.index');
-Route::get('/tickets/event/{event:slug}', [TicketController::class, 'showEvent'])->name('tickets.event.show');
-Route::get('/tickets/{ticket}', [TicketController::class, 'show'])->name('tickets.show');
-Route::post('/tickets/{ticket}/purchase', [TicketController::class, 'purchase'])->name('tickets.purchase');
+// User Ticket Routes (Event Program)
+Route::get('/eventprogram', [TicketController::class, 'index'])->name('eventprogram.index');
+Route::get('/eventprogram/{event:slug}', [TicketController::class, 'showEvent'])->name('eventprogram.show');
+Route::get('/eventprogram/ticket/{ticket}', [TicketController::class, 'show'])->name('eventprogram.ticket.show');
+Route::post('/eventprogram/ticket/{ticket}/purchase', [TicketController::class, 'purchase'])->name('eventprogram.purchase');
+
+// Legacy Redirects
+Route::get('/tickets', function () {
+    return redirect()->route('eventprogram.index');
+});
+Route::get('/tickets/event/{event:slug}', function (\App\Models\Event $event) {
+    return redirect()->route('eventprogram.show', $event->slug);
+});
+Route::get('/tickets/check-status', function () {
+    return redirect()->route('eventprogram.checkStatus');
+});
 
 Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');
 Route::post('/admin/login', [AdminController::class, 'store'])->name('admin.login.post');

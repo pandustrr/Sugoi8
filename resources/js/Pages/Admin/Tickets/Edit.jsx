@@ -161,18 +161,24 @@ export default function Edit({ event }) {
 
                                             {/* Slug */}
                                             <div>
-                                                <label className="block text-[10px] font-black uppercase tracking-widest text-dark/40 mb-3 px-1 italic">Link Kustom (Slug)</label>
-                                                <div className="relative">
-                                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-dark/20 text-[10px] font-black pointer-events-none">sugoi8.id/ticket?event=</span>
+                                                <div className="flex items-center justify-between mb-3 px-1">
+                                                    <label className="block text-[10px] font-black uppercase tracking-widest text-dark/60 italic">Link Kustom (Slug)</label>
+                                                    <span className="text-[9px] font-bold text-primary italic bg-primary/5 px-2 py-0.5 rounded-lg">Digunakan untuk akses link cepat dan rapi</span>
+                                                </div>
+                                                <div className="relative group/slug">
+                                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2 border-r border-dark/10 pr-3 pointer-events-none">
+                                                        <span className="text-xs font-black text-dark/30">/eventprogram/</span>
+                                                    </div>
                                                     <input
                                                         type="text"
                                                         value={data.slug}
                                                         onChange={e => setData('slug', e.target.value)}
-                                                        className="w-full bg-light border border-dark/5 rounded-2xl py-4 pl-[135px] pr-4 text-dark font-bold focus:border-primary outline-none transition-all"
+                                                        className="w-full bg-light border border-dark/5 rounded-2xl py-4 pl-[125px] pr-4 text-dark font-bold text-xs focus:border-primary focus:bg-white outline-none transition-all shadow-inner"
                                                         placeholder="tari-nusantara"
                                                     />
                                                 </div>
                                                 {errors.slug && <p className="mt-2 text-xs font-bold text-red-500">{errors.slug}</p>}
+                                                <p className="mt-2 text-[9px] font-medium text-dark/30 px-1 italic">Contoh: sugoi8.com/eventprogram/tari-nuansa</p>
                                             </div>
                                         </div>
 
@@ -310,12 +316,12 @@ export default function Edit({ event }) {
                                                                 <h4 className="text-[12px] font-black text-dark uppercase tracking-tight">{cat.title}</h4>
                                                                 <p className="text-[10px] font-bold text-primary italic">Rp {new Intl.NumberFormat('id-ID').format(cat.price)}</p>
                                                             </div>
-                                                            <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                            <div className="flex gap-1">
                                                                 <button onClick={() => { setEditingCategory(cat); editCategoryForm.setData({ title: cat.title, price: cat.price, stock: cat.stock, gdrive_link: cat.gdrive_link || '' }); }}
-                                                                    className="p-2 text-dark/20 hover:text-primary transition-colors">
+                                                                    className="p-2 text-dark/40 hover:text-primary transition-colors hover:bg-white rounded-xl shadow-sm">
                                                                     <PencilSquareIcon className="w-4 h-4" />
                                                                 </button>
-                                                                <button onClick={() => handleDeleteCategory(cat.id)} className="p-2 text-dark/20 hover:text-red-500 transition-colors">
+                                                                <button onClick={() => handleDeleteCategory(cat.id)} className="p-2 text-dark/40 hover:text-red-500 transition-colors hover:bg-white rounded-xl shadow-sm">
                                                                     <TrashIcon className="w-4 h-4" />
                                                                 </button>
                                                             </div>
@@ -392,12 +398,12 @@ export default function Edit({ event }) {
                                                             <span className="w-2 h-2 bg-primary rounded-full shrink-0"></span>
                                                             <p className="text-[11px] font-black text-dark uppercase tracking-tight">{cat}</p>
                                                         </div>
-                                                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                        <div className="flex gap-1">
                                                             <button type="button" onClick={() => { setEditingDivisionIdx(i); setEditDivision(cat); }}
-                                                                className="p-2 text-dark/20 hover:text-primary transition-colors">
+                                                                className="p-2 text-dark/40 hover:text-primary transition-colors hover:bg-white rounded-xl shadow-sm">
                                                                 <PencilSquareIcon className="w-4 h-4" />
                                                             </button>
-                                                            <button type="button" onClick={() => removeDivision(i)} className="p-2 text-dark/20 hover:text-red-500 transition-colors">
+                                                            <button type="button" onClick={() => removeDivision(i)} className="p-2 text-dark/40 hover:text-red-500 transition-colors hover:bg-white rounded-xl shadow-sm">
                                                                 <TrashIcon className="w-4 h-4" />
                                                             </button>
                                                         </div>
@@ -472,12 +478,12 @@ export default function Edit({ event }) {
                                                                 {step.date && <p className="text-[9px] font-bold text-primary">{step.date}</p>}
                                                             </div>
                                                         </div>
-                                                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                        <div className="flex gap-1">
                                                             <button type="button" onClick={() => { setEditingStepIdx(i); setEditStep({ title: step.title, date: step.date || '' }); }}
-                                                                className="p-2 text-dark/20 hover:text-primary transition-colors">
+                                                                className="p-2 text-dark/40 hover:text-primary transition-colors hover:bg-white rounded-xl shadow-sm">
                                                                 <PencilSquareIcon className="w-4 h-4" />
                                                             </button>
-                                                            <button type="button" onClick={() => removeStep(i)} className="p-2 text-dark/20 hover:text-red-500 transition-colors">
+                                                            <button type="button" onClick={() => removeStep(i)} className="p-2 text-dark/40 hover:text-red-500 transition-colors hover:bg-white rounded-xl shadow-sm">
                                                                 <TrashIcon className="w-4 h-4" />
                                                             </button>
                                                         </div>

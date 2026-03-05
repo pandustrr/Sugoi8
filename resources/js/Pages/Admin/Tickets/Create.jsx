@@ -127,18 +127,24 @@ export default function Create() {
                                             </div>
 
                                             <div>
-                                                <label className="block text-[10px] font-black uppercase tracking-widest text-dark/40 mb-3 px-1 italic">Link Kustom (Slug)</label>
-                                                <div className="relative">
-                                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-dark/20 text-[10px] font-black pointer-events-none">sugoi8.id/ticket?event=</span>
+                                                <div className="flex items-center justify-between mb-3 px-1">
+                                                    <label className="block text-[10px] font-black uppercase tracking-widest text-dark/60 italic">Link Kustom (Slug)</label>
+                                                    <span className="text-[9px] font-bold text-primary italic bg-primary/5 px-2 py-0.5 rounded-lg">Digunakan untuk akses link cepat dan rapi</span>
+                                                </div>
+                                                <div className="relative group/slug">
+                                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2 border-r border-dark/10 pr-3 pointer-events-none">
+                                                        <span className="text-xs font-black text-dark/30">/eventprogram/</span>
+                                                    </div>
                                                     <input
                                                         type="text"
                                                         value={data.slug}
                                                         onChange={e => setData('slug', e.target.value)}
-                                                        className="w-full bg-light border border-dark/5 rounded-2xl py-4 pl-[135px] pr-4 text-dark font-bold focus:border-primary outline-none transition-all"
+                                                        className="w-full bg-light border border-dark/5 rounded-2xl py-4 pl-[125px] pr-4 text-dark font-bold text-xs focus:border-primary focus:bg-white outline-none transition-all shadow-inner"
                                                         placeholder="tari-nuansa"
                                                     />
                                                 </div>
                                                 {errors.slug && <p className="mt-2 text-xs font-bold text-red-500">{errors.slug}</p>}
+                                                <p className="mt-2 text-[9px] font-medium text-dark/30 px-1 italic">Contoh: sugoi8.com/eventprogram/tari-nuansa</p>
                                             </div>
                                         </div>
 
@@ -257,7 +263,7 @@ export default function Create() {
                                                     <span className="w-2 h-2 bg-primary rounded-full shrink-0"></span>
                                                     <p className="text-[11px] font-black text-dark uppercase tracking-tight">{cat}</p>
                                                 </div>
-                                                <button type="button" onClick={() => removeDivision(i)} className="p-2 text-dark/20 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100">
+                                                <button type="button" onClick={() => removeDivision(i)} className="p-2 text-dark/40 hover:text-red-500 transition-colors bg-white rounded-xl shadow-sm border border-dark/5">
                                                     <TrashIcon className="w-4 h-4" />
                                                 </button>
                                             </div>
@@ -298,7 +304,7 @@ export default function Create() {
                                     <div className="space-y-4">
                                         {data.tickets.map((cat) => (
                                             <div key={cat.id} className="p-5 rounded-3xl bg-light/50 border border-dark/5 hover:border-primary/20 transition-all group relative">
-                                                <button type="button" onClick={() => removeCategoryLocal(cat.id)} className="absolute -top-2 -right-2 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-lg">
+                                                <button type="button" onClick={() => removeCategoryLocal(cat.id)} className="absolute -top-2 -right-2 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center transition-all shadow-lg hover:scale-110 active:scale-90">
                                                     <TrashIcon className="w-4 h-4" />
                                                 </button>
                                                 <div className="flex justify-between items-start">
@@ -371,7 +377,7 @@ export default function Create() {
                                                         {step.date && <p className="text-[9px] font-bold text-primary">{step.date}</p>}
                                                     </div>
                                                 </div>
-                                                <button type="button" onClick={() => removeStep(step.id)} className="text-dark/20 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100">
+                                                <button type="button" onClick={() => removeStep(step.id)} className="p-2 text-dark/40 hover:text-red-500 transition-colors bg-white rounded-xl shadow-sm border border-dark/5">
                                                     <TrashIcon className="w-4 h-4" />
                                                 </button>
                                             </div>
