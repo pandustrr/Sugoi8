@@ -190,6 +190,56 @@ export default function EventShow({ event, settings, auth }) {
 
             <TextRun />
 
+            {/* Program Content Section */}
+            {event.contents?.length > 0 && (
+                <section className="py-20 md:py-32 bg-light overflow-hidden">
+                    <Container>
+                        <div className="text-center mb-16 md:mb-24">
+                            <span className="text-primary font-black uppercase tracking-[0.4em] text-[10px] md:text-xs mb-4 block italic">Exclusive Program</span>
+                            <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-dark uppercase italic leading-[0.9]">Program Content</h2>
+                            <p className="mt-6 text-dark/40 font-bold uppercase tracking-widest text-[9px] md:text-[10px] max-w-xl mx-auto leading-relaxed">
+                                Klik pada poster konten di bawah untuk diarahkan langsung ke halaman pendaftaran atau informasi detail.
+                            </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+                            {event.contents.map((content, i) => (
+                                <a
+                                    key={i}
+                                    href={content.registration_link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="group relative bg-white rounded-[40px] overflow-hidden border border-dark/5 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+                                >
+                                    <div className="aspect-4/5 overflow-hidden relative">
+                                        <img
+                                            src={imgSrc(content.image_url)}
+                                            alt={content.title}
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+                                        />
+                                        <div className="absolute inset-x-0 bottom-0 p-8 bg-linear-to-t from-dark/90 via-dark/40 to-transparent pt-20">
+                                            <h3 className="text-xl md:text-2xl font-black text-white uppercase tracking-tight italic mb-2 leading-tight">
+                                                {content.title || "Untitled Program"}
+                                            </h3>
+                                            <div className="flex items-center gap-3 text-secondary font-black text-[10px] uppercase tracking-widest">
+                                                Go to registration
+                                                <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/* Overlay status hover */}
+                                    <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <div className="w-12 h-12 bg-secondary text-dark rounded-full flex items-center justify-center shadow-lg">
+                                            <ArrowRightIcon className="w-6 h-6 -rotate-45" />
+                                        </div>
+                                    </div>
+                                </a>
+                            ))}
+                        </div>
+                    </Container>
+                </section>
+            )}
+
             {/* Steps Section */}
             {event.steps?.length > 0 && (
                 <section className="py-16 md:py-24 bg-white relative overflow-hidden">

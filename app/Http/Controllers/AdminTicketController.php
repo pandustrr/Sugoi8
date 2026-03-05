@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Ticket;
 use App\Models\Booking;
+use App\Models\EventContent;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
@@ -15,7 +16,7 @@ class AdminTicketController extends Controller
     public function index()
     {
         return Inertia::render('Admin/Tickets/Index', [
-            'events' => Event::with('tickets')->latest()->get()
+            'events' => Event::with(['tickets', 'contents'])->latest()->get()
         ]);
     }
 
@@ -82,7 +83,7 @@ class AdminTicketController extends Controller
     public function edit(Event $ticket)
     {
         return Inertia::render('Admin/Tickets/Edit', [
-            'event' => $ticket->load('tickets')
+            'event' => $ticket->load(['tickets', 'contents'])
         ]);
     }
 
@@ -151,6 +152,37 @@ class AdminTicketController extends Controller
     {
         $ticket->delete();
         return back()->with('success', 'Kategori berhasil dihapus.');
+    }
+
+    public function addContent(Request $request, Event $event)
+    {
+        $validated = $request->validate([
+            'title'             => 'nullable|string|max:255',
+            'registration_link' => 'required|url',
+            'image'             => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+        ]);
+
+        $contentData = [
+            'title'             => $validated['title'] ?? null,
+            'registration_link' => $validated['registration_link'],
+        ];
+
+        if ($request->hasFile('image')) {
+            $contentData['image_url'] = $request->file('image')->store('event_contents', 'public');
+        }
+
+        $event->contents()->create($contentData);
+
+        return back()->with('success', 'Konten berhasil ditambahkan.');
+    }
+
+    public function deleteContent(EventContent $content)
+    {
+        if ($content->image_url) {
+            Storage::disk('public')->delete($content->image_url);
+        }
+        $content->delete();
+        return back()->with('success', 'Konten berhasil dihapus.');
     }
 
     public function downloadSubmission(Booking $booking)

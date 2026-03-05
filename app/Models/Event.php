@@ -31,4 +31,9 @@ class Event extends Model
     {
         return $this->hasMany(Ticket::class);
     }
+
+    public function contents()
+    {
+        return $this->hasMany(EventContent::class);
+    }
 }
