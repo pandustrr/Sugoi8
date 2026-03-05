@@ -18,7 +18,7 @@ export default function CheckStatus() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('tickets.doCheckStatus'));
+        post(route('eventprogram.doCheckStatus'));
     };
 
     return (

@@ -21,6 +21,10 @@ class TicketController extends Controller
                 ->orderBy('date', 'desc')
                 ->get(),
             'programs' => StandaloneProgram::orderBy('order')->orderBy('created_at', 'desc')->get(),
+            'audienceCategories' => \App\Models\MainAudienceCategory::where('is_active', true)
+                ->with(['audienceTickets' => function ($q) {
+                    $q->where('is_active', true);
+                }])->get(),
             'settings' => \App\Models\SiteSetting::all()->pluck('value', 'key'),
         ]);
     }
@@ -35,10 +39,10 @@ class TicketController extends Controller
         ]);
     }
 
-    public function show(Ticket $ticket)
+    public function showAudience(\App\Models\MainAudienceCategory $mainCategory)
     {
-        return Inertia::render('Tickets/Show', [
-            'ticket' => $ticket->load('event.tickets'),
+        return Inertia::render('Tickets/AudienceShow', [
+            'category' => $mainCategory->load('audienceTickets'),
             'settings' => \App\Models\SiteSetting::all()->pluck('value', 'key'),
         ]);
     }
@@ -81,6 +85,52 @@ class TicketController extends Controller
         return back()->with('successBooking', $booking->load('ticket.event'));
     }
 
+    public function purchaseAudience(Request $request, \App\Models\AudienceTicket $audienceTicket)
+    {
+        $validated = $request->validate([
+            'customer_name'  => 'required|string|max:255',
+            'customer_nik'   => 'required|string|max:20',
+            'customer_email' => 'required|email|max:255',
+            'customer_phone' => 'required|string|max:20',
+            'quantity'       => 'sometimes|integer|min:1|max:1',
+            'payment_proof'  => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+        ]);
+
+        // Pencegahan Calo: 1 NIK = 1 Tiket (Total untuk kategori Audience)
+        $existing = Booking::where('customer_nik', $validated['customer_nik'])
+            ->where('booking_type', 'audience')
+            ->whereIn('status', ['pending', 'confirmed'])
+            ->first();
+
+        if ($existing) {
+            return back()->withErrors(['customer_nik' => 'Satu NIK hanya diperbolehkan memiliki satu tiket penonton. Anda sudah terdaftar atau memiliki pesanan yang sedang diproses.']);
+        }
+
+        $bookingData = [
+            'audience_ticket_id' => $audienceTicket->id,
+            'customer_name'      => $validated['customer_name'],
+            'customer_nik'       => $validated['customer_nik'],
+            'customer_email'     => $validated['customer_email'],
+            'customer_phone'     => $validated['customer_phone'],
+            'quantity'           => 1, // 1 NIK = 1 Tiket
+            'total_price'        => $audienceTicket->price,
+            'booking_type'       => 'audience',
+            'status'             => 'pending',
+        ];
+
+        if ($request->hasFile('payment_proof')) {
+            $path = $request->file('payment_proof')->store('bookings', 'public');
+            $bookingData['payment_proof'] = '/storage/' . $path;
+        }
+
+        $booking = Booking::create($bookingData);
+
+        // Kurangi stok tiket (selalu 1)
+        $audienceTicket->decrement('stock', 1);
+
+        return back()->with('successBooking', $booking->load('audienceTicket'));
+    }
+
     public function checkStatus()
     {
         return Inertia::render('Tickets/CheckStatus');
@@ -121,7 +171,7 @@ class TicketController extends Controller
         }
 
         return Inertia::render('Tickets/Dashboard', [
-            'booking' => $booking->load('ticket.event')
+            'booking' => $booking->load(['ticket.event', 'audienceTicket', 'attendeeTickets'])
         ]);
     }
 
@@ -135,7 +185,7 @@ class TicketController extends Controller
             return back()->with('error', 'Pembayaran harus diverifikasi terlebih dahulu sebelum mengunggah karya.');
         }
 
-        if ($booking->submission_file) {
+        if ($booking->submission_file && !str_contains($booking->submission_file, 'manually')) {
             return back()->with('error', 'Anda sudah mengunggah karya untuk pendaftaran ini.');
         }
 
@@ -146,46 +196,32 @@ class TicketController extends Controller
         if ($request->hasFile('submission_file')) {
             $file = $request->file('submission_file');
 
-            // Ambil ID folder GDrive: Prioritaskan link Booking, lalu link Kategori
+            // Ambil ID folder GDrive
             $ticketFolderId = $booking->gdrive_link ?: $booking->ticket->gdrive_link;
-
-            // Handle full URL or just ID
             if ($ticketFolderId && str_contains($ticketFolderId, 'folders/')) {
                 $ticketFolderId = explode('folders/', $ticketFolderId)[1];
                 $ticketFolderId = explode('?', $ticketFolderId)[0];
             }
 
-            // Fallback to config if not set on ticket
             $folderId = $ticketFolderId ?: config('filesystems.disks.google.folderId');
-            $disk = 'google';
 
-            // Upload langsung menggunakan Google Drive API (bukan Flysystem)
             try {
                 $client = new \Google\Client();
                 $client->setClientId(config('filesystems.disks.google.clientId'));
                 $client->setClientSecret(config('filesystems.disks.google.clientSecret'));
                 $refreshToken = config('filesystems.disks.google.refreshToken');
                 $token = $client->refreshToken($refreshToken);
-                if (isset($token['error'])) {
-                    Log::error('GDrive Refresh Token Error: ' . json_encode($token));
-                    throw new \Exception('Gagal refresh token GDrive: ' . ($token['error_description'] ?? $token['error']));
-                }
                 $client->setAccessToken($token);
 
-                // Inisialisasi Google Drive Service
                 $driveService = new \Google\Service\Drive($client);
-
-                // Nama asli file dari pendaftar
                 $originalName = $file->getClientOriginalName();
                 $mimeType = $file->getMimeType();
 
-                // Metadata file — 'parents' menentukan folder tujuan di Google Drive
                 $fileMetadata = new \Google\Service\Drive\DriveFile([
                     'name'    => $originalName,
                     'parents' => [$folderId],
                 ]);
 
-                // Upload file ke Google Drive API secara langsung
                 $result = $driveService->files->create($fileMetadata, [
                     'data'       => file_get_contents($file->getRealPath()),
                     'mimeType'   => $mimeType,
@@ -193,27 +229,19 @@ class TicketController extends Controller
                     'fields'     => 'id,name',
                 ]);
 
-                Log::info('GDrive Upload Success: ' . $result->getName() . ' (ID: ' . $result->getId() . ')');
-
                 $booking->update([
                     'submission_file' => 'gdrive:' . $result->getId(),
                     'submission_at'   => now(),
                 ]);
 
-                return back()->with('success', 'Karya Anda berhasil diunggah ke Google Drive! Terima kasih telah berpartisipasi.');
+                return back()->with('success', 'Karya Anda berhasil diunggah ke Google Drive!');
             } catch (\Exception $e) {
-                Log::error('GDrive Direct Upload Error: ' . $e->getMessage());
-                // Fallback ke server lokal jika GDrive gagal
-                $path = $file->store('submissions', 'public');
-                $booking->update([
-                    'submission_file' => '/storage/' . $path,
-                    'submission_at'   => now(),
-                ]);
-                return back()->with('success', 'Karya diunggah ke server lokal (GDrive sedang bermasalah).');
+                Log::error('GDrive Upload Error: ' . $e->getMessage());
+                return back()->with('error', 'Gagal mengunggah ke Google Drive. Silakan coba beberapa saat lagi.');
             }
         }
 
-        return back()->with('error', 'Gagal mengunggah file. Silakan coba lagi.');
+        return back()->with('error', 'Gagal memproses file.');
     }
 
     public function logout()

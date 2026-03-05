@@ -118,16 +118,22 @@ export default function SuccessModal({ booking, onClose }) {
                                                     </div>
 
                                                     <div className="mb-8">
-                                                        <h3 className="text-2xl font-black uppercase tracking-tighter mb-2 italic">{booking.ticket.title}</h3>
+                                                        <h3 className="text-2xl font-black uppercase tracking-tighter mb-2 italic">
+                                                            {booking.ticket?.title || booking.audience_ticket?.title || 'Pesanan Tiket'}
+                                                        </h3>
                                                         <div className="flex flex-col gap-2 opacity-50 font-bold text-xs uppercase tracking-widest">
-                                                            <div className="flex items-center gap-2">
-                                                                <CalendarDaysIcon className="w-4 h-4" />
-                                                                {new Date(booking.ticket.event ? booking.ticket.event.date : booking.ticket.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
-                                                            </div>
-                                                            <div className="flex items-center gap-2">
-                                                                <MapPinIcon className="w-4 h-4" />
-                                                                {booking.ticket.event ? booking.ticket.event.location : booking.ticket.location}
-                                                            </div>
+                                                            {(booking.ticket?.event?.date || booking.ticket?.date) && (
+                                                                <div className="flex items-center gap-2">
+                                                                    <CalendarDaysIcon className="w-4 h-4" />
+                                                                    {new Date(booking.ticket.event ? booking.ticket.event.date : booking.ticket.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+                                                                </div>
+                                                            )}
+                                                            {(booking.ticket?.event?.location || booking.ticket?.location) && (
+                                                                <div className="flex items-center gap-2">
+                                                                    <MapPinIcon className="w-4 h-4" />
+                                                                    {booking.ticket.event ? booking.ticket.event.location : booking.ticket.location}
+                                                                </div>
+                                                            )}
                                                             {booking.division && (
                                                                 <div className="flex items-center gap-2 text-secondary font-black">
                                                                     <span className="w-4 h-4 flex items-center justify-center">🏆</span>
@@ -187,7 +193,7 @@ export default function SuccessModal({ booking, onClose }) {
 
                                                     <div className="mt-8 lg:mt-0 flex flex-col gap-3">
                                                         <a
-                                                            href={`https://wa.me/${waNumber}?text=Halo Sugoi 8 Management, saya ingin konfirmasi pembayaran tiket untuk pesanan %23${booking.booking_code || booking.id.toString().padStart(5, '0')} atas nama ${booking.customer_name}.%0A%0A*Detail Pesanan:*%0AKategori: ${encodeURIComponent(booking.ticket.title)}${booking.division ? '%0ADivisi: ' + encodeURIComponent(booking.division) : ''}${booking.school_name ? '%0AInstansi: ' + encodeURIComponent(booking.school_name) : ''}%0A%0ABerikut saya lampirkan bukti pembayarannya.`}
+                                                            href={`https://wa.me/${waNumber}?text=Halo Sugoi 8 Management, saya ingin konfirmasi pembayaran tiket untuk pesanan %23${booking.booking_code || booking.id.toString().padStart(5, '0')} atas nama ${booking.customer_name}.%0A%0A*Detail Pesanan:*%0AKategori: ${encodeURIComponent(booking.ticket?.title || booking.audience_ticket?.title || 'Tiket Penonton')}${booking.division ? '%0ADivisi: ' + encodeURIComponent(booking.division) : ''}${booking.school_name ? '%0AInstansi: ' + encodeURIComponent(booking.school_name) : ''}%0A%0ABerikut saya lampirkan bukti pembayarannya.`}
                                                             target="_blank"
                                                             rel="noopener noreferrer"
                                                             className="w-full bg-secondary text-dark py-4 rounded-[20px] font-black text-[11px] uppercase tracking-[0.2em] shadow-xl shadow-secondary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
@@ -196,7 +202,7 @@ export default function SuccessModal({ booking, onClose }) {
                                                             Konfirmasi WhatsApp
                                                         </a>
                                                         <Link
-                                                            href={route('tickets.checkStatus')}
+                                                            href={route('eventprogram.checkStatus')}
                                                             className="w-full bg-primary text-white py-4 rounded-[20px] font-black text-[11px] uppercase tracking-[0.2em] shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
                                                         >
                                                             <FingerPrintIcon className="w-4 h-4" />

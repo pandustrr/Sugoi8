@@ -1,6 +1,7 @@
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useState, useEffect, useRef } from 'react';
 import MainLayout from '../Layouts/MainLayout';
+import { useLang } from '../hooks/useLang';
 import Container from '../Components/UI/Container';
 import TextRun from '../Components/UI/TextRun';
 import Button from '../Components/UI/Button';
@@ -198,7 +199,7 @@ const translations = {
 
 export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [] }) {
     const { settings } = usePage().props;
-    const [lang, setLang] = useState('en');
+    const [lang, setLang] = useLang('en');
     const [darkMode, setDarkMode] = useState(false);
     const [visible, setVisible] = useState({});
     const sectionRefs = useRef({});

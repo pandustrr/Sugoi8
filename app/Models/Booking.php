@@ -8,13 +8,16 @@ class Booking extends Model
 {
     protected $fillable = [
         'ticket_id',
+        'audience_ticket_id',
         'customer_name',
+        'customer_nik',
         'customer_email',
         'customer_phone',
         'school_name',
         'division',
         'quantity',
         'total_price',
+        'booking_type',
         'status',
         'payment_proof',
         'gdrive_link',
@@ -27,6 +30,10 @@ class Booking extends Model
 
     public function getBookingCodeAttribute()
     {
+        if ($this->booking_type === 'audience') {
+            return 'S8-AUD-' . str_pad($this->id ?: 0, 5, '0', STR_PAD_LEFT);
+        }
+
         if (!$this->relationLoaded('ticket') || !$this->ticket || !$this->ticket->relationLoaded('event') || !$this->ticket->event) {
             return 'S8-' . str_pad($this->id ?: 0, 4, '0', STR_PAD_LEFT);
         }
@@ -57,5 +64,15 @@ class Booking extends Model
     public function ticket()
     {
         return $this->belongsTo(Ticket::class);
+    }
+
+    public function audienceTicket()
+    {
+        return $this->belongsTo(AudienceTicket::class, 'audience_ticket_id');
+    }
+
+    public function attendeeTickets()
+    {
+        return $this->hasMany(AttendeeTicket::class);
     }
 }

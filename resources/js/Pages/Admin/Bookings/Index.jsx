@@ -458,20 +458,34 @@ export default function Index({ bookings }) {
                                                                         <DocumentArrowUpIcon className="w-5 h-5 text-emerald-500" />
                                                                     </div>
                                                                     <div>
-                                                                        <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Terkumpul</p>
-                                                                        <p className="text-[10px] text-emerald-500 font-bold mt-0.5">
-                                                                            {new Date(selectedBooking.submission_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })} • {new Date(selectedBooking.submission_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}
+                                                                        <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">
+                                                                            {selectedBooking.submission_file === 'manually_uploaded_to_gdrive' ? 'Pendaftar Sudah Mengumpulkan' : 'Terkumpul (Sistem)'}
+                                                                        </p>
+                                                                        <p className="text-[10px] text-emerald-500 font-bold mt-1 uppercase italic">
+                                                                            {new Date(selectedBooking.submission_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })} • {new Date(selectedBooking.submission_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.', ':')}
                                                                         </p>
                                                                     </div>
                                                                 </div>
-                                                                <a
-                                                                    href={route('admin.bookings.downloadSubmission', selectedBooking.id)}
-                                                                    target="_blank"
-                                                                    className="w-10 h-10 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl flex items-center justify-center transition-all shadow-lg shadow-emerald-500/20"
-                                                                    title="Download File"
-                                                                >
-                                                                    <ArrowDownTrayIcon className="w-5 h-5" />
-                                                                </a>
+                                                                {selectedBooking.submission_file === 'manually_uploaded_to_gdrive' ? (
+                                                                    <a
+                                                                        href={selectedBooking.gdrive_link || selectedBooking.ticket.gdrive_link}
+                                                                        target="_blank"
+                                                                        rel="noopener noreferrer"
+                                                                        className="w-10 h-10 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl flex items-center justify-center transition-all shadow-lg shadow-emerald-500/20"
+                                                                        title="Lihat di GDrive"
+                                                                    >
+                                                                        <CloudArrowUpIcon className="w-5 h-5" />
+                                                                    </a>
+                                                                ) : (
+                                                                    <a
+                                                                        href={route('admin.bookings.downloadSubmission', selectedBooking.id)}
+                                                                        target="_blank"
+                                                                        className="w-10 h-10 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl flex items-center justify-center transition-all shadow-lg shadow-emerald-500/20"
+                                                                        title="Download File"
+                                                                    >
+                                                                        <ArrowDownTrayIcon className="w-5 h-5" />
+                                                                    </a>
+                                                                )}
                                                             </div>
                                                         ) : (
                                                             <div className="bg-light p-4 rounded-3xl border border-dark/5 flex flex-col items-center justify-center text-dark/20 py-8">

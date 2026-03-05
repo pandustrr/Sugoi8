@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Head, usePage } from '@inertiajs/react';
 import MainLayout from '../Layouts/MainLayout';
+import { useLang } from '../hooks/useLang';
 import Container from '../Components/UI/Container';
 import TextRun from '../Components/UI/TextRun';
 import Button from '../Components/UI/Button';
@@ -8,7 +9,7 @@ import { HandRaisedIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
 
 export default function Partners({ partners: dbPartners = [] }) {
     const { settings } = usePage().props;
-    const [lang, setLang] = useState('en');
+    const [lang, setLang] = useLang('en');
     const [darkMode, setDarkMode] = useState(false);
 
     const getPlaceholder = (name) =>
@@ -51,7 +52,13 @@ export default function Partners({ partners: dbPartners = [] }) {
             cta: "Menjadi Mitra",
             noPartners: "Daftar mitra kami segera hadir.",
         }
-    }[lang];
+    }[lang] || {
+        title: "Our Partners",
+        subtitle: "Trust and Collaboration",
+        desc: "We believe in the power of strategic partnerships. Together, we build experiences that drive real impact.",
+        cta: "Become a Partner",
+        noPartners: "Our partner list is coming soon.",
+    };
 
     return (
         <MainLayout lang={lang} onLangChange={setLang} darkMode={darkMode} onDarkModeToggle={setDarkMode}>

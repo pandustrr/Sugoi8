@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Head, usePage } from '@inertiajs/react';
 import MainLayout from '../Layouts/MainLayout';
+import { useLang } from '../hooks/useLang';
 import Container from '../Components/UI/Container';
 import TextRun from '../Components/UI/TextRun';
 import Button from '../Components/UI/Button';
@@ -13,7 +14,7 @@ import {
 
 export default function Contact() {
     const { settings } = usePage().props;
-    const [lang, setLang] = useState('en');
+    const [lang, setLang] = useLang('en');
     const [darkMode, setDarkMode] = useState(false);
 
     const email = settings?.contact_email || 'hello@sugoi8.id';

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import {
     Squares2X2Icon,
     TicketIcon,
+    CalendarDaysIcon,
     Cog6ToothIcon,
     ArrowLeftOnRectangleIcon,
     WrenchScrewdriverIcon,
@@ -93,12 +94,19 @@ function SidebarContent({ activePage, onLogout }) {
                 />
 
                 {/* Event Program Dropdown */}
-                <SidebarDropdown icon={TicketIcon} label="Event Program" active={isTicketSectionActive}>
+                <SidebarDropdown icon={CalendarDaysIcon} label="Event Program" active={isTicketSectionActive}>
                     <SidebarLink href={route('admin.tickets.index')} label="Kelola Lomba" active={activePage === 'tickets'} isSubItem />
                     <SidebarLink href={route('admin.programs.index')} label="Add Content" active={activePage === 'programs'} isSubItem />
                     <SidebarLink href={route('admin.programs.allClicks')} label="Track Program" active={activePage === 'program-clicks'} isSubItem />
                     <SidebarLink href={route('admin.bookings.index')} label="Data Pemesanan" active={activePage === 'bookings'} isSubItem />
                 </SidebarDropdown>
+
+                <SidebarLinkIcon
+                    href={route('admin.audience-tickets.index')}
+                    icon={TicketIcon}
+                    label="Kelola Tiket"
+                    active={activePage === 'audience-tickets'}
+                />
 
                 <SidebarLinkIcon
                     href={route('admin.siteSettings')}
