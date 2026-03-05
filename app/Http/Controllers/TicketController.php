@@ -18,8 +18,7 @@ class TicketController extends Controller
             'events' => Event::with(['tickets' => function ($query) {
                 $query->where('stock', '>', 0);
             }, 'contents'])
-                ->where('date', '>=', now()->toDateString())
-                ->orderBy('date')
+                ->orderBy('date', 'desc')
                 ->get(),
             'programs' => StandaloneProgram::orderBy('order')->orderBy('created_at', 'desc')->get(),
             'settings' => \App\Models\SiteSetting::all()->pluck('value', 'key'),

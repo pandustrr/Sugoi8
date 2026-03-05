@@ -113,8 +113,8 @@ export default function EventShow({ event, settings, auth }) {
                 <Container className="relative z-10">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
                         {/* Poster Column */}
-                        <div className="lg:col-span-5 relative group">
-                            <div className="aspect-4/5 rounded-[32px] md:rounded-[48px] overflow-hidden shadow-2xl relative border border-white/10">
+                        <div className="lg:col-span-5 relative">
+                            <div className="aspect-4/5 rounded-[32px] md:rounded-[48px] overflow-hidden shadow-2xl relative border border-white/10 mb-6 group">
                                 <img
                                     src={poster || "/8-sugoi-trans.png"}
                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
@@ -127,7 +127,40 @@ export default function EventShow({ event, settings, auth }) {
                                     <MagnifyingGlassPlusIcon className="w-6 h-6" />
                                 </button>
                             </div>
-                            <div className="absolute -z-10 -bottom-8 -left-8 w-48 h-48 bg-secondary/10 rounded-full blur-[80px]" />
+
+                            {/* Additional Images Gallery */}
+                            {(event.image_url_2 || event.image_url_3) && (
+                                <div className={`grid gap-4 ${event.image_url_2 && event.image_url_3 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+                                    {event.image_url_2 && (
+                                        <button
+                                            onClick={() => setPreviewSrc(imgSrc(event.image_url_2))}
+                                            className="group relative aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-lg focus:outline-none"
+                                        >
+                                            <img src={imgSrc(event.image_url_2)} alt="Detail/Brosur 1" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                                            <div className="absolute inset-0 bg-dark/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full border border-white/30 flex items-center justify-center text-white">
+                                                    <MagnifyingGlassPlusIcon className="w-5 h-5" />
+                                                </div>
+                                            </div>
+                                        </button>
+                                    )}
+                                    {event.image_url_3 && (
+                                        <button
+                                            onClick={() => setPreviewSrc(imgSrc(event.image_url_3))}
+                                            className="group relative aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-lg focus:outline-none"
+                                        >
+                                            <img src={imgSrc(event.image_url_3)} alt="Detail/Brosur 2" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                                            <div className="absolute inset-0 bg-dark/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full border border-white/30 flex items-center justify-center text-white">
+                                                    <MagnifyingGlassPlusIcon className="w-5 h-5" />
+                                                </div>
+                                            </div>
+                                        </button>
+                                    )}
+                                </div>
+                            )}
+
+                            <div className="absolute -z-10 top-1/2 -left-8 w-48 h-48 bg-secondary/10 rounded-full blur-[80px]" />
                         </div>
 
                         {/* Content Column */}

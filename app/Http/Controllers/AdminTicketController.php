@@ -41,6 +41,8 @@ class AdminTicketController extends Controller
             'divisions'                    => 'nullable|array',
             'divisions.*'                  => 'string|max:255',
             'image'                        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'image_2'                      => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'image_3'                      => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'tickets'                      => 'required|array|min:1',
             'tickets.*.title'              => 'required|string|max:255',
             'tickets.*.price'              => 'required|numeric|min:0',
@@ -63,6 +65,12 @@ class AdminTicketController extends Controller
 
             if ($request->hasFile('image')) {
                 $eventData['image_url'] = $request->file('image')->store('tickets', 'public');
+            }
+            if ($request->hasFile('image_2')) {
+                $eventData['image_url_2'] = $request->file('image_2')->store('tickets', 'public');
+            }
+            if ($request->hasFile('image_3')) {
+                $eventData['image_url_3'] = $request->file('image_3')->store('tickets', 'public');
             }
 
             $event = Event::create($eventData);
@@ -103,6 +111,10 @@ class AdminTicketController extends Controller
             'divisions'                    => 'nullable|array',
             'divisions.*'                  => 'string|max:255',
             'image'                        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'image_2'                      => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'image_3'                      => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'remove_image_2'               => 'nullable|boolean',
+            'remove_image_3'               => 'nullable|boolean',
         ]);
 
         if ($request->hasFile('image')) {
@@ -110,6 +122,30 @@ class AdminTicketController extends Controller
                 Storage::disk('public')->delete($event->image_url);
             }
             $validated['image_url'] = $request->file('image')->store('tickets', 'public');
+        }
+
+        if ($request->hasFile('image_2')) {
+            if ($event->image_url_2 && !str_starts_with($event->image_url_2, 'http')) {
+                Storage::disk('public')->delete($event->image_url_2);
+            }
+            $validated['image_url_2'] = $request->file('image_2')->store('tickets', 'public');
+        } elseif ($request->boolean('remove_image_2')) {
+            if ($event->image_url_2 && !str_starts_with($event->image_url_2, 'http')) {
+                Storage::disk('public')->delete($event->image_url_2);
+            }
+            $validated['image_url_2'] = null;
+        }
+
+        if ($request->hasFile('image_3')) {
+            if ($event->image_url_3 && !str_starts_with($event->image_url_3, 'http')) {
+                Storage::disk('public')->delete($event->image_url_3);
+            }
+            $validated['image_url_3'] = $request->file('image_3')->store('tickets', 'public');
+        } elseif ($request->boolean('remove_image_3')) {
+            if ($event->image_url_3 && !str_starts_with($event->image_url_3, 'http')) {
+                Storage::disk('public')->delete($event->image_url_3);
+            }
+            $validated['image_url_3'] = null;
         }
 
         $event->update($validated);
@@ -121,6 +157,12 @@ class AdminTicketController extends Controller
     {
         if ($event->image_url && !str_starts_with($event->image_url, 'http')) {
             Storage::disk('public')->delete($event->image_url);
+        }
+        if ($event->image_url_2 && !str_starts_with($event->image_url_2, 'http')) {
+            Storage::disk('public')->delete($event->image_url_2);
+        }
+        if ($event->image_url_3 && !str_starts_with($event->image_url_3, 'http')) {
+            Storage::disk('public')->delete($event->image_url_3);
         }
         $event->delete();
         return redirect()->route('admin.tickets.index')->with('success', 'Event berhasil dihapus.');

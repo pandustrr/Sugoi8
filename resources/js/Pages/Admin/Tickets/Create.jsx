@@ -19,6 +19,8 @@ export default function Create() {
         time: '',
         location: '',
         image: null,
+        image_2: null,
+        image_3: null,
         tickets: [],
         steps: [],
         divisions: [],
@@ -220,33 +222,51 @@ export default function Create() {
                                             {errors.location && <p className="mt-2 text-xs font-bold text-red-500">{errors.location}</p>}
                                         </div>
 
-                                        <div className="md:col-span-2">
-                                            <label className="block text-[10px] font-black uppercase tracking-widest text-dark/40 mb-3 px-1">Poster Lomba (Hanya 1 Gambar)</label>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                <div className="relative group">
-                                                    <input
-                                                        type="file"
-                                                        onChange={e => setData('image', e.target.files[0])}
-                                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                                                        accept="image/*"
-                                                    />
-                                                    <div className="w-full aspect-video rounded-[32px] border-2 border-dashed border-dark/5 bg-light flex flex-col items-center justify-center gap-4 group-hover:border-primary/20 transition-all">
-                                                        <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center text-dark/20 group-hover:text-primary transition-colors">
-                                                            <PhotoIcon className="w-6 h-6" />
+                                        <div className="md:col-span-2 space-y-6">
+                                            {[
+                                                { id: 'image', label: 'Poster Lomba / Cover Utama (Wajib)' },
+                                                { id: 'image_2', label: 'Brosur / Gambar Tambahan 1 (Opsional)' },
+                                                { id: 'image_3', label: 'Brosur / Gambar Tambahan 2 (Opsional)' }
+                                            ].map((imgField) => (
+                                                <div key={imgField.id}>
+                                                    <label className="block text-[10px] font-black uppercase tracking-widest text-dark/40 mb-3 px-1">{imgField.label}</label>
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                        <div className="relative group">
+                                                            <input
+                                                                type="file"
+                                                                onChange={e => setData(imgField.id, e.target.files[0])}
+                                                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                                                accept="image/*"
+                                                            />
+                                                            <div className="w-full aspect-video rounded-[32px] border-2 border-dashed border-dark/5 bg-light flex flex-col items-center justify-center gap-4 group-hover:border-primary/20 transition-all">
+                                                                <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center text-dark/20 group-hover:text-primary transition-colors">
+                                                                    <PhotoIcon className="w-6 h-6" />
+                                                                </div>
+                                                                <p className="text-[10px] font-black uppercase tracking-widest text-dark">Pilih Gambar</p>
+                                                            </div>
                                                         </div>
-                                                        <p className="text-[10px] font-black uppercase tracking-widest text-dark">Pilih Poster</p>
-                                                    </div>
-                                                </div>
 
-                                                <div className="w-full aspect-video rounded-[32px] overflow-hidden bg-light border border-dark/5">
-                                                    {data.image ? (
-                                                        <img src={URL.createObjectURL(data.image)} className="w-full h-full object-cover" />
-                                                    ) : (
-                                                        <div className="w-full h-full flex items-center justify-center text-[10px] font-black uppercase tracking-widest text-dark/10 italic">Preview Poster</div>
-                                                    )}
+                                                        <div className="w-full aspect-video rounded-[32px] overflow-hidden bg-light border border-dark/5 relative">
+                                                            {data[imgField.id] ? (
+                                                                <>
+                                                                    <img src={URL.createObjectURL(data[imgField.id])} className="w-full h-full object-cover" />
+                                                                    <button
+                                                                        type="button"
+                                                                        onClick={() => setData(imgField.id, null)}
+                                                                        className="absolute top-2 right-2 p-1.5 bg-red-500 rounded-lg text-white hover:bg-red-600 transition-colors z-20"
+                                                                        title="Hapus Gambar"
+                                                                    >
+                                                                        <TrashIcon className="w-4 h-4" />
+                                                                    </button>
+                                                                </>
+                                                            ) : (
+                                                                <div className="w-full h-full flex items-center justify-center text-[10px] font-black uppercase tracking-widest text-dark/10 italic">Preview</div>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                    {errors[imgField.id] && <p className="mt-2 text-xs font-bold text-red-500">{errors[imgField.id]}</p>}
                                                 </div>
-                                            </div>
-                                            {errors.image && <p className="mt-2 text-xs font-bold text-red-500">{errors.image}</p>}
+                                            ))}
                                         </div>
                                     </div>
 

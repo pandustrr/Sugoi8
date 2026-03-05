@@ -20,6 +20,8 @@ class Event extends Model
         'steps',
         'divisions',
         'image_url',
+        'image_url_2',
+        'image_url_3',
     ];
 
     protected $casts = [
