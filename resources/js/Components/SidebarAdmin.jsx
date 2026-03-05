@@ -1,5 +1,5 @@
 import { router } from '@inertiajs/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
     Squares2X2Icon,
     TicketIcon,
@@ -41,6 +41,10 @@ const SidebarLinkIcon = ({ href, icon: Icon, label, active = false }) => (
 const SidebarDropdown = ({ icon: Icon, label, active, children }) => {
     // If active (child page is current), start open and stay open
     const [isOpen, setIsOpen] = useState(active);
+
+    useEffect(() => {
+        setIsOpen(active);
+    }, [active]);
 
     return (
         <div className="space-y-0.5">

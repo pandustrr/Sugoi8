@@ -80,18 +80,18 @@ class AdminTicketController extends Controller
         return redirect()->route('admin.tickets.index')->with('success', 'Event berhasil dibuat.');
     }
 
-    public function edit(Event $ticket)
+    public function edit(Event $event)
     {
         return Inertia::render('Admin/Tickets/Edit', [
-            'event' => $ticket->load(['tickets', 'contents'])
+            'event' => $event->load(['tickets', 'contents'])
         ]);
     }
 
-    public function update(Request $request, Event $ticket)
+    public function update(Request $request, Event $event)
     {
         $validated = $request->validate([
             'title'                        => 'sometimes|required|string|max:255',
-            'slug'                         => 'nullable|string|max:255|unique:events,slug,' . $ticket->id,
+            'slug'                         => 'nullable|string|max:255|unique:events,slug,' . $event->id,
             'description'                  => 'nullable|string',
             'date'                         => 'sometimes|required|date',
             'end_date'                     => 'nullable|date|after_or_equal:date',
@@ -106,23 +106,23 @@ class AdminTicketController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            if ($ticket->image_url && !str_starts_with($ticket->image_url, 'http')) {
-                Storage::disk('public')->delete($ticket->image_url);
+            if ($event->image_url && !str_starts_with($event->image_url, 'http')) {
+                Storage::disk('public')->delete($event->image_url);
             }
             $validated['image_url'] = $request->file('image')->store('tickets', 'public');
         }
 
-        $ticket->update($validated);
+        $event->update($validated);
 
         return redirect()->route('admin.tickets.index')->with('success', 'Event berhasil diperbarui.');
     }
 
-    public function destroy(Event $ticket)
+    public function destroy(Event $event)
     {
-        if ($ticket->image_url && !str_starts_with($ticket->image_url, 'http')) {
-            Storage::disk('public')->delete($ticket->image_url);
+        if ($event->image_url && !str_starts_with($event->image_url, 'http')) {
+            Storage::disk('public')->delete($event->image_url);
         }
-        $ticket->delete();
+        $event->delete();
         return redirect()->route('admin.tickets.index')->with('success', 'Event berhasil dihapus.');
     }
 
