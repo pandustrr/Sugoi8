@@ -89,15 +89,15 @@ export default function EventShow({ event, settings, auth }) {
     return (
         <MainLayout>
             <Head>
-                <title>{`${event.title} | Sugoi 8 Management`}</title>
-                <meta name="description" content={event.description || `Ikuti event ${event.title} yang diselenggarakan oleh Sugoi 8 Management. Kualitas produksi dan manajemen show terbaik di Jember.`} />
-                <meta name="keywords" content={`tiket ${event.title}, pendaftaran ${event.title}, event jember, sugoi 8, lomba tari jember`} />
+                <title>{`Event Program: ${event.title} | Sugoi 8 Management`}</title>
+                <meta name="description" content={event.description || `Ikuti program event ${event.title} yang diselenggarakan oleh Sugoi 8 Management. Kualitas produksi dan manajemen show terbaik di Jember.`} />
+                <meta name="keywords" content={`program event ${event.title}, pendaftaran ${event.title}, event jember, sugoi 8, lomba tari jember`} />
 
                 {/* OG Tags */}
-                <meta property="og:title" content={`${event.title} | Sugoi 8 Management`} />
+                <meta property="og:title" content={`Event Program: ${event.title} | Sugoi 8 Management`} />
                 <meta property="og:description" content={event.description?.substring(0, 160)} />
                 <meta property="og:image" content={poster || "https://sugoi8management.com/8-sugoi-trans.png"} />
-                <meta property="og:url" content={`${window.location.origin}/tickets/event/${event.slug}`} />
+                <meta property="og:url" content={`${window.location.origin}/eventprogram/${event.slug}`} />
             </Head>
 
             <section className="relative pt-24 pb-16 lg:pt-36 lg:pb-24 bg-primary text-white overflow-hidden">
@@ -113,21 +113,56 @@ export default function EventShow({ event, settings, auth }) {
                 <Container className="relative z-10">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
                         {/* Poster Column */}
-                        <div className="lg:col-span-5 relative group">
-                            <div className="aspect-4/5 rounded-[32px] md:rounded-[48px] overflow-hidden shadow-2xl relative border border-white/10">
+                        <div className="lg:col-span-5 relative">
+                            <div
+                                onClick={() => setPreviewSrc(poster)}
+                                className="aspect-4/5 rounded-[32px] md:rounded-[48px] overflow-hidden shadow-2xl relative border border-white/10 mb-6 group cursor-zoom-in"
+                            >
                                 <img
                                     src={poster || "/8-sugoi-trans.png"}
                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
                                     alt={event.title}
                                 />
-                                <button
-                                    onClick={() => setPreviewSrc(poster)}
+                                <div
                                     className="absolute bottom-8 right-8 w-12 h-12 bg-white/10 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-secondary hover:text-dark transition-all opacity-0 group-hover:opacity-100"
                                 >
                                     <MagnifyingGlassPlusIcon className="w-6 h-6" />
-                                </button>
+                                </div>
                             </div>
-                            <div className="absolute -z-10 -bottom-8 -left-8 w-48 h-48 bg-secondary/10 rounded-full blur-[80px]" />
+
+                            {/* Additional Images Gallery */}
+                            {(event.image_url_2 || event.image_url_3) && (
+                                <div className={`grid gap-4 ${event.image_url_2 && event.image_url_3 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+                                    {event.image_url_2 && (
+                                        <button
+                                            onClick={() => setPreviewSrc(imgSrc(event.image_url_2))}
+                                            className="group relative aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-lg focus:outline-none"
+                                        >
+                                            <img src={imgSrc(event.image_url_2)} alt="Detail/Brosur 1" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                                            <div className="absolute inset-0 bg-dark/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full border border-white/30 flex items-center justify-center text-white">
+                                                    <MagnifyingGlassPlusIcon className="w-5 h-5" />
+                                                </div>
+                                            </div>
+                                        </button>
+                                    )}
+                                    {event.image_url_3 && (
+                                        <button
+                                            onClick={() => setPreviewSrc(imgSrc(event.image_url_3))}
+                                            className="group relative aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-lg focus:outline-none"
+                                        >
+                                            <img src={imgSrc(event.image_url_3)} alt="Detail/Brosur 2" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                                            <div className="absolute inset-0 bg-dark/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full border border-white/30 flex items-center justify-center text-white">
+                                                    <MagnifyingGlassPlusIcon className="w-5 h-5" />
+                                                </div>
+                                            </div>
+                                        </button>
+                                    )}
+                                </div>
+                            )}
+
+                            <div className="absolute -z-10 top-1/2 -left-8 w-48 h-48 bg-secondary/10 rounded-full blur-[80px]" />
                         </div>
 
                         {/* Content Column */}
@@ -145,6 +180,7 @@ export default function EventShow({ event, settings, auth }) {
                                     </div>
                                     <p className="text-lg md:text-xl font-black uppercase tracking-tight italic">
                                         {new Date(event.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+                                        {event.end_date && ` - ${new Date(event.end_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`}
                                     </p>
                                 </div>
                                 <div className="space-y-3">
@@ -176,7 +212,7 @@ export default function EventShow({ event, settings, auth }) {
                                 </Button>
                                 <Button
                                     variant="outline-white"
-                                    href={route('tickets.index')}
+                                    href={route('eventprogram.index')}
                                     className="h-16 px-8 text-[9px] md:text-xs font-black tracking-widest opacity-60 hover:opacity-100"
                                 >
                                     LIHAT EVENT LAINNYA
@@ -188,6 +224,56 @@ export default function EventShow({ event, settings, auth }) {
             </section>
 
             <TextRun />
+
+            {/* Program Content Section */}
+            {event.contents?.length > 0 && (
+                <section className="py-20 md:py-32 bg-light overflow-hidden">
+                    <Container>
+                        <div className="text-center mb-16 md:mb-24">
+                            <span className="text-primary font-black uppercase tracking-[0.4em] text-[10px] md:text-xs mb-4 block italic">Exclusive Program</span>
+                            <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-dark uppercase italic leading-[0.9]">Program Content</h2>
+                            <p className="mt-6 text-dark/40 font-bold uppercase tracking-widest text-[9px] md:text-[10px] max-w-xl mx-auto leading-relaxed">
+                                Klik pada poster konten di bawah untuk diarahkan langsung ke halaman pendaftaran atau informasi detail.
+                            </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+                            {event.contents.map((content, i) => (
+                                <a
+                                    key={i}
+                                    href={content.registration_link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="group relative bg-white rounded-[40px] overflow-hidden border border-dark/5 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+                                >
+                                    <div className="aspect-4/5 overflow-hidden relative">
+                                        <img
+                                            src={imgSrc(content.image_url)}
+                                            alt={content.title}
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+                                        />
+                                        <div className="absolute inset-x-0 bottom-0 p-8 bg-linear-to-t from-dark/90 via-dark/40 to-transparent pt-20">
+                                            <h3 className="text-xl md:text-2xl font-black text-white uppercase tracking-tight italic mb-2 leading-tight">
+                                                {content.title || "Untitled Program"}
+                                            </h3>
+                                            <div className="flex items-center gap-3 text-secondary font-black text-[10px] uppercase tracking-widest">
+                                                Go to registration
+                                                <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/* Overlay status hover */}
+                                    <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <div className="w-12 h-12 bg-secondary text-dark rounded-full flex items-center justify-center shadow-lg">
+                                            <ArrowRightIcon className="w-6 h-6 -rotate-45" />
+                                        </div>
+                                    </div>
+                                </a>
+                            ))}
+                        </div>
+                    </Container>
+                </section>
+            )}
 
             {/* Steps Section */}
             {event.steps?.length > 0 && (
@@ -227,7 +313,7 @@ export default function EventShow({ event, settings, auth }) {
                 booking={successBooking}
                 onClose={() => {
                     setSuccessBooking(null);
-                    router.visit(route('tickets.event.show', event.slug), { preserveScroll: true, replace: true });
+                    router.visit(route('eventprogram.show', event.slug), { preserveScroll: true, replace: true });
                 }}
             />
         </MainLayout>

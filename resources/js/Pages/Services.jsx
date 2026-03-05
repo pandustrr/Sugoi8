@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Head, usePage } from '@inertiajs/react';
 import MainLayout from '../Layouts/MainLayout';
 import Container from '../Components/UI/Container';
@@ -10,7 +11,8 @@ import {
     PresentationChartBarIcon,
     WrenchScrewdriverIcon,
     ArrowRightIcon,
-    SparklesIcon
+    SparklesIcon,
+    XMarkIcon
 } from '@heroicons/react/24/outline';
 
 export default function Services() {
@@ -37,7 +39,7 @@ export default function Services() {
             list: [
                 {
                     title: "Event Organizer",
-                    items: ["Event Planning", "Kreator", "Team Show", "Koreografer", "Event Branding", "Team Production", "Marketing Agency"],
+                    items: ["Event Planning", "Kreator", "Team Show", "Koreografer", "Event Branding", "Team Production", "Marketing Agency", "Others"],
                     icon: CalendarIcon,
                     image: serviceImages.event_organizer
                 },
@@ -74,7 +76,7 @@ export default function Services() {
             list: [
                 {
                     title: "Penyelenggara Acara",
-                    items: ["Perencana Acara", "Kreator", "Tim Pertunjukan", "Koreografer", "Branding Acara", "Tim Produksi", "Agensi Pemasaran"],
+                    items: ["Perencana Acara", "Kreator", "Tim Pertunjukan", "Koreografer", "Branding Acara", "Tim Produksi", "Agensi Pemasaran", "Lainnya"],
                     icon: CalendarIcon,
                     image: serviceImages.event_organizer
                 },
@@ -107,6 +109,32 @@ export default function Services() {
     };
 
     const t = content[lang];
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [itemCatId, setItemCatId] = useState(null);
+    const [isCategoryView, setIsCategoryView] = useState(false);
+
+    // Lock body scroll when modal is open so modal content can scroll independently
+    useEffect(() => {
+        if (selectedItem) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => { document.body.style.overflow = ''; };
+    }, [selectedItem]);
+
+
+    const openModal = (item, catId, isCat = false) => {
+        setSelectedItem(item);
+        setItemCatId(catId);
+        setIsCategoryView(isCat);
+    };
+
+    const closeModal = () => {
+        setSelectedItem(null);
+        setItemCatId(null);
+        setIsCategoryView(false);
+    };
 
     return (
         <MainLayout lang={lang} onLangChange={setLang} darkMode={darkMode} onDarkModeToggle={setDarkMode}>
@@ -115,6 +143,121 @@ export default function Services() {
                 <meta name="description" content={t.desc} />
                 <meta name="keywords" content="layanan event jember, eo jember, jasa panggung jember, sewa alat panggung jember, mice jember, digital solution jember" />
             </Head>
+
+            {/* Modal via Portal — renders directly on body, bypasses overflow-x-hidden on layout */}
+            {selectedItem && typeof document !== 'undefined' && createPortal(
+                <div className="fixed inset-0 z-200 flex items-center justify-center p-2 sm:p-6 md:p-10">
+                    <div
+                        className="absolute inset-0 bg-dark/70 backdrop-blur-sm"
+                        onClick={closeModal}
+                    />
+
+                    {/* Visual-First Modal: Photo & Gallery Only */}
+                    <div className="relative z-10 w-full max-w-3xl bg-white rounded-2xl md:rounded-[32px] shadow-[0_40px_100px_rgba(0,0,0,0.35)] border border-dark/5 flex flex-col animate-in zoom-in-95 duration-300" style={{ maxHeight: '92vh', overflow: 'hidden' }}>
+
+                        {/* Header */}
+                        <div className="px-5 py-4 md:px-6 md:py-5 border-b border-dark/5 flex items-center justify-between shrink-0 bg-white z-20">
+                            <div className="flex items-center gap-3">
+                                <div className="w-1.5 h-1.5 bg-secondary rounded-full" />
+                                <h4 className="text-[10px] font-black text-dark uppercase tracking-widest">
+                                    {isCategoryView ? 'SERVICE CAPABILITIES' : 'PROJECT GALLERY'}
+                                </h4>
+                            </div>
+                            <button onClick={closeModal} className="p-2 bg-light hover:bg-dark text-dark/40 hover:text-white rounded-full transition-all">
+                                <XMarkIcon className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        {/* Body */}
+                        <div className="flex-1 overflow-y-auto min-h-0 bg-[#fefefe]">
+
+                            {/* Banner Image */}
+                            <div className="w-full aspect-21/9 md:aspect-2.5/1 relative overflow-hidden group">
+                                {(() => {
+                                    const slug = isCategoryView ? null : selectedItem.toLowerCase().replace(/\s+/g, '_');
+                                    const mainImg = isCategoryView
+                                        ? serviceImages[itemCatId === 'eo' ? 'event_organizer' : itemCatId === 'show' ? 'show_management' : itemCatId]
+                                        : settings?.[`service_item_${itemCatId}_${slug}_main`];
+                                    return (
+                                        <img
+                                            src={mainImg || `https://placehold.co/1200x500/1a1a1a/ffffff?text=${selectedItem}`}
+                                            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                                            alt={selectedItem}
+                                        />
+                                    );
+                                })()}
+                                <div className="absolute inset-0 bg-linear-to-t from-dark/70 via-transparent to-transparent" />
+                                <div className="absolute bottom-6 left-6 md:left-8 text-left">
+                                    <p className="text-[9px] font-black text-white/60 uppercase tracking-[0.4em] mb-1">SUGOI GALLERY</p>
+                                    <h3 className="text-xl md:text-3xl font-black text-white uppercase tracking-tighter">{selectedItem}</h3>
+                                </div>
+                            </div>
+
+                            {/* Content Section */}
+                            <div className="px-5 py-6 md:px-10 md:py-10">
+                                {isCategoryView ? (
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-left">
+                                        {t.list.find(l => {
+                                            const ids = ['eo', 'show', 'mice', 'production', 'digital'];
+                                            return ids[t.list.indexOf(l)] === itemCatId;
+                                        })?.items.map((item, idx) => (
+                                            <div key={idx} className="flex items-center gap-3 p-3.5 bg-white rounded-xl border border-dark/5 hover:border-secondary/20 transition-all shadow-sm">
+                                                <div className="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
+                                                <span className="font-bold text-dark text-[11px] uppercase tracking-wide">{item}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="space-y-6">
+                                        <div className="flex items-center gap-4">
+                                            <p className="text-[10px] font-black text-dark/30 uppercase tracking-[0.3em] shrink-0">Photos</p>
+                                            <div className="h-px w-full bg-dark/5" />
+                                        </div>
+
+                                        {(() => {
+                                            const slug = selectedItem.toLowerCase().replace(/\s+/g, '_');
+                                            const subImgs = [];
+                                            if (slug) {
+                                                let idx = 1;
+                                                while (idx <= 100) {
+                                                    const img = settings?.[`service_item_${itemCatId}_${slug}_sub_${idx}`];
+                                                    if (!img && idx > 6) break;
+                                                    subImgs.push({ i: idx, img: img || null });
+                                                    idx++;
+                                                }
+                                            }
+
+                                            return (
+                                                <div className="grid grid-cols-3 gap-2 md:gap-4">
+                                                    {subImgs.map(({ i, img }) => (
+                                                        <div key={i} className={`aspect-square rounded-xl md:rounded-2xl overflow-hidden border border-dark/5 bg-light ${img ? 'shadow-md group cursor-zoom-in' : 'opacity-[0.15]'}`}>
+                                                            {img
+                                                                ? <img src={img} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={`Gallery ${i}`} />
+                                                                : <div className="w-full h-full flex items-center justify-center"><div className="w-1 h-1 rounded-full bg-dark/10" /></div>
+                                                            }
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            );
+                                        })()}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Footer */}
+                        <div className="px-5 py-4 md:px-8 md:py-6 border-t border-dark/5 shrink-0 bg-white">
+                            <button
+                                onClick={closeModal}
+                                className="w-full py-4 bg-dark text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-secondary transition-all"
+                            >
+                                CLOSE
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                , document.body)}
+
 
             <section className="relative min-h-[600px] pt-52 pb-24 bg-primary text-white overflow-hidden">
                 <div className="absolute inset-0 z-0">
@@ -167,54 +310,69 @@ export default function Services() {
             <section className="pt-12 md:pt-24 pb-20 md:pb-36 bg-white overflow-hidden">
                 <Container>
                     <div className="space-y-16 md:space-y-36">
-                        {t.list.map((s, i) => (
-                            <div key={i} className={`flex flex-col lg:flex-row gap-8 md:gap-20 items-center ${i % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
-                                <div className="w-full lg:w-5/12 relative group max-w-2xl lg:max-w-none">
-                                    <div className="w-full h-[200px] md:h-[380px] lg:h-[450px] rounded-[20px] md:rounded-[40px] lg:rounded-[56px] overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.1)] relative transform-gpu">
-                                        <img
-                                            src={s.image}
-                                            className="w-full h-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-110 will-change-transform"
-                                            alt={s.title}
-                                        />
-                                        <div className="absolute inset-0 bg-primary/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                                    </div>
-                                    <div className="absolute -z-10 -bottom-8 -right-8 w-48 h-48 bg-secondary/10 rounded-full blur-[80px] group-hover:bg-secondary/20 transition-all duration-700" />
-                                </div>
-                                <div className="w-full lg:w-7/12">
-                                    <div className="flex flex-col mb-8 md:mb-12">
-                                        <div className="flex items-center gap-4 mb-4 md:mb-8">
-                                            <div className="w-10 h-10 md:w-14 md:h-14 bg-primary/5 rounded-[16px] flex items-center justify-center shrink-0 group-hover:rotate-6 transition-all">
-                                                <s.icon className="w-5 h-5 md:w-7 md:h-7 text-primary" />
+                        {t.list.map((s, i) => {
+                            const ids = ['eo', 'show', 'mice', 'production', 'digital'];
+                            return (
+                                <div key={i} className={`flex flex-col lg:flex-row gap-8 md:gap-20 items-center ${i % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
+                                    <div
+                                        className="w-full lg:w-5/12 relative group max-w-2xl lg:max-w-none cursor-pointer"
+                                        onClick={() => openModal(s.title, ids[i], true)}
+                                    >
+                                        <div className="w-full h-[200px] md:h-[380px] lg:h-[450px] rounded-[20px] md:rounded-[40px] lg:rounded-[56px] overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.1)] relative transform-gpu">
+                                            <img
+                                                src={s.image}
+                                                className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 will-change-transform"
+                                                alt={s.title}
+                                            />
+                                            <div className="absolute inset-0 bg-dark/0 group-hover:bg-dark/20 transition-all duration-500 flex items-center justify-center">
+                                                <div className="bg-white/90 p-4 rounded-full opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 shadow-xl scale-75 group-hover:scale-100">
+                                                    <SparklesIcon className="w-8 h-8 text-primary" />
+                                                </div>
                                             </div>
-                                            <span className="text-secondary font-black text-[9px] tracking-[0.4em] uppercase">Service 0{i + 1}</span>
+                                            {/* Arrow hint badge */}
+                                            <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-lg border border-white/50 translate-y-2 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                                                <span className="text-[9px] font-black text-dark uppercase tracking-widest">Overview</span>
+                                                <ArrowRightIcon className="w-3 h-3 text-primary" />
+                                            </div>
                                         </div>
-                                        <h2 className="text-xl md:text-4xl lg:text-5xl font-black text-dark uppercase tracking-tighter leading-[0.9]">
-                                            {(() => {
-                                                const ids = ['eo', 'show', 'mice', 'production', 'digital'];
-                                                return settings?.[`service_title_${ids[i]}_${lang}`] || s.title;
-                                            })()}
-                                        </h2>
+                                        <div className="absolute -z-10 -bottom-8 -right-8 w-48 h-48 bg-secondary/10 rounded-full blur-[80px] group-hover:bg-secondary/20 transition-all duration-700" />
                                     </div>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-4">
-                                        {s.items.map((item, idx) => (
-                                            <div key={idx} className="flex items-center gap-2 p-3 md:p-6 glass-navbar rounded-[20px] border-dark/5 hover:border-primary/20 hover:scale-105 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 group">
-                                                <div className="w-1.5 h-1.5 rounded-full bg-secondary group-hover:animate-ping shrink-0" />
-                                                <span className="font-extrabold text-white text-[10px] md:text-sm">{item}</span>
+                                    <div className="w-full lg:w-7/12">
+                                        <div className="flex flex-col mb-8 md:mb-12">
+                                            <div className="flex items-center gap-4 mb-4 md:mb-8">
+                                                <div className="w-10 h-10 md:w-14 md:h-14 bg-primary/5 rounded-[16px] flex items-center justify-center shrink-0 group-hover:rotate-6 transition-all">
+                                                    <s.icon className="w-5 h-5 md:w-7 md:h-7 text-primary" />
+                                                </div>
+                                                <span className="text-secondary font-black text-[9px] tracking-[0.4em] uppercase">Service 0{i + 1}</span>
                                             </div>
-                                        ))}
+                                            <h2 className="text-xl md:text-4xl lg:text-5xl font-black text-dark uppercase tracking-tighter leading-[0.9]">
+                                                {settings?.[`service_title_${ids[i]}_${lang}`] || s.title}
+                                            </h2>
+                                        </div>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-4">
+                                            {s.items.map((item, idx) => {
+                                                const catId = ids[i];
+                                                return (
+                                                    <div
+                                                        key={idx}
+                                                        onClick={() => openModal(item, catId)}
+                                                        className="flex items-center gap-2 p-3 md:p-5 glass-navbar rounded-[20px] border-dark/5 hover:border-primary/20 hover:scale-105 hover:shadow-2xl hover:shadow-primary/5 cursor-pointer transition-all duration-500 group"
+                                                    >
+                                                        <div className="w-1.5 h-1.5 rounded-full bg-secondary group-hover:animate-ping shrink-0" />
+                                                        <span className="font-extrabold text-white text-[10px] md:text-sm flex-1">{item}</span>
+                                                        <ArrowRightIcon className="w-3 h-3 text-white/30 group-hover:text-secondary group-hover:translate-x-0.5 transition-all duration-300 shrink-0" />
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
                                     </div>
-                                    {/* <div className="mt-10 md:mt-12">
-                                        <Button variant="secondary" className="group w-full sm:w-auto h-16 px-10 text-[10px] font-black tracking-widest shadow-2xl shadow-secondary/10">
-                                            EXPLORE NOW
-                                            <ArrowRightIcon className="w-4 h-4 ml-4 group-hover:translate-x-3 transition-transform" />
-                                        </Button>
-                                    </div> */}
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </Container>
             </section>
         </MainLayout>
     );
 }
+

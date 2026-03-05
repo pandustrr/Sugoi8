@@ -13,6 +13,7 @@ import {
     PhoneIcon,
     MapPinIcon,
     ChatBubbleLeftEllipsisIcon,
+    PaintBrushIcon,
 } from '@heroicons/react/24/outline';
 
 export default function About() {
@@ -46,6 +47,7 @@ export default function About() {
                 { icon: UsersIcon, title: "Expert Team", desc: "Collaborating with market leaders across industries." },
                 { icon: GlobeAsiaAustraliaIcon, title: "Global Network", desc: "Executing projects with international standards." },
                 { icon: LightBulbIcon, title: "Innovation", desc: "Always first in technology and creative trends." },
+                { icon: PaintBrushIcon, title: "Creativity", desc: "Transforming every project into a unique artistic experience." },
             ],
             coreTitle: "Our Core Assets",
             // Contact section
@@ -74,7 +76,9 @@ export default function About() {
             typoDetails: [
                 { part: "SUGOI", font: "Geometric Sans-Serif", style: "Bold weight for strength and impact." },
                 { part: "MANAGEMENT", font: "Geometric Sans-Serif", style: "Light weight with expanded kerning for an elegant, premium feel." }
-            ]
+            ],
+            logoTitle: "The Infinity '8'",
+            logoDesc: "The number '8' in our logo is more than just a digit. It is designed as an infinity symbol, representing our limitless creativity, eternal commitment to excellence, and the continuous flow of innovation that defines Sugoi 8 Management."
         },
         id: {
             metaTitle: "Tentang — Sugoi 8 Management",
@@ -95,6 +99,7 @@ export default function About() {
                 { icon: UsersIcon, title: "Tim Ahli", desc: "Berkolaborasi dengan pemimpin pasar di berbagai industri." },
                 { icon: GlobeAsiaAustraliaIcon, title: "Jaringan Global", desc: "Menjalankan proyek dengan standar internasional." },
                 { icon: LightBulbIcon, title: "Inovasi", desc: "Selalu terdepan dalam teknologi dan tren kreatif." },
+                { icon: PaintBrushIcon, title: "Kreativitas", desc: "Mengubah setiap proyek menjadi pengalaman artistik yang unik dan berkesan." },
             ],
             coreTitle: "Keunggulan Kami",
             // Contact section
@@ -123,7 +128,9 @@ export default function About() {
             typoDetails: [
                 { part: "SUGOI", font: "Geometric Sans-Serif", style: "Bobot Bold untuk kekuatan dan dampak visual." },
                 { part: "MANAGEMENT", font: "Geometric Sans-Serif", style: "Bobot Light dengan kerning (jarak huruf) yang lebar untuk kesan elegan dan premium." }
-            ]
+            ],
+            logoTitle: "Filosofi Angka '8'",
+            logoDesc: "Angka '8' dalam logo kami lebih dari sekadar angka. Simbol ini dirancang sebagai lambang tak terhingga (infinity), yang mewakili kreativitas tanpa batas, komitmen abadi terhadap keunggulan, dan aliran inovasi yang terus mengalir dalam Sugoi 8 Management."
         },
         jp: {
             metaTitle: "会社概要 — Sugoi 8 Management",
@@ -144,6 +151,7 @@ export default function About() {
                 { icon: UsersIcon, title: "専門チーム", desc: "各業界のリーダーと協力しています。" },
                 { icon: GlobeAsiaAustraliaIcon, title: "グローバルネットワーク", desc: "国際基準でプロジェクトを実行します。" },
                 { icon: LightBulbIcon, title: "イノベーション", desc: "テクノロジーとクリエイティブトレンドで常に先頭を走ります。" },
+                { icon: PaintBrushIcon, title: "創造性", desc: "あらゆるプロジェクトをユニークな芸術的体験へと変貌させます。" },
             ],
             coreTitle: "私たちの強み",
             // Contact section
@@ -172,7 +180,9 @@ export default function About() {
             typoDetails: [
                 { part: "SUGOI", font: "ジオメトリック・サンセリフ", style: "力強さとインパクトのためのボールドウェイト。" },
                 { part: "MANAGEMENT", font: "ジオメトリック・サンセリフ", style: "エレガントでプレミアムな雰囲気のための、カーニングを広げたライトウェイト。" }
-            ]
+            ],
+            logoTitle: "無限の「8」",
+            logoDesc: "私たちのロゴにある「8」という数字は、単なる数字ではありません。それは無限のシンボルとしてデザインされており、私たちの無限の創造性、卓越した取り組みへの永遠のコミットメント、そしてSugoi 8 Managementを定義する絶え間ないイノベーションの流れを表しています。"
         },
     };
 
@@ -256,12 +266,33 @@ export default function About() {
                             </div>
                         </div>
                         <div className="relative order-1 md:order-2">
-                            <div className="aspect-4/5 h-[400px] md:h-auto rounded-[32px] md:rounded-[48px] overflow-hidden shadow-2xl">
-                                <img
-                                    src={settings?.about_vision_mission_img || "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=1200"}
-                                    className="w-full h-full object-cover"
-                                    alt="Vision & Mission"
-                                />
+                            <div className="space-y-4 md:space-y-5 relative z-10 max-w-lg mx-auto md:ml-auto md:mr-0">
+                                {/* Main Image */}
+                                <div className="rounded-[28px] md:rounded-[40px] overflow-hidden shadow-2xl aspect-video group">
+                                    <img
+                                        src={settings?.about_vision_main || settings?.about_vision_mission_img || "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=1200"}
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                        alt="Vision Main"
+                                    />
+                                </div>
+
+                                {/* Secondary Images Row */}
+                                <div className="grid grid-cols-2 gap-3 md:gap-4">
+                                    <div className="rounded-xl md:rounded-2xl overflow-hidden shadow-xl aspect-square group">
+                                        <img
+                                            src={settings?.about_vision_sub_1 || "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800"}
+                                            alt="Vision Sub 1"
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                        />
+                                    </div>
+                                    <div className="rounded-xl md:rounded-2xl overflow-hidden shadow-xl aspect-square group">
+                                        <img
+                                            src={settings?.about_vision_sub_2 || "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800"}
+                                            alt="Vision Sub 2"
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                        />
+                                    </div>
+                                </div>
                             </div>
                             <div className="absolute -bottom-10 -left-10 w-48 h-48 md:w-64 md:h-64 bg-primary/10 rounded-full blur-[80px] -z-10" />
                         </div>
@@ -275,7 +306,7 @@ export default function About() {
                     <div className="text-center mb-12 md:mb-16">
                         <h2 className="text-3xl md:text-5xl font-black text-dark uppercase tracking-tighter">{t.coreTitle}</h2>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                         {t.values.map((v, i) => (
                             <div key={i} className="bg-white p-7 md:p-10 rounded-[24px] md:rounded-[32px] shadow-sm hover:shadow-xl transition-all border border-dark/5">
                                 <v.icon className="w-8 h-8 md:w-10 md:h-10 text-primary mb-5 md:mb-6" />
@@ -314,6 +345,22 @@ export default function About() {
                                                 <p className="text-[10px] md:text-[11px] text-dark/40 font-medium leading-relaxed">{f.detail}</p>
                                             </div>
                                         ))}
+                                    </div>
+                                </div>
+
+                                {/* Logo Symbol Meaning */}
+                                <div className="bg-white p-6 md:p-8 rounded-[32px] border border-dark/5 shadow-sm relative overflow-hidden group">
+                                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary/2 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-primary/5 transition-colors" />
+                                    <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8 relative z-10">
+                                        <div className="w-20 h-20 md:w-24 md:h-24 bg-primary/5 rounded-[24px] p-4 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-500">
+                                            <img src="/8-sugoi-trans.png" alt="Infinity 8" className="w-full h-full object-contain" />
+                                        </div>
+                                        <div className="text-center md:text-left">
+                                            <h3 className="text-base md:text-lg font-black text-dark mb-2 uppercase tracking-tight">{t.logoTitle}</h3>
+                                            <p className="text-[11px] md:text-xs text-dark/50 font-medium leading-relaxed italic">
+                                                "{t.logoDesc}"
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

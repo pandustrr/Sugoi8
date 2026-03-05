@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Ticket;
 use App\Models\Booking;
+use App\Models\StandaloneProgram;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
@@ -16,10 +17,10 @@ class TicketController extends Controller
         return Inertia::render('Ticket', [
             'events' => Event::with(['tickets' => function ($query) {
                 $query->where('stock', '>', 0);
-            }])
-                ->where('date', '>=', now()->toDateString())
-                ->orderBy('date')
+            }, 'contents'])
+                ->orderBy('date', 'desc')
                 ->get(),
+            'programs' => StandaloneProgram::orderBy('order')->orderBy('created_at', 'desc')->get(),
             'settings' => \App\Models\SiteSetting::all()->pluck('value', 'key'),
         ]);
     }
@@ -29,7 +30,7 @@ class TicketController extends Controller
         return Inertia::render('Tickets/EventShow', [
             'event' => $event->load(['tickets' => function ($query) {
                 $query->where('stock', '>', 0);
-            }]),
+            }, 'contents']),
             'settings' => \App\Models\SiteSetting::all()->pluck('value', 'key'),
         ]);
     }
@@ -109,14 +110,14 @@ class TicketController extends Controller
 
         session()->put('auth_booking', $booking->id);
 
-        return redirect()->route('tickets.dashboard', $booking->id);
+        return redirect()->route('eventprogram.dashboard', $booking->id);
     }
 
     public function dashboard(Request $request, Booking $booking)
     {
         // Simple session-based auth for the specific booking
         if (session('auth_booking') != $booking->id) {
-            return redirect()->route('tickets.checkStatus');
+            return redirect()->route('eventprogram.checkStatus');
         }
 
         return Inertia::render('Tickets/Dashboard', [
@@ -218,6 +219,6 @@ class TicketController extends Controller
     public function logout()
     {
         session()->forget('auth_booking');
-        return redirect()->route('tickets.checkStatus');
+        return redirect()->route('eventprogram.checkStatus');
     }
 }

@@ -24,11 +24,16 @@ export default function Edit({ event }) {
         slug: event.slug || '',
         description: event.description || '',
         date: event.date,
+        end_date: event.end_date || '',
         time: event.time,
         location: event.location,
         steps: Array.isArray(event.steps) ? event.steps : [],
         divisions: Array.isArray(event.divisions) ? event.divisions : [],
         image: null,
+        image_2: null,
+        image_3: null,
+        remove_image_2: false,
+        remove_image_3: false,
     });
 
     const handleUpdateEvent = (e) => {
@@ -161,18 +166,24 @@ export default function Edit({ event }) {
 
                                             {/* Slug */}
                                             <div>
-                                                <label className="block text-[10px] font-black uppercase tracking-widest text-dark/40 mb-3 px-1 italic">Link Kustom (Slug)</label>
-                                                <div className="relative">
-                                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-dark/20 text-[10px] font-black pointer-events-none">sugoi8.id/ticket?event=</span>
+                                                <div className="flex items-center justify-between mb-3 px-1">
+                                                    <label className="block text-[10px] font-black uppercase tracking-widest text-dark/60 italic">Link Kustom (Slug)</label>
+                                                    <span className="text-[9px] font-bold text-primary italic bg-primary/5 px-2 py-0.5 rounded-lg">Digunakan untuk akses link cepat dan rapi</span>
+                                                </div>
+                                                <div className="relative group/slug">
+                                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2 border-r border-dark/10 pr-3 pointer-events-none">
+                                                        <span className="text-xs font-black text-dark/30">/eventprogram/</span>
+                                                    </div>
                                                     <input
                                                         type="text"
                                                         value={data.slug}
                                                         onChange={e => setData('slug', e.target.value)}
-                                                        className="w-full bg-light border border-dark/5 rounded-2xl py-4 pl-[135px] pr-4 text-dark font-bold focus:border-primary outline-none transition-all"
+                                                        className="w-full bg-light border border-dark/5 rounded-2xl py-4 pl-[125px] pr-4 text-dark font-bold text-xs focus:border-primary focus:bg-white outline-none transition-all shadow-inner"
                                                         placeholder="tari-nusantara"
                                                     />
                                                 </div>
                                                 {errors.slug && <p className="mt-2 text-xs font-bold text-red-500">{errors.slug}</p>}
+                                                <p className="mt-2 text-[9px] font-medium text-dark/30 px-1 italic">Contoh: sugoi8.com/eventprogram/tari-nuansa</p>
                                             </div>
                                         </div>
 
@@ -195,11 +206,20 @@ export default function Edit({ event }) {
                                             </p>
                                         </div>
 
-                                        {/* Date */}
-                                        <div>
-                                            <label className="block text-[10px] font-black uppercase tracking-widest text-dark/40 mb-3 px-1">Tanggal</label>
-                                            <input type="date" value={data.date} onChange={e => setData('date', e.target.value)}
-                                                className="w-full bg-light border border-dark/5 rounded-2xl p-4 text-dark font-bold focus:border-primary outline-none transition-all" />
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:col-span-2">
+                                            <div>
+                                                <label className="block text-[10px] font-black uppercase tracking-widest text-dark/40 mb-3 px-1">Tanggal Mulai</label>
+                                                <input type="date" value={data.date} onChange={e => setData('date', e.target.value)}
+                                                    className="w-full bg-light border border-dark/5 rounded-2xl p-4 text-dark font-bold focus:border-primary outline-none transition-all" />
+                                                {errors.date && <p className="mt-2 text-xs font-bold text-red-500">{errors.date}</p>}
+                                            </div>
+
+                                            <div>
+                                                <label className="block text-[10px] font-black uppercase tracking-widest text-dark/40 mb-3 px-1">Tanggal Selesai</label>
+                                                <input type="date" value={data.end_date} onChange={e => setData('end_date', e.target.value)}
+                                                    className="w-full bg-light border border-dark/5 rounded-2xl p-4 text-dark font-bold focus:border-primary outline-none transition-all" />
+                                                {errors.end_date && <p className="mt-2 text-xs font-bold text-red-500">{errors.end_date}</p>}
+                                            </div>
                                         </div>
 
                                         {/* Time */}
@@ -216,48 +236,81 @@ export default function Edit({ event }) {
                                                 className="w-full bg-light border border-dark/5 rounded-2xl p-4 text-dark font-bold focus:border-primary outline-none transition-all" />
                                         </div>
 
-                                        {/* Poster */}
-                                        <div className="md:col-span-2">
-                                            <label className="block text-[10px] font-black uppercase tracking-widest text-dark/40 mb-3 px-1">Poster Lomba</label>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                <div className="relative group">
-                                                    <input type="file" onChange={e => setData('image', e.target.files[0])}
-                                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" accept="image/*" />
-                                                    <div className="w-full aspect-video rounded-[32px] border-2 border-dashed border-dark/5 bg-light flex flex-col items-center justify-center gap-4 group-hover:border-primary/20 transition-all">
-                                                        <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center text-dark/20 group-hover:text-primary transition-colors">
-                                                            <PhotoIcon className="w-6 h-6" />
+                                        <div className="md:col-span-2 space-y-8">
+                                            {[
+                                                { id: 'image', url_key: 'image_url', label: 'Poster Lomba / Cover Utama (Wajib)' },
+                                                { id: 'image_2', url_key: 'image_url_2', label: 'Brosur / Gambar Tambahan 1 (Opsional)' },
+                                                { id: 'image_3', url_key: 'image_url_3', label: 'Brosur / Gambar Tambahan 2 (Opsional)' }
+                                            ].map((imgField) => (
+                                                <div className="space-y-3" key={imgField.id}>
+                                                    <label className="block text-[10px] font-black uppercase tracking-widest text-dark/40 px-1">{imgField.label}</label>
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                        <div className="relative group">
+                                                            <input type="file" onChange={e => {
+                                                                setData(imgField.id, e.target.files[0]);
+                                                                if (imgField.id === 'image_2') setData('remove_image_2', false);
+                                                                if (imgField.id === 'image_3') setData('remove_image_3', false);
+                                                            }}
+                                                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" accept="image/*" />
+                                                            <div className="w-full aspect-video rounded-[32px] border-2 border-dashed border-dark/5 bg-light flex flex-col items-center justify-center gap-4 group-hover:border-primary/20 transition-all">
+                                                                <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center text-dark/20 group-hover:text-primary transition-colors">
+                                                                    <PhotoIcon className="w-6 h-6" />
+                                                                </div>
+                                                                <p className="text-[10px] font-black uppercase tracking-widest text-dark">Ganti Gambar</p>
+                                                            </div>
                                                         </div>
-                                                        <p className="text-[10px] font-black uppercase tracking-widest text-dark">Ganti Poster</p>
-                                                    </div>
-                                                </div>
 
-                                                {/* Preview thumbnail — klik untuk fullscreen */}
-                                                <div
-                                                    className="w-full aspect-video rounded-[32px] overflow-hidden bg-light border border-dark/5 relative group/thumb cursor-zoom-in"
-                                                    onClick={() => {
-                                                        const src = data.image
-                                                            ? URL.createObjectURL(data.image)
-                                                            : event.image_url
-                                                                ? (event.image_url.startsWith('http') ? event.image_url : `/storage/${event.image_url}`)
-                                                                : null;
-                                                        if (src) setPreviewSrc(src);
-                                                    }}
-                                                >
-                                                    {data.image ? (
-                                                        <img src={URL.createObjectURL(data.image)} className="w-full h-full object-cover group-hover/thumb:scale-105 transition-transform duration-500" alt="" />
-                                                    ) : event.image_url ? (
-                                                        <img src={event.image_url.startsWith('http') ? event.image_url : `/storage/${event.image_url}`} className="w-full h-full object-cover group-hover/thumb:scale-105 transition-transform duration-500" alt="" />
-                                                    ) : (
-                                                        <div className="w-full h-full flex items-center justify-center text-dark/10 font-black uppercase italic text-sm">Preview</div>
-                                                    )}
-                                                    {/* Zoom overlay */}
-                                                    <div className="absolute inset-0 bg-dark/0 group-hover/thumb:bg-dark/30 transition-colors flex items-center justify-center opacity-0 group-hover/thumb:opacity-100">
-                                                        <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full border border-white/30 flex items-center justify-center text-white">
-                                                            <MagnifyingGlassPlusIcon className="w-5 h-5" />
+                                                        {/* Preview thumbnail — klik untuk fullscreen */}
+                                                        <div
+                                                            className="w-full aspect-video rounded-[32px] overflow-hidden bg-light border border-dark/5 relative group/thumb cursor-zoom-in flex items-center justify-center"
+                                                            onClick={() => {
+                                                                const eventUrl = event[imgField.url_key];
+                                                                const removeFlag = data[`remove_${imgField.id}`];
+                                                                const src = data[imgField.id]
+                                                                    ? URL.createObjectURL(data[imgField.id])
+                                                                    : (eventUrl && !removeFlag)
+                                                                        ? (eventUrl.startsWith('http') ? eventUrl : `/storage/${eventUrl}`)
+                                                                        : null;
+                                                                if (src) setPreviewSrc(src);
+                                                            }}
+                                                        >
+                                                            {data[imgField.id] ? (
+                                                                <>
+                                                                    <img src={URL.createObjectURL(data[imgField.id])} className="w-full h-full object-cover group-hover/thumb:scale-105 transition-transform duration-500" alt="" />
+                                                                    <button
+                                                                        type="button"
+                                                                        onClick={(e) => { e.stopPropagation(); setData(imgField.id, null); }}
+                                                                        className="absolute top-2 right-2 p-1.5 bg-red-500 rounded-lg text-white hover:bg-red-600 transition-colors z-20"
+                                                                    >
+                                                                        <TrashIcon className="w-4 h-4" />
+                                                                    </button>
+                                                                </>
+                                                            ) : (event[imgField.url_key] && (!imgField.id.includes('_') || !data[`remove_${imgField.id}`])) ? (
+                                                                <>
+                                                                    <img src={event[imgField.url_key].startsWith('http') ? event[imgField.url_key] : `/storage/${event[imgField.url_key]}`} className="w-full h-full object-cover group-hover/thumb:scale-105 transition-transform duration-500" alt="" />
+                                                                    {imgField.id !== 'image' && (
+                                                                        <button
+                                                                            type="button"
+                                                                            onClick={(e) => { e.stopPropagation(); setData(`remove_${imgField.id}`, true); }}
+                                                                            className="absolute top-2 right-2 p-1.5 bg-red-500 rounded-lg text-white hover:bg-red-600 transition-colors z-20"
+                                                                        >
+                                                                            <TrashIcon className="w-4 h-4" />
+                                                                        </button>
+                                                                    )}
+                                                                </>
+                                                            ) : (
+                                                                <div className="w-full h-full flex items-center justify-center text-dark/10 font-black uppercase italic text-[10px] tracking-widest">Preview</div>
+                                                            )}
+                                                            {/* Zoom overlay */}
+                                                            <div className="absolute inset-0 bg-dark/0 group-hover/thumb:bg-dark/30 transition-colors flex items-center justify-center opacity-0 group-hover/thumb:opacity-100 pointer-events-none">
+                                                                <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full border border-white/30 flex items-center justify-center text-white">
+                                                                    <MagnifyingGlassPlusIcon className="w-5 h-5" />
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            ))}
                                         </div>
                                     </div>
 
@@ -310,12 +363,12 @@ export default function Edit({ event }) {
                                                                 <h4 className="text-[12px] font-black text-dark uppercase tracking-tight">{cat.title}</h4>
                                                                 <p className="text-[10px] font-bold text-primary italic">Rp {new Intl.NumberFormat('id-ID').format(cat.price)}</p>
                                                             </div>
-                                                            <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                            <div className="flex gap-1">
                                                                 <button onClick={() => { setEditingCategory(cat); editCategoryForm.setData({ title: cat.title, price: cat.price, stock: cat.stock, gdrive_link: cat.gdrive_link || '' }); }}
-                                                                    className="p-2 text-dark/20 hover:text-primary transition-colors">
+                                                                    className="p-2 text-dark/40 hover:text-primary transition-colors hover:bg-white rounded-xl shadow-sm">
                                                                     <PencilSquareIcon className="w-4 h-4" />
                                                                 </button>
-                                                                <button onClick={() => handleDeleteCategory(cat.id)} className="p-2 text-dark/20 hover:text-red-500 transition-colors">
+                                                                <button onClick={() => handleDeleteCategory(cat.id)} className="p-2 text-dark/40 hover:text-red-500 transition-colors hover:bg-white rounded-xl shadow-sm">
                                                                     <TrashIcon className="w-4 h-4" />
                                                                 </button>
                                                             </div>
@@ -392,12 +445,12 @@ export default function Edit({ event }) {
                                                             <span className="w-2 h-2 bg-primary rounded-full shrink-0"></span>
                                                             <p className="text-[11px] font-black text-dark uppercase tracking-tight">{cat}</p>
                                                         </div>
-                                                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                        <div className="flex gap-1">
                                                             <button type="button" onClick={() => { setEditingDivisionIdx(i); setEditDivision(cat); }}
-                                                                className="p-2 text-dark/20 hover:text-primary transition-colors">
+                                                                className="p-2 text-dark/40 hover:text-primary transition-colors hover:bg-white rounded-xl shadow-sm">
                                                                 <PencilSquareIcon className="w-4 h-4" />
                                                             </button>
-                                                            <button type="button" onClick={() => removeDivision(i)} className="p-2 text-dark/20 hover:text-red-500 transition-colors">
+                                                            <button type="button" onClick={() => removeDivision(i)} className="p-2 text-dark/40 hover:text-red-500 transition-colors hover:bg-white rounded-xl shadow-sm">
                                                                 <TrashIcon className="w-4 h-4" />
                                                             </button>
                                                         </div>
@@ -472,12 +525,12 @@ export default function Edit({ event }) {
                                                                 {step.date && <p className="text-[9px] font-bold text-primary">{step.date}</p>}
                                                             </div>
                                                         </div>
-                                                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                        <div className="flex gap-1">
                                                             <button type="button" onClick={() => { setEditingStepIdx(i); setEditStep({ title: step.title, date: step.date || '' }); }}
-                                                                className="p-2 text-dark/20 hover:text-primary transition-colors">
+                                                                className="p-2 text-dark/40 hover:text-primary transition-colors hover:bg-white rounded-xl shadow-sm">
                                                                 <PencilSquareIcon className="w-4 h-4" />
                                                             </button>
-                                                            <button type="button" onClick={() => removeStep(i)} className="p-2 text-dark/20 hover:text-red-500 transition-colors">
+                                                            <button type="button" onClick={() => removeStep(i)} className="p-2 text-dark/40 hover:text-red-500 transition-colors hover:bg-white rounded-xl shadow-sm">
                                                                 <TrashIcon className="w-4 h-4" />
                                                             </button>
                                                         </div>

@@ -58,7 +58,7 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
         en: {
             home: 'Home',
             about: 'About',
-            tickets: 'Tickets',
+            tickets: 'Event Program',
             services: 'Services',
             portfolio: 'Portfolio',
             partners: 'Partners',
@@ -79,7 +79,7 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
         id: {
             home: 'Beranda',
             about: 'Tentang',
-            tickets: 'Tiket',
+            tickets: 'Event Program',
             services: 'Layanan',
             portfolio: 'Portofolio',
             partners: 'Mitra',
@@ -100,7 +100,7 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
         jp: {
             home: 'ホーム',
             about: '会社概要',
-            tickets: 'チケット',
+            tickets: 'イベントプログラム',
             services: 'サービス',
             portfolio: '実績',
             partners: 'パートナー',
@@ -144,7 +144,7 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
         { name: cur.services, href: '/services' },
         { name: cur.portfolio, href: '/portfolio' },
         { name: cur.partners, href: '/partners' },
-        { name: cur.tickets, href: '/tickets' },
+        { name: cur.tickets, href: '/eventprogram' },
     ];
 
     const isActive = (path) => {
@@ -156,72 +156,74 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
     return (
         <>
             <header
-                className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out glass-navbar shadow-lg border-b border-white/5 py-3"
+                className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out glass-navbar shadow-lg border-b border-white/5 py-1 md:py-2"
             >
                 <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between">
-                    <div className="flex lg:flex-1">
-                        <Link href="/" className="flex items-center gap-3 group">
+                    <div className="flex shrink-0 lg:mr-12">
+                        <Link href="/" className="flex items-center group">
                             <img
                                 src="/logo-putih.png"
                                 alt="Sugoi Management 8"
-                                className="transition-all duration-300 object-contain group-hover:scale-105 h-8 md:h-10"
+                                className="transition-all duration-300 object-contain group-hover:scale-105 h-9 md:h-14 lg:h-12"
                             />
                         </Link>
                     </div>
 
-                    <nav className="hidden lg:flex items-center gap-x-1 xl:gap-x-2">
-                        {navLinks.map((link) => (
-                            <Link
-                                key={link.name}
-                                href={link.href}
-                                className={`px-4 py-2 text-[12px] font-bold uppercase tracking-[0.2em] transition-all duration-300 relative group ${isActive(link.href) ? 'text-secondary' : 'text-white/80 hover:text-white'
-                                    }`}
-                            >
-                                {link.name}
-                                <span className={`absolute bottom-1 left-4 right-4 h-0.5 bg-secondary transition-transform duration-300 origin-left ${isActive(link.href) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-                                    }`}></span>
-                            </Link>
-                        ))}
-
-                        <div className="ml-4 h-4 w-px bg-white/20"></div>
-
-                        <div className="ml-4 flex items-center gap-1">
-                            {[
-                                { code: 'id', label: 'ID' },
-                                { code: 'en', label: 'EN' },
-                                { code: 'jp', label: 'JP' },
-                            ].map(({ code, label }) => (
-                                <button
-                                    key={code}
-                                    onClick={() => onLangChange(code)}
-                                    className={`text-[10px] font-black px-2 py-1 rounded transition-all duration-300 ${lang === code
-                                        ? 'text-secondary border border-secondary/30 bg-secondary/10'
-                                        : 'text-white/40 hover:text-white hover:bg-white/5'
+                    <nav className="hidden lg:flex items-center justify-between flex-1">
+                        <div className="flex items-center gap-x-1 xl:gap-x-2">
+                            {navLinks.map((link) => (
+                                <Link
+                                    key={link.name}
+                                    href={link.href}
+                                    className={`px-4 py-2 text-[12px] font-bold uppercase tracking-[0.2em] transition-all duration-300 relative group ${isActive(link.href) ? 'text-secondary' : 'text-white/80 hover:text-white'
                                         }`}
                                 >
-                                    {label}
-                                </button>
+                                    {link.name}
+                                    <span className={`absolute bottom-1 left-4 right-4 h-0.5 bg-secondary transition-transform duration-300 origin-left ${isActive(link.href) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                                        }`}></span>
+                                </Link>
                             ))}
+
+                            <div className="ml-4 h-4 w-px bg-white/20"></div>
+
+                            <div className="ml-4 flex items-center gap-1">
+                                {[
+                                    { code: 'id', label: 'ID' },
+                                    { code: 'en', label: 'EN' },
+                                    { code: 'jp', label: 'JP' },
+                                ].map(({ code, label }) => (
+                                    <button
+                                        key={code}
+                                        onClick={() => onLangChange(code)}
+                                        className={`text-[10px] font-black px-2 py-1 rounded transition-all duration-300 ${lang === code
+                                            ? 'text-secondary border border-secondary/30 bg-secondary/10'
+                                            : 'text-white/40 hover:text-white hover:bg-white/5'
+                                            }`}
+                                    >
+                                        {label}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="flex items-center gap-3">
+                            <Link
+                                href="/tickets/check-status"
+                                className="px-6 py-2.5 text-[11px] font-black tracking-[0.2em] transition-all hover:text-secondary text-white flex items-center gap-2"
+                            >
+                                {cur.login}
+                            </Link>
+                            <Button
+                                variant="secondary"
+                                href="/about#contact"
+                                className="px-6 py-2.5 text-[11px] font-black tracking-[0.2em] transition-all hover:scale-105 active:scale-95 flex items-center gap-2 group relative overflow-hidden rounded-md"
+                            >
+                                <span className="relative z-10 flex items-center gap-2">
+                                    {cur.contact} <span className="text-sm transition-transform group-hover:translate-x-1">→</span>
+                                </span>
+                            </Button>
                         </div>
                     </nav>
-
-                    <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-3">
-                        <Link
-                            href="/tickets/check-status"
-                            className="px-6 py-2.5 text-[11px] font-black tracking-[0.2em] transition-all hover:text-secondary text-white flex items-center gap-2"
-                        >
-                            {cur.login}
-                        </Link>
-                        <Button
-                            variant="secondary"
-                            href="/about#contact"
-                            className="px-6 py-2.5 text-[11px] font-black tracking-[0.2em] transition-all hover:scale-105 active:scale-95 flex items-center gap-2 group relative overflow-hidden rounded-md"
-                        >
-                            <span className="relative z-10 flex items-center gap-2">
-                                {cur.contact} <span className="text-sm transition-transform group-hover:translate-x-1">→</span>
-                            </span>
-                        </Button>
-                    </div>
 
                     <div className="flex lg:hidden gap-4 items-center">
                         <button
@@ -232,7 +234,7 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                         </button>
                         <button
                             type="button"
-                            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white"
+                            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white active:scale-90 transition-transform"
                             onClick={() => setMobileMenuOpen(true)}
                         >
                             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
@@ -246,20 +248,20 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                     <div className="fixed inset-0 z-50 bg-dark/40 backdrop-blur-xl" onClick={() => setMobileMenuOpen(false)} />
                     <Transition.Child
                         as={Fragment}
-                        enter="transition ease-out duration-500 transform"
+                        enter="transition ease-out duration-300 transform"
                         enterFrom="translate-x-full"
                         enterTo="translate-x-0"
-                        leave="transition ease-in duration-400 transform"
+                        leave="transition ease-in duration-200 transform"
                         leaveFrom="translate-x-0"
                         leaveTo="translate-x-full"
                     >
-                        <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto glass-navbar border-l border-white/10 px-6 py-8 sm:max-w-sm">
+                        <div className="fixed inset-y-0 right-0 z-50 w-[80%] overflow-y-auto glass-navbar border-l border-white/10 px-6 py-8 sm:max-w-sm">
                             <div className="flex items-center justify-between mb-12">
                                 <Link href="/" className="flex items-center gap-3">
                                     <img
                                         src="/logo-putih.png"
                                         alt="Sugoi Management 8"
-                                        className="h-10 w-auto object-contain"
+                                        className="h-9 w-auto object-contain"
                                     />
                                 </Link>
                                 <button
@@ -271,50 +273,23 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                                 </button>
                             </div>
 
-                            <nav className="space-y-1">
+                            <nav className="space-y-2">
                                 {navLinks.map(l => (
                                     <Link
                                         key={l.name}
                                         href={l.href}
-                                        className={`block rounded-2xl px-4 py-4 text-sm font-black uppercase tracking-widest transition-all ${isActive(l.href) ? 'text-secondary bg-white/5' : 'text-white hover:text-secondary hover:bg-white/5'
+                                        className={`block rounded-2xl px-5 py-4 text-sm font-black uppercase tracking-[0.2em] transition-all ${isActive(l.href) ? 'text-secondary bg-white/5 border border-white/5' : 'text-white/80 hover:text-white hover:bg-white/5'
                                             }`}
                                         onClick={() => setMobileMenuOpen(false)}
                                     >
                                         {l.name}
                                     </Link>
                                 ))}
-
-                                <div className="pt-8 pb-4">
-                                    <p className="px-4 text-[12px] font-black uppercase tracking-[0.3em] text-white/20 mb-4">{cur.services}</p>
-                                    <div className="grid grid-cols-1 gap-2">
-                                        <div className="px-4 mb-4">
-                                            <p className="text-[12px] font-black uppercase text-secondary mb-2">{cur.eo}</p>
-                                            <div className="grid grid-cols-1 gap-1 pl-2">
-                                                {eoServices.map(s => (
-                                                    <Link key={s.name} href={s.href} className="text-xs font-bold text-white/60 hover:text-secondary py-1" onClick={() => setMobileMenuOpen(false)}>{s.name}</Link>
-                                                ))}
-                                            </div>
-                                        </div>
-                                        {mainServices.map((item) => (
-                                            <Link
-                                                key={item.name}
-                                                href={item.href}
-                                                className="flex items-center gap-4 rounded-2xl px-4 py-4 text-sm font-bold text-white hover:bg-white/5 transition-all"
-                                                onClick={() => setMobileMenuOpen(false)}
-                                            >
-                                                <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
-                                                    <item.icon className="w-4 h-4 text-primary" />
-                                                </div>
-                                                {item.name}
-                                            </Link>
-                                        ))}
-                                    </div>
-                                </div>
                             </nav>
 
                             <div className="mt-12 pt-12 border-t border-white/5 space-y-4">
                                 <Link
-                                    href="/tickets/check-status"
+                                    href="/eventprogram/check-status"
                                     onClick={() => setMobileMenuOpen(false)}
                                     className="w-full h-16 flex items-center justify-center text-xs font-black tracking-[0.2em] text-white border border-white/10 rounded-xl"
                                 >

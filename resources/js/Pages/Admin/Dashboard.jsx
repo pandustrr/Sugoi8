@@ -1,5 +1,12 @@
 import { Head, usePage, Link, router } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Fragment } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/id';
+
+dayjs.extend(relativeTime);
+dayjs.locale('id');
 import {
     Squares2X2Icon,
     UserIcon,
@@ -18,13 +25,17 @@ import {
     XCircleIcon,
     UserGroupIcon,
     BriefcaseIcon,
-    StarIcon
+    StarIcon,
+    XMarkIcon,
+    MapPinIcon,
+    ChartBarIcon
 } from '@heroicons/react/24/outline';
 import SidebarAdmin from '../../Components/SidebarAdmin';
 
-export default function Dashboard({ stats, recentBookings, upcomingEvents, topTickets }) {
+export default function Dashboard({ stats, recentBookings, upcomingEvents, topTickets, recentPageVisits }) {
     const { auth } = usePage().props;
     const [currentTime, setCurrentTime] = useState(new Date());
+    const [isVisitsModalOpen, setIsVisitsModalOpen] = useState(false);
 
     useEffect(() => {
         const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -130,7 +141,54 @@ export default function Dashboard({ stats, recentBookings, upcomingEvents, topTi
                         </div>
                     </div>
 
-                    {/* Stats Grid */}
+                    {/* Top Important Stats Section (Moved from bottom) */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <button
+                            onClick={() => setIsVisitsModalOpen(true)}
+                            className="bg-white p-6 rounded-[24px] border border-dark/5 shadow-sm hover:shadow-lg hover:border-blue-500/30 transition-all flex items-center justify-between text-left group lg:col-span-1 active:scale-95"
+                        >
+                            <div className="flex items-center gap-5">
+                                <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center shrink-0 group-hover:bg-blue-100 group-hover:scale-110 transition-all">
+                                    <UserGroupIcon className="w-6 h-6 text-blue-500" />
+                                </div>
+                                <div>
+                                    <p className="text-[9px] font-black uppercase tracking-widest text-dark/30 mb-0.5 group-hover:text-blue-500 transition-colors">Pengunjung Web</p>
+                                    <p className="text-xl font-black text-dark">{stats.page_visits}</p>
+                                    <p className="text-[8px] font-bold text-dark/30 uppercase tracking-widest mt-0.5">{stats.page_visits_today} Hari Ini</p>
+                                </div>
+                            </div>
+                            <ChartBarIcon className="w-5 h-5 text-dark/10 group-hover:text-blue-500 transition-colors" />
+                        </button>
+
+                        <div className="bg-white p-6 rounded-[24px] border border-dark/5 shadow-sm flex items-center gap-5 group lg:col-span-1">
+                            <div className="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center shrink-0 group-hover:bg-amber-100 transition-colors">
+                                <StarIcon className="w-6 h-6 text-amber-500" />
+                            </div>
+                            <div>
+                                <p className="text-[9px] font-black uppercase tracking-widest text-dark/30 mb-0.5">Partners</p>
+                                <p className="text-xl font-black text-dark">{stats.total_partners}</p>
+                                <p className="text-[8px] font-bold text-dark/30 uppercase tracking-widest mt-0.5">Sinergi Kerjasama</p>
+                            </div>
+                        </div>
+
+                        <div className="md:col-span-2 bg-emerald-500 p-6 rounded-[32px] shadow-lg shadow-emerald-500/10 text-white flex items-center justify-between group overflow-hidden relative">
+                            <div className="relative z-10">
+                                <h4 className="text-[10px] font-black uppercase tracking-widest mb-1.5 opacity-80">E-Ticketing System</h4>
+                                <p className="text-2xl lg:text-3xl font-black italic tracking-tighter leading-none mb-1.5">
+                                    {stats.confirmed_bookings} Event Terverifikasi
+                                </p>
+                            </div>
+                            <div className="relative z-10 hidden sm:block">
+                                <Link href={route('admin.bookings.index')} className="p-3 bg-white text-emerald-500 rounded-xl shadow-lg hover:scale-110 active:scale-95 transition-all block">
+                                    <ShoppingBagIcon className="w-6 h-6" />
+                                </Link>
+                            </div>
+
+                            <CheckCircleIcon className="absolute right-[-15px] top-[-15px] w-40 h-40 opacity-10 -rotate-12 pointer-events-none" />
+                        </div>
+                    </div>
+
+                    {/* Quick Stats Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
                         {mainStats.map((stat, i) => (
                             <div key={i} className="bg-white p-5 rounded-[24px] border border-dark/5 shadow-sm hover:shadow-lg transition-all group relative overflow-hidden">
@@ -276,40 +334,105 @@ export default function Dashboard({ stats, recentBookings, upcomingEvents, topTi
                         </div>
                     </div>
 
-                    {/* Additional Stats Section */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div className="bg-white p-6 rounded-[24px] border border-dark/5 shadow-sm flex items-center gap-5 group">
-                            <div className="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center shrink-0 group-hover:bg-amber-100 transition-colors">
-                                <StarIcon className="w-6 h-6 text-amber-500" />
-                            </div>
-                            <div>
-                                <p className="text-[9px] font-black uppercase tracking-widest text-dark/30 mb-0.5">Partners</p>
-                                <p className="text-xl font-black text-dark">{stats.total_partners}</p>
-                                <p className="text-[8px] font-bold text-dark/30 uppercase tracking-widest mt-0.5">Sinergi Kerjasama</p>
-                            </div>
-                        </div>
 
-                        <div className="md:col-span-2 bg-emerald-500 p-6 rounded-[32px] shadow-lg shadow-emerald-500/10 text-white flex items-center justify-between group overflow-hidden relative">
-                            <div className="relative z-10">
-                                <h4 className="text-[10px] font-black uppercase tracking-widest mb-1.5 opacity-80">E-Ticketing System</h4>
-                                <p className="text-2xl lg:text-3xl font-black italic tracking-tighter leading-none mb-1.5">
-                                    {stats.confirmed_bookings} Tiket Terverifikasi
-                                </p>
-                                <p className="text-[10px] font-bold opacity-60">
-                                    System running smoothly. All services operational.
-                                </p>
-                            </div>
-                            <div className="relative z-10 hidden sm:block">
-                                <Link href={route('admin.bookings.index')} className="p-3 bg-white text-emerald-500 rounded-xl shadow-lg hover:scale-110 active:scale-95 transition-all block">
-                                    <ShoppingBagIcon className="w-6 h-6" />
-                                </Link>
-                            </div>
-
-                            <CheckCircleIcon className="absolute right-[-15px] top-[-15px] w-40 h-40 opacity-10 -rotate-12 pointer-events-none" />
-                        </div>
-                    </div>
                 </div>
             </main>
+
+            {/* Visits Detail Modal */}
+            <Transition appear show={isVisitsModalOpen} as={Fragment}>
+                <Dialog as="div" className="relative z-200" onClose={() => setIsVisitsModalOpen(false)}>
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0 bg-dark/40 backdrop-blur-sm" />
+                    </Transition.Child>
+
+                    <div className="fixed inset-0 overflow-y-auto">
+                        <div className="flex min-h-full items-center justify-center p-4 text-center">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300 transform"
+                                enterFrom="opacity-0 translate-y-10 scale-95"
+                                enterTo="opacity-100 translate-y-0 scale-100"
+                                leave="ease-in duration-200 transform"
+                                leaveFrom="opacity-100 translate-y-0 scale-100"
+                                leaveTo="opacity-0 translate-y-10 scale-95"
+                            >
+                                <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-[32px] bg-light text-left align-middle shadow-2xl transition-all">
+                                    <div className="bg-white px-6 py-5 border-b border-dark/5 flex items-center justify-between sticky top-0 z-10">
+                                        <div>
+                                            <Dialog.Title as="h3" className="text-sm font-black text-dark uppercase tracking-widest flex items-center gap-2">
+                                                <ChartBarIcon className="w-5 h-5 text-blue-500" /> Detail Kunjungan Web
+                                            </Dialog.Title>
+                                            <p className="text-[10px] font-bold text-dark/40 mt-1 uppercase tracking-widest">
+                                                Total Keseluruhan: <span className="text-dark">{stats.page_visits} views</span>
+                                            </p>
+                                        </div>
+                                        <button
+                                            onClick={() => setIsVisitsModalOpen(false)}
+                                            className="w-8 h-8 flex items-center justify-center rounded-full bg-dark/5 text-dark/40 hover:bg-red-500/10 hover:text-red-500 transition-colors"
+                                        >
+                                            <XMarkIcon className="w-5 h-5" />
+                                        </button>
+                                    </div>
+
+                                    <div className="p-6 max-h-[60vh] overflow-y-auto">
+                                        <div className="bg-white rounded-[24px] border border-dark/5 overflow-hidden shadow-sm">
+                                            <table className="w-full text-left border-collapse min-w-[600px]">
+                                                <thead>
+                                                    <tr className="bg-light/50 border-b border-dark/5">
+                                                        <th className="px-5 py-4 text-[10px] font-black uppercase tracking-widest text-dark/40 w-48">Waktu</th>
+                                                        <th className="px-5 py-4 text-[10px] font-black uppercase tracking-widest text-dark/40 w-48">IP Address</th>
+                                                        <th className="px-5 py-4 text-[10px] font-black uppercase tracking-widest text-dark/40">Browser / User Agent</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="divide-y divide-dark/5">
+                                                    {recentPageVisits && recentPageVisits.length > 0 ? (
+                                                        recentPageVisits.map(visit => (
+                                                            <tr key={visit.id} className="hover:bg-light/30 transition-colors group">
+                                                                <td className="px-5 py-4 align-top">
+                                                                    <p className="text-xs font-bold text-dark group-hover:text-blue-500 transition-colors">{dayjs(visit.created_at).fromNow()}</p>
+                                                                    <p className="text-[10px] text-dark/40 mt-0.5">{dayjs(visit.created_at).format('DD MMM YYYY, HH:mm:ss')}</p>
+                                                                </td>
+                                                                <td className="px-5 py-4 align-top text-xs">
+                                                                    <span className="font-mono text-[10px] bg-dark/5 px-2 py-1 rounded-md text-dark/60 inline-flex items-center gap-1">
+                                                                        <MapPinIcon className="w-3 h-3 text-dark/40" /> {visit.ip_address || 'Unknown'}
+                                                                    </span>
+                                                                </td>
+                                                                <td className="px-5 py-4 align-top">
+                                                                    <p className="text-[10px] leading-relaxed font-medium text-dark/60 max-w-md break-all line-clamp-2" title={visit.user_agent}>
+                                                                        {visit.user_agent || '-'}
+                                                                    </p>
+                                                                </td>
+                                                            </tr>
+                                                        ))
+                                                    ) : (
+                                                        <tr>
+                                                            <td colSpan="3" className="px-5 py-16 text-center text-dark/30 font-bold text-sm">
+                                                                Belum ada data kunjungan.
+                                                            </td>
+                                                        </tr>
+                                                    )}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-light/50 px-6 py-4 border-t border-dark/5 text-center">
+                                        <p className="text-[9px] font-black text-dark/30 uppercase tracking-[0.2em]">Menampilkan maks 50 data kunjungan terbaru</p>
+                                    </div>
+                                </Dialog.Panel>
+                            </Transition.Child>
+                        </div>
+                    </div>
+                </Dialog>
+            </Transition>
         </div>
     );
 }

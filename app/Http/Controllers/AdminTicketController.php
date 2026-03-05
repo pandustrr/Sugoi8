@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Ticket;
 use App\Models\Booking;
+use App\Models\EventContent;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
@@ -15,7 +16,7 @@ class AdminTicketController extends Controller
     public function index()
     {
         return Inertia::render('Admin/Tickets/Index', [
-            'events' => Event::with('tickets')->latest()->get()
+            'events' => Event::with(['tickets', 'contents'])->latest()->get()
         ]);
     }
 
@@ -31,6 +32,7 @@ class AdminTicketController extends Controller
             'slug'                         => 'nullable|string|max:255|unique:events,slug',
             'description'                  => 'nullable|string',
             'date'                         => 'required|date',
+            'end_date'                     => 'nullable|date|after_or_equal:date',
             'time'                         => 'required',
             'location'                     => 'required|string|max:255',
             'steps'                        => 'nullable|array',
@@ -39,6 +41,8 @@ class AdminTicketController extends Controller
             'divisions'                    => 'nullable|array',
             'divisions.*'                  => 'string|max:255',
             'image'                        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'image_2'                      => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'image_3'                      => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'tickets'                      => 'required|array|min:1',
             'tickets.*.title'              => 'required|string|max:255',
             'tickets.*.price'              => 'required|numeric|min:0',
@@ -52,6 +56,7 @@ class AdminTicketController extends Controller
                 'slug'                   => $validated['slug'] ?? null,
                 'description'            => $validated['description'] ?? null,
                 'date'                   => $validated['date'],
+                'end_date'               => $validated['end_date'] ?? null,
                 'time'                   => $validated['time'],
                 'location'               => $validated['location'],
                 'steps'                  => $validated['steps'] ?? [],
@@ -60,6 +65,12 @@ class AdminTicketController extends Controller
 
             if ($request->hasFile('image')) {
                 $eventData['image_url'] = $request->file('image')->store('tickets', 'public');
+            }
+            if ($request->hasFile('image_2')) {
+                $eventData['image_url_2'] = $request->file('image_2')->store('tickets', 'public');
+            }
+            if ($request->hasFile('image_3')) {
+                $eventData['image_url_3'] = $request->file('image_3')->store('tickets', 'public');
             }
 
             $event = Event::create($eventData);
@@ -77,20 +88,21 @@ class AdminTicketController extends Controller
         return redirect()->route('admin.tickets.index')->with('success', 'Event berhasil dibuat.');
     }
 
-    public function edit(Event $ticket)
+    public function edit(Event $event)
     {
         return Inertia::render('Admin/Tickets/Edit', [
-            'event' => $ticket->load('tickets')
+            'event' => $event->load(['tickets', 'contents'])
         ]);
     }
 
-    public function update(Request $request, Event $ticket)
+    public function update(Request $request, Event $event)
     {
         $validated = $request->validate([
             'title'                        => 'sometimes|required|string|max:255',
-            'slug'                         => 'nullable|string|max:255|unique:events,slug,' . $ticket->id,
+            'slug'                         => 'nullable|string|max:255|unique:events,slug,' . $event->id,
             'description'                  => 'nullable|string',
             'date'                         => 'sometimes|required|date',
+            'end_date'                     => 'nullable|date|after_or_equal:date',
             'time'                         => 'sometimes|required',
             'location'                     => 'sometimes|required|string|max:255',
             'steps'                        => 'nullable|array',
@@ -99,26 +111,60 @@ class AdminTicketController extends Controller
             'divisions'                    => 'nullable|array',
             'divisions.*'                  => 'string|max:255',
             'image'                        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'image_2'                      => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'image_3'                      => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'remove_image_2'               => 'nullable|boolean',
+            'remove_image_3'               => 'nullable|boolean',
         ]);
 
         if ($request->hasFile('image')) {
-            if ($ticket->image_url && !str_starts_with($ticket->image_url, 'http')) {
-                Storage::disk('public')->delete($ticket->image_url);
+            if ($event->image_url && !str_starts_with($event->image_url, 'http')) {
+                Storage::disk('public')->delete($event->image_url);
             }
             $validated['image_url'] = $request->file('image')->store('tickets', 'public');
         }
 
-        $ticket->update($validated);
+        if ($request->hasFile('image_2')) {
+            if ($event->image_url_2 && !str_starts_with($event->image_url_2, 'http')) {
+                Storage::disk('public')->delete($event->image_url_2);
+            }
+            $validated['image_url_2'] = $request->file('image_2')->store('tickets', 'public');
+        } elseif ($request->boolean('remove_image_2')) {
+            if ($event->image_url_2 && !str_starts_with($event->image_url_2, 'http')) {
+                Storage::disk('public')->delete($event->image_url_2);
+            }
+            $validated['image_url_2'] = null;
+        }
+
+        if ($request->hasFile('image_3')) {
+            if ($event->image_url_3 && !str_starts_with($event->image_url_3, 'http')) {
+                Storage::disk('public')->delete($event->image_url_3);
+            }
+            $validated['image_url_3'] = $request->file('image_3')->store('tickets', 'public');
+        } elseif ($request->boolean('remove_image_3')) {
+            if ($event->image_url_3 && !str_starts_with($event->image_url_3, 'http')) {
+                Storage::disk('public')->delete($event->image_url_3);
+            }
+            $validated['image_url_3'] = null;
+        }
+
+        $event->update($validated);
 
         return redirect()->route('admin.tickets.index')->with('success', 'Event berhasil diperbarui.');
     }
 
-    public function destroy(Event $ticket)
+    public function destroy(Event $event)
     {
-        if ($ticket->image_url && !str_starts_with($ticket->image_url, 'http')) {
-            Storage::disk('public')->delete($ticket->image_url);
+        if ($event->image_url && !str_starts_with($event->image_url, 'http')) {
+            Storage::disk('public')->delete($event->image_url);
         }
-        $ticket->delete();
+        if ($event->image_url_2 && !str_starts_with($event->image_url_2, 'http')) {
+            Storage::disk('public')->delete($event->image_url_2);
+        }
+        if ($event->image_url_3 && !str_starts_with($event->image_url_3, 'http')) {
+            Storage::disk('public')->delete($event->image_url_3);
+        }
+        $event->delete();
         return redirect()->route('admin.tickets.index')->with('success', 'Event berhasil dihapus.');
     }
 
@@ -148,6 +194,37 @@ class AdminTicketController extends Controller
     {
         $ticket->delete();
         return back()->with('success', 'Kategori berhasil dihapus.');
+    }
+
+    public function addContent(Request $request, Event $event)
+    {
+        $validated = $request->validate([
+            'title'             => 'nullable|string|max:255',
+            'registration_link' => 'required|url',
+            'image'             => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+        ]);
+
+        $contentData = [
+            'title'             => $validated['title'] ?? null,
+            'registration_link' => $validated['registration_link'],
+        ];
+
+        if ($request->hasFile('image')) {
+            $contentData['image_url'] = $request->file('image')->store('event_contents', 'public');
+        }
+
+        $event->contents()->create($contentData);
+
+        return back()->with('success', 'Konten berhasil ditambahkan.');
+    }
+
+    public function deleteContent(EventContent $content)
+    {
+        if ($content->image_url) {
+            Storage::disk('public')->delete($content->image_url);
+        }
+        $content->delete();
+        return back()->with('success', 'Konten berhasil dihapus.');
     }
 
     public function downloadSubmission(Booking $booking)

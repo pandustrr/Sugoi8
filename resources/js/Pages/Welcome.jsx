@@ -418,15 +418,34 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
                 <Container>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-12 lg:gap-24 items-center">
                         {/* Left: Image + Tagline */}
-                        <div className={`relative ${fadeIn('about')}`}>
-                            <div className="relative z-10 rounded-[40px] md:rounded-[60px] overflow-hidden shadow-2xl group">
-                                <img
-                                    src={settings?.home_about_img || "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1200"}
-                                    alt="About"
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                                />
-                                {/* Overlay gradient on image */}
-                                <div className="absolute inset-0 bg-linear-to-t from-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <div className={`relative max-w-lg mx-auto lg:mx-0 ${fadeIn('about')}`}>
+                            <div className="space-y-4 md:space-y-5 relative z-10">
+                                {/* Main Image */}
+                                <div className="rounded-[28px] md:rounded-[40px] overflow-hidden shadow-2xl aspect-video group">
+                                    <img
+                                        src={settings?.home_about_main || settings?.home_about_img || "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1200"}
+                                        alt="Main Gallery"
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                    />
+                                </div>
+
+                                {/* Secondary Images Row */}
+                                <div className="grid grid-cols-2 gap-3 md:gap-4">
+                                    <div className="rounded-xl md:rounded-2xl overflow-hidden shadow-xl aspect-square group">
+                                        <img
+                                            src={settings?.home_about_sub_1 || "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80&w=800"}
+                                            alt="Sub Gallery 1"
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                        />
+                                    </div>
+                                    <div className="rounded-xl md:rounded-2xl overflow-hidden shadow-xl aspect-square group">
+                                        <img
+                                            src={settings?.home_about_sub_2 || "https://images.unsplash.com/photo-1522071823991-b9671f903f7f?auto=format&fit=crop&q=80&w=800"}
+                                            alt="Sub Gallery 2"
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                        />
+                                    </div>
+                                </div>
                             </div>
                             {/* Decorative dot accent */}
                             <div className="absolute -top-4 -left-4 w-24 h-24 rounded-full border-4 border-secondary/20 pointer-events-none" />
@@ -502,8 +521,7 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
                                 className={`group cursor-pointer block ${fadeIn('services', `delay-${(idx % 3) * 100}`)}`}
                             >
                                 <div className="aspect-video mb-5 lg:mb-8 overflow-hidden rounded-[24px] md:rounded-[40px] shadow-2xl relative bg-dark">
-                                    <img src={service.image} className="w-full h-full object-cover opacity-80 grayscale group-hover:grayscale-0 group-hover:scale-110 group-hover:opacity-100 transition-all duration-1000" alt={service.title} />
-                                    <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                    <img src={service.image} className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110" alt={service.title} />
 
                                     {/* Spotlight hover effect */}
                                     <div className="absolute inset-0 bg-radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(249,215,131,0.15) 0%, transparent 80%) opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -548,12 +566,12 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
                         </h2>
                     </div>
                     {displayPortfolio.length > 0 ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 pb-20">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 pb-20">
                             {displayPortfolio.slice(0, 6).map((item, i) => (
                                 <div key={item.id || i} className="group cursor-pointer relative">
-                                    <div className="relative overflow-hidden rounded-[32px] md:rounded-[40px] shadow-2xl group-hover:shadow-secondary/20 transition-all duration-700 bg-dark h-[350px] md:h-[380px] lg:h-[420px]">
-                                        {item.image && <img src={item.image} className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0 group-hover:rotate-1" alt={item.title} />}
-                                        <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-overlay" />
+                                    <div className="relative overflow-hidden rounded-[32px] md:rounded-[40px] shadow-2xl group-hover:shadow-secondary/20 transition-all duration-700 bg-dark aspect-video">
+                                        {item.image && <img src={item.image} className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-[1.03]" alt={item.title} />}
+
                                         <div className="absolute top-6 left-6 flex flex-col gap-3">
                                             <div className="glass-navbar border-white/20 px-4 py-2 rounded-2xl transform -translate-x-10 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500">
                                                 <span className="text-secondary text-[9px] font-black uppercase tracking-widest">{item.category}</span>

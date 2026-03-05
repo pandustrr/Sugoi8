@@ -38,7 +38,10 @@ function EventCard({ event, onOpen, onPreview }) {
     return (
         <div className="group relative bg-white border border-dark/5 rounded-[32px] md:rounded-[40px] overflow-hidden hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-1 flex flex-col h-full">
             {/* Poster */}
-            <div className="aspect-4/5 overflow-hidden relative">
+            <div
+                onClick={() => src && onPreview(src)}
+                className="aspect-4/5 overflow-hidden relative group cursor-zoom-in"
+            >
                 {src ? (
                     <img
                         src={src}
@@ -53,7 +56,7 @@ function EventCard({ event, onOpen, onPreview }) {
                 )}
 
                 {/* Overlays / Badges */}
-                <div className="absolute inset-x-0 bottom-0 p-4 md:p-6 bg-linear-to-t from-dark/80 via-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none md:pointer-events-auto flex items-end justify-between">
+                <div className="absolute inset-x-0 bottom-0 p-4 md:p-6 bg-linear-to-t from-dark/80 via-dark/20 to-transparent opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none md:pointer-events-auto flex items-end justify-between">
                     {src && (
                         <button
                             onClick={(e) => { e.stopPropagation(); onPreview(src); }}
@@ -73,20 +76,75 @@ function EventCard({ event, onOpen, onPreview }) {
             </div>
 
             {/* Info */}
-            <div className="p-5 md:p-6 flex flex-col grow">
-                <div className="flex items-center gap-2 text-dark/30 text-[8px] font-black uppercase tracking-[0.2em] mb-2 font-mono">
-                    <CalendarDaysIcon className="w-3 h-3 shrink-0" />
-                    {event.date}
+            <div className="p-4 md:p-5 flex flex-col grow">
+                <div className="flex items-center gap-1.5 text-dark/30 text-[8px] font-black uppercase tracking-[0.2em] mb-1.5 font-mono">
+                    <CalendarDaysIcon className="w-2.5 h-2.5 shrink-0" />
+                    {event.date} {event.end_date ? `- ${event.end_date}` : ''}
                 </div>
-                <h3 className="text-lg md:text-xl font-black text-dark uppercase tracking-tighter leading-tight mb-4 group-hover:text-primary transition-colors italic line-clamp-2">
+                <h3 className="text-sm md:text-base font-black text-dark uppercase tracking-tighter leading-tight mb-3 group-hover:text-primary transition-colors italic line-clamp-2">
                     {event.title}
                 </h3>
                 <Link
-                    href={route('tickets.event.show', event.slug)}
-                    className="mt-auto w-full bg-dark text-white py-3 md:py-3.5 rounded-lg md:rounded-[16px] font-black text-[9px] md:text-[10px] uppercase tracking-[0.2em] hover:bg-primary active:scale-[0.98] transition-all text-center flex items-center justify-center gap-2"
+                    href={route('eventprogram.show', event.slug)}
+                    className="mt-auto w-full bg-dark text-white py-2.5 rounded-lg md:rounded-[14px] font-black text-[8px] md:text-[9px] uppercase tracking-[0.2em] hover:bg-primary active:scale-[0.98] transition-all text-center flex items-center justify-center gap-2"
                 >
-                    Lihat Detail
+                    Join
                 </Link>
+            </div>
+        </div>
+    );
+}
+
+function ProgramCard({ program, onPreview }) {
+    const src = imgSrc(program.image_url);
+
+    return (
+        <div className="group relative bg-white border border-dark/5 rounded-[32px] md:rounded-[40px] overflow-hidden hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-1 flex flex-col h-full">
+            {/* Poster */}
+            <div
+                onClick={() => src && onPreview(src)}
+                className="aspect-4/5 overflow-hidden relative group cursor-zoom-in"
+            >
+                {src ? (
+                    <img
+                        src={src}
+                        alt={program.title}
+                        loading="lazy"
+                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                    />
+                ) : (
+                    <div className="w-full h-full bg-light flex items-center justify-center text-dark/10 font-black uppercase text-sm tracking-widest">
+                        No Image
+                    </div>
+                )}
+
+                {/* Preview overlay — sama persis dengan EventCard */}
+                <div className="absolute inset-x-0 bottom-0 p-4 md:p-6 bg-linear-to-t from-dark/80 via-dark/20 to-transparent opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none md:pointer-events-auto flex items-end justify-between">
+                    {src && (
+                        <button
+                            onClick={(e) => { e.stopPropagation(); onPreview(src); }}
+                            className="w-10 h-10 md:w-12 md:h-12 bg-white/10 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-primary hover:border-primary transition-all pointer-events-auto"
+                            aria-label="Zoom poster"
+                        >
+                            <MagnifyingGlassPlusIcon className="w-5 h-5" />
+                        </button>
+                    )}
+                </div>
+            </div>
+
+            {/* Info — sama dengan EventCard */}
+            <div className="p-4 md:p-5 flex flex-col grow">
+                <h3 className="text-sm md:text-base font-black text-dark uppercase tracking-tighter leading-tight mb-3 group-hover:text-primary transition-colors italic line-clamp-2">
+                    {program.title}
+                </h3>
+                <a
+                    href={route('programs.join', program.id)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-auto w-full bg-dark text-white py-2.5 rounded-lg md:rounded-[14px] font-black text-[8px] md:text-[9px] uppercase tracking-[0.2em] hover:bg-primary active:scale-[0.98] transition-all text-center flex items-center justify-center gap-2"
+                >
+                    Join
+                </a>
             </div>
         </div>
     );
@@ -139,7 +197,7 @@ function ImagePreview({ src, onClose }) {
 
 // ─── Page ────────────────────────────────────────────────────────────────────
 
-export default function Ticket({ events, auth, settings }) {
+export default function Ticket({ events, programs, auth, settings }) {
     const { props } = usePage();
     const flashBooking = props.flash?.successBooking || null;
 
@@ -176,8 +234,8 @@ export default function Ticket({ events, auth, settings }) {
     return (
         <MainLayout>
             <Head>
-                <title>Pendaftaran Lomba & Tiket Event | Sugoi 8 Management</title>
-                <meta name="description" content="Daftarkan diri dalam berbagai lomba karya tari dan event seru dari Sugoi 8 Management." />
+                <title>Event Program & Pendaftaran | Sugoi 8 Management</title>
+                <meta name="description" content="Ikuti berbagai program event dan pendaftaran lomba karya tari seru dari Sugoi 8 Management." />
             </Head>
 
             {/* Hero */}
@@ -223,7 +281,7 @@ export default function Ticket({ events, auth, settings }) {
                         </span>
                         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white uppercase tracking-tighter leading-[0.9] mb-8 italic">
                             TEMUKAN <br />
-                            <span className="text-secondary block mt-2 drop-shadow-2xl">EVENT KAMI</span>
+                            <span className="text-secondary block mt-2 drop-shadow-2xl">EVENT PROGRAM</span>
                         </h1>
                         <p className="text-white/50 text-base md:text-xl font-medium leading-relaxed max-w-2xl mt-8 italic border-l-4 border-secondary pl-6 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
                             Pilih event favoritmu, daftarkan diri, dan jadilah bagian dari kreativitas bersama Sugoi 8 Management.
@@ -240,19 +298,29 @@ export default function Ticket({ events, auth, settings }) {
                 <div className="absolute top-0 inset-x-0 h-24 bg-linear-to-b from-light to-transparent pointer-events-none" />
 
                 <Container>
-                    {events.length === 0 ? (
+                    {events.length === 0 && programs.length === 0 ? (
                         <div className="bg-light rounded-[40px] border border-dark/5 p-16 md:p-32 text-center shadow-inner">
                             <TicketIcon className="w-20 h-20 text-dark/5 mx-auto mb-8 animate-bounce" />
                             <h3 className="text-2xl font-black text-dark uppercase tracking-tight">Belum Ada Event Aktif</h3>
                             <p className="text-dark/30 font-bold mt-2">Nantikan berbagai kejutan event seru dari kami segera!</p>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 px-4 md:px-0">
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5 px-4 md:px-0">
+                            {/* Render Events (Tickets) */}
                             {events.map((event) => (
                                 <EventCard
-                                    key={event.id}
+                                    key={`event-${event.id}`}
                                     event={event}
                                     onOpen={openModal}
+                                    onPreview={setPreviewSrc}
+                                />
+                            ))}
+
+                            {/* Render Standalone Programs */}
+                            {programs.map((program) => (
+                                <ProgramCard
+                                    key={`program-${program.id}`}
+                                    program={program}
                                     onPreview={setPreviewSrc}
                                 />
                             ))}
@@ -280,7 +348,7 @@ export default function Ticket({ events, auth, settings }) {
                 onClose={() => {
                     setSuccessBooking(null);
                     // Clear the query string/state or reload if needed to purge flash
-                    router.get(route('tickets.index'), {}, { preserveScroll: true, replace: true });
+                    router.get(route('eventprogram.index'), {}, { preserveScroll: true, replace: true });
                 }}
             />
         </MainLayout>

@@ -10,9 +10,26 @@ use Illuminate\Foundation\Application;
 
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\AdminTicketController;
+use App\Http\Controllers\AdminProgramController;
+use App\Http\Controllers\AdminBookingController;
 use App\Http\Controllers\AdminPortfolioController;
 
-Route::get('/', function () {
+Route::get('/', function (\Illuminate\Http\Request $request) {
+    // Lacak kunjungan beranda (maks 1x per IP tiap 24 jam)
+    $ip = $request->ip();
+    $recentVisit = \App\Models\PageVisit::where('page_url', '/')
+        ->where('ip_address', $ip)
+        ->where('created_at', '>=', now()->subDay())
+        ->first();
+
+    if (!$recentVisit) {
+        \App\Models\PageVisit::create([
+            'page_url' => '/',
+            'ip_address' => $ip,
+            'user_agent' => $request->userAgent(),
+        ]);
+    }
+
     return Inertia::render('Welcome', [
         'portfolioItems' => \App\Models\PortfolioItem::orderByDesc('featured')
             ->orderBy('sort_order')
@@ -52,17 +69,31 @@ Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
 
 // User Booking Monitoring
-Route::get('/tickets/check-status', [TicketController::class, 'checkStatus'])->name('tickets.checkStatus');
-Route::post('/tickets/check-status', [TicketController::class, 'doCheckStatus'])->name('tickets.doCheckStatus');
-Route::get('/tickets/dashboard/{booking}', [TicketController::class, 'dashboard'])->name('tickets.dashboard');
-Route::post('/tickets/dashboard/{booking}/submit', [TicketController::class, 'submitWork'])->name('tickets.submitWork');
-Route::post('/tickets/logout', [TicketController::class, 'logout'])->name('tickets.logout');
+Route::get('/eventprogram/check-status', [TicketController::class, 'checkStatus'])->name('eventprogram.checkStatus');
+Route::post('/eventprogram/check-status', [TicketController::class, 'doCheckStatus'])->name('eventprogram.doCheckStatus');
+Route::get('/eventprogram/dashboard/{booking}', [TicketController::class, 'dashboard'])->name('eventprogram.dashboard');
+Route::post('/eventprogram/dashboard/{booking}/submit', [TicketController::class, 'submitWork'])->name('eventprogram.submitWork');
+Route::post('/eventprogram/logout', [TicketController::class, 'logout'])->name('eventprogram.logout');
 
-// User Ticket Routes
-Route::get('/tickets', [TicketController::class, 'index'])->name('tickets.index');
-Route::get('/tickets/event/{event:slug}', [TicketController::class, 'showEvent'])->name('tickets.event.show');
-Route::get('/tickets/{ticket}', [TicketController::class, 'show'])->name('tickets.show');
-Route::post('/tickets/{ticket}/purchase', [TicketController::class, 'purchase'])->name('tickets.purchase');
+// User Ticket Routes (Event Program)
+Route::get('/eventprogram', [TicketController::class, 'index'])->name('eventprogram.index');
+Route::get('/eventprogram/{event:slug}', [TicketController::class, 'showEvent'])->name('eventprogram.show');
+Route::get('/eventprogram/ticket/{ticket}', [TicketController::class, 'show'])->name('eventprogram.ticket.show');
+Route::post('/eventprogram/ticket/{ticket}/purchase', [TicketController::class, 'purchase'])->name('eventprogram.purchase');
+
+// Public Program Click Tracker → logs click then redirects to external link
+Route::get('/programs/{program}/join', [AdminProgramController::class, 'trackClick'])->name('programs.join');
+
+// Legacy Redirects
+Route::get('/tickets', function () {
+    return redirect()->route('eventprogram.index');
+});
+Route::get('/tickets/event/{event:slug}', function (\App\Models\Event $event) {
+    return redirect()->route('eventprogram.show', $event->slug);
+});
+Route::get('/tickets/check-status', function () {
+    return redirect()->route('eventprogram.checkStatus');
+});
 
 Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');
 Route::post('/admin/login', [AdminController::class, 'store'])->name('admin.login.post');
@@ -89,18 +120,30 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/partners/{partner}', [AdminController::class, 'updatePartner'])->name('admin.partners.update');
     Route::delete('/admin/partners/{partner}', [AdminController::class, 'destroyPartner'])->name('admin.partners.destroy');
 
-    // Admin Ticket CRUD (Now Event based)
+    // Admin Event Program (Lomba)
     Route::get('/admin/tickets', [AdminTicketController::class, 'index'])->name('admin.tickets.index');
     Route::get('/admin/tickets/create', [AdminTicketController::class, 'create'])->name('admin.tickets.create');
     Route::post('/admin/tickets', [AdminTicketController::class, 'store'])->name('admin.tickets.store');
-    Route::get('/admin/tickets/{ticket}/edit', [AdminTicketController::class, 'edit'])->name('admin.tickets.edit');
-    Route::patch('/admin/tickets/{ticket}', [AdminTicketController::class, 'update'])->name('admin.tickets.update');
-    Route::delete('/admin/tickets/{ticket}', [AdminTicketController::class, 'destroy'])->name('admin.tickets.destroy');
+    Route::get('/admin/tickets/{event}/edit', [AdminTicketController::class, 'edit'])->name('admin.tickets.edit');
+    Route::patch('/admin/tickets/{event}', [AdminTicketController::class, 'update'])->name('admin.tickets.update');
+    Route::delete('/admin/tickets/{event}', [AdminTicketController::class, 'destroy'])->name('admin.tickets.destroy');
+
+    // Admin Program Content (Standalone)
+    Route::get('/admin/programs', [AdminProgramController::class, 'index'])->name('admin.programs.index');
+    Route::post('/admin/programs', [AdminProgramController::class, 'store'])->name('admin.programs.store');
+    Route::post('/admin/programs/{program}', [AdminProgramController::class, 'update'])->name('admin.programs.update');
+    Route::delete('/admin/programs/{program}', [AdminProgramController::class, 'destroy'])->name('admin.programs.destroy');
+    Route::get('/admin/programs/clicks', [AdminProgramController::class, 'allClicks'])->name('admin.programs.allClicks');
+    Route::get('/admin/programs/{program}/clicks', [AdminProgramController::class, 'clicks'])->name('admin.programs.clicks');
 
     // Category Management
     Route::post('/admin/events/{event}/categories', [AdminTicketController::class, 'addCategory'])->name('admin.categories.store');
     Route::patch('/admin/categories/{ticket}', [AdminTicketController::class, 'updateCategory'])->name('admin.categories.update');
     Route::delete('/admin/categories/{ticket}', [AdminTicketController::class, 'deleteCategory'])->name('admin.categories.destroy');
+
+    // Event Content Management
+    Route::post('/admin/events/{event}/contents', [AdminTicketController::class, 'addContent'])->name('admin.eventcontents.store');
+    Route::delete('/admin/event-contents/{content}', [AdminTicketController::class, 'deleteContent'])->name('admin.eventcontents.destroy');
 
     // Admin Booking Management
     Route::get('/admin/bookings', [AdminTicketController::class, 'bookings'])->name('admin.bookings.index');

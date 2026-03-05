@@ -298,7 +298,7 @@ export default function Portfolio({ portfolioItems: dbItems }) {
 
                     {/* Grid */}
                     {filteredItems.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 pb-48">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 pb-48">
                             {filteredItems.map((item, i) => (
                                 <div
                                     key={item.id || i}
@@ -306,15 +306,14 @@ export default function Portfolio({ portfolioItems: dbItems }) {
                                     onClick={() => setSelectedItem(item)}
                                 >
                                     {/* Image card */}
-                                    <div className="relative overflow-hidden rounded-[32px] md:rounded-[40px] shadow-2xl group-hover:shadow-secondary/20 transition-all duration-700 bg-dark h-[350px] md:h-[380px] lg:h-[420px]">
+                                    <div className="relative overflow-hidden rounded-[32px] md:rounded-[40px] shadow-2xl group-hover:shadow-secondary/20 transition-all duration-700 bg-dark aspect-video">
                                         {item.image && (
                                             <img
                                                 src={item.image}
-                                                className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0 group-hover:rotate-1"
+                                                className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-[1.03]"
                                                 alt={item.title}
                                             />
                                         )}
-                                        <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-overlay" />
 
                                         {/* Badges */}
                                         <div className="absolute top-6 left-6 flex flex-col gap-3">
