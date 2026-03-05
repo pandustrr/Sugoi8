@@ -211,7 +211,7 @@ export default function Edit({ event }) {
                                             </div>
 
                                             <div>
-                                                <label className="block text-[10px] font-black uppercase tracking-widest text-dark/40 mb-3 px-1">Tanggal Selesai (Opsional)</label>
+                                                <label className="block text-[10px] font-black uppercase tracking-widest text-dark/40 mb-3 px-1">Tanggal Selesai</label>
                                                 <input type="date" value={data.end_date} onChange={e => setData('end_date', e.target.value)}
                                                     className="w-full bg-light border border-dark/5 rounded-2xl p-4 text-dark font-bold focus:border-primary outline-none transition-all" />
                                                 {errors.end_date && <p className="mt-2 text-xs font-bold text-red-500">{errors.end_date}</p>}
