@@ -38,7 +38,10 @@ function EventCard({ event, onOpen, onPreview }) {
     return (
         <div className="group relative bg-white border border-dark/5 rounded-[32px] md:rounded-[40px] overflow-hidden hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-1 flex flex-col h-full">
             {/* Poster */}
-            <div className="aspect-4/5 overflow-hidden relative">
+            <div
+                onClick={() => src && onPreview(src)}
+                className="aspect-4/5 overflow-hidden relative group cursor-zoom-in"
+            >
                 {src ? (
                     <img
                         src={src}
@@ -98,7 +101,10 @@ function ProgramCard({ program, onPreview }) {
     return (
         <div className="group relative bg-white border border-dark/5 rounded-[32px] md:rounded-[40px] overflow-hidden hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-1 flex flex-col h-full">
             {/* Poster */}
-            <div className="aspect-4/5 overflow-hidden relative">
+            <div
+                onClick={() => src && onPreview(src)}
+                className="aspect-4/5 overflow-hidden relative group cursor-zoom-in"
+            >
                 {src ? (
                     <img
                         src={src}

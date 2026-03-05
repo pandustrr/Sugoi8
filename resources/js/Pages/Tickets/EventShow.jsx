@@ -114,18 +114,20 @@ export default function EventShow({ event, settings, auth }) {
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
                         {/* Poster Column */}
                         <div className="lg:col-span-5 relative">
-                            <div className="aspect-4/5 rounded-[32px] md:rounded-[48px] overflow-hidden shadow-2xl relative border border-white/10 mb-6 group">
+                            <div
+                                onClick={() => setPreviewSrc(poster)}
+                                className="aspect-4/5 rounded-[32px] md:rounded-[48px] overflow-hidden shadow-2xl relative border border-white/10 mb-6 group cursor-zoom-in"
+                            >
                                 <img
                                     src={poster || "/8-sugoi-trans.png"}
                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
                                     alt={event.title}
                                 />
-                                <button
-                                    onClick={() => setPreviewSrc(poster)}
+                                <div
                                     className="absolute bottom-8 right-8 w-12 h-12 bg-white/10 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-secondary hover:text-dark transition-all opacity-0 group-hover:opacity-100"
                                 >
                                     <MagnifyingGlassPlusIcon className="w-6 h-6" />
-                                </button>
+                                </div>
                             </div>
 
                             {/* Additional Images Gallery */}
