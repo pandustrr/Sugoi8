@@ -47,6 +47,8 @@ class AdminController extends Controller
                 'total_events'       => \App\Models\Event::count(),
                 'total_portfolio'    => \App\Models\PortfolioItem::count(),
                 'total_partners'     => \App\Models\Partner::count(),
+                'page_visits'        => \App\Models\PageVisit::count(),
+                'page_visits_today'  => \App\Models\PageVisit::where('created_at', '>=', $today)->count(),
             ],
             'recentBookings' => \App\Models\Booking::with('ticket.event')->latest()->limit(5)->get(),
             'upcomingEvents' => \App\Models\Event::with('tickets')->where('date', '>=', now()->toDateString())->orderBy('date')->limit(3)->get(),
@@ -57,6 +59,7 @@ class AdminController extends Controller
                 ->with('ticket.event')
                 ->limit(5)
                 ->get(),
+            'recentPageVisits' => \App\Models\PageVisit::latest()->limit(50)->get(),
         ]);
     }
 

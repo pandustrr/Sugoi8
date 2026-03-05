@@ -14,7 +14,22 @@ use App\Http\Controllers\AdminProgramController;
 use App\Http\Controllers\AdminBookingController;
 use App\Http\Controllers\AdminPortfolioController;
 
-Route::get('/', function () {
+Route::get('/', function (\Illuminate\Http\Request $request) {
+    // Lacak kunjungan beranda (maks 1x per IP tiap 24 jam)
+    $ip = $request->ip();
+    $recentVisit = \App\Models\PageVisit::where('page_url', '/')
+        ->where('ip_address', $ip)
+        ->where('created_at', '>=', now()->subDay())
+        ->first();
+
+    if (!$recentVisit) {
+        \App\Models\PageVisit::create([
+            'page_url' => '/',
+            'ip_address' => $ip,
+            'user_agent' => $request->userAgent(),
+        ]);
+    }
+
     return Inertia::render('Welcome', [
         'portfolioItems' => \App\Models\PortfolioItem::orderByDesc('featured')
             ->orderBy('sort_order')

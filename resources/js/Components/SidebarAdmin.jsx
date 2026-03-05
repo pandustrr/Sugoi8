@@ -16,9 +16,9 @@ import {
 const SidebarLink = ({ href, label, active = false, isSubItem = false }) => (
     <button
         onClick={() => router.get(href)}
-        className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-bold text-sm transition-all w-full text-left group
-            ${active ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-white/40 hover:text-white hover:bg-white/5'}
-            ${isSubItem ? 'pl-11 py-2 text-[13px]' : ''}
+        className={`flex items-center gap-2.5 px-3 py-2 rounded-lg font-bold text-[13px] transition-all w-full text-left group
+            ${active ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-white/40 hover:text-white hover:bg-white/5'}
+            ${isSubItem ? 'pl-9 py-1.5 text-xs' : ''}
         `}
     >
         {label}
@@ -28,11 +28,11 @@ const SidebarLink = ({ href, label, active = false, isSubItem = false }) => (
 const SidebarLinkIcon = ({ href, icon: Icon, label, active = false }) => (
     <button
         onClick={() => router.get(href)}
-        className={`flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all w-full text-left group
-            ${active ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-white/40 hover:text-white hover:bg-white/5'}
+        className={`flex items-center gap-2.5 px-3 py-2 rounded-lg font-bold text-[13px] transition-all w-full text-left group
+            ${active ? 'bg-primary text-white shadow-md shadow-primary/20' : 'text-white/40 hover:text-white hover:bg-white/5'}
         `}
     >
-        <Icon className={`w-4 h-4 transition-transform ${active ? 'scale-110' : 'group-hover:scale-110'}`} />
+        <Icon className={`w-3.5 h-3.5 transition-transform ${active ? 'scale-110' : 'group-hover:scale-110'}`} />
         <span>{label}</span>
     </button>
 );
@@ -46,15 +46,15 @@ const SidebarDropdown = ({ icon: Icon, label, active, children }) => {
         <div className="space-y-0.5">
             <button
                 onClick={() => setIsOpen((v) => !v)}
-                className={`flex items-center justify-between gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all w-full text-left group
+                className={`flex items-center justify-between gap-2.5 px-3 py-2 rounded-lg font-bold text-[13px] transition-all w-full text-left group
                     ${active ? 'text-white bg-white/5' : 'text-white/40 hover:text-white hover:bg-white/5'}
                 `}
             >
-                <div className="flex items-center gap-3">
-                    <Icon className={`w-4 h-4 transition-transform ${active ? 'scale-110' : 'group-hover:scale-110'}`} />
+                <div className="flex items-center gap-2.5">
+                    <Icon className={`w-3.5 h-3.5 transition-transform ${active ? 'scale-110' : 'group-hover:scale-110'}`} />
                     <span>{label}</span>
                 </div>
-                <ChevronDownIcon className={`w-3.5 h-3.5 transition-transform duration-300 ${isOpen ? 'rotate-180 text-primary' : 'text-white/20'}`} />
+                <ChevronDownIcon className={`w-3 h-3 transition-transform duration-300 ${isOpen ? 'rotate-180 text-primary' : 'text-white/20'}`} />
             </button>
             <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'}`}>
                 <div className="space-y-0.5 pt-0.5">
@@ -115,12 +115,12 @@ function SidebarContent({ activePage, onLogout }) {
             </nav>
 
             {/* Logout */}
-            <div className="pt-5 border-t border-white/5 mt-4">
+            <div className="pt-4 border-t border-white/5 mt-3">
                 <button
                     onClick={onLogout}
-                    className="flex items-center gap-3 px-4 py-3 w-full text-white/40 hover:text-red-400 hover:bg-red-400/5 rounded-xl font-bold text-sm transition-all group"
+                    className="flex items-center gap-2.5 px-3 py-2 w-full text-white/40 hover:text-red-400 hover:bg-red-400/5 rounded-lg font-bold text-[13px] transition-all group"
                 >
-                    <ArrowLeftOnRectangleIcon className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                    <ArrowLeftOnRectangleIcon className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
                     <span>Keluar</span>
                 </button>
             </div>
