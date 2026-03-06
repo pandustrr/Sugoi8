@@ -246,7 +246,7 @@ export default function Dashboard({ stats, recentBookings, upcomingEvents, topTi
                                                     </td>
                                                     <td className="px-5 py-3 align-middle">
                                                         <p className="text-[9px] font-black text-primary uppercase tracking-tight truncate max-w-[100px]">
-                                                            {booking.ticket.title}
+                                                            {booking.ticket?.title || 'Unknown'}
                                                         </p>
                                                     </td>
                                                     <td className="px-5 py-3 align-middle font-black text-[11px] text-secondary">
@@ -292,7 +292,7 @@ export default function Dashboard({ stats, recentBookings, upcomingEvents, topTi
                                                 0{i + 1}
                                             </div>
                                             <div className="grow min-w-0">
-                                                <p className="text-[10px] font-black text-dark truncate uppercase tracking-tight">{item.ticket.title}</p>
+                                                <p className="text-[10px] font-black text-dark truncate uppercase tracking-tight">{item.ticket?.title || 'Unknown'}</p>
                                                 <div className="flex items-center gap-2 mt-0.5">
                                                     <div className="grow bg-light h-1 rounded-full overflow-hidden">
                                                         <div

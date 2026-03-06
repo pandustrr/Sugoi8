@@ -204,9 +204,10 @@ export default function AudienceBookingModal({ isOpen, onClose, category, auth, 
                                                     placeholder={t.modalPlaceholderName}
                                                     value={data.customer_name}
                                                     onChange={e => setData('customer_name', e.target.value)}
-                                                    className="w-full bg-light border-2 border-dark/5 rounded-2xl pl-11 pr-4 py-4 text-sm font-bold outline-none focus:border-primary focus:bg-white transition-all"
+                                                    className={`w-full bg-light border-2 rounded-2xl pl-11 pr-4 py-4 text-sm font-bold outline-none transition-all ${errors.customer_name ? 'border-red-500 bg-red-50/10' : 'border-dark/5 focus:border-primary focus:bg-white'}`}
                                                     required
                                                 />
+                                                {errors.customer_name && <p className="mt-2 ml-1 text-[10px] font-bold text-red-500 uppercase tracking-widest leading-none">{errors.customer_name}</p>}
                                             </div>
                                             <div className="relative group">
                                                 <IdentificationIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-dark/20 group-focus-within:text-primary transition-colors" />
@@ -214,11 +215,24 @@ export default function AudienceBookingModal({ isOpen, onClose, category, auth, 
                                                     type="text"
                                                     placeholder={t.modalNIK}
                                                     value={data.customer_nik}
-                                                    onChange={e => setData('customer_nik', e.target.value)}
+                                                    maxLength={16}
+                                                    onChange={e => {
+                                                        const val = e.target.value.replace(/[^0-9]/g, '');
+                                                        if (val.length <= 16) setData('customer_nik', val);
+                                                    }}
                                                     className={`w-full bg-light border-2 rounded-2xl pl-11 pr-4 py-4 text-sm font-bold outline-none transition-all ${errors.customer_nik ? 'border-red-500 bg-red-50/10' : 'border-dark/5 focus:border-primary focus:bg-white'}`}
                                                     required
                                                 />
-                                                {errors.customer_nik && <p className="mt-2 ml-1 text-[10px] font-bold text-red-500 uppercase tracking-widest leading-none">{errors.customer_nik}</p>}
+                                                <div className="flex justify-between items-center mt-2 px-1">
+                                                    {errors.customer_nik ? (
+                                                        <p className="text-[10px] font-bold text-red-500 uppercase tracking-widest leading-none">{errors.customer_nik}</p>
+                                                    ) : (
+                                                        <p className="text-[9px] font-black uppercase tracking-widest text-dark/20 italic leading-none">Wajib 16 Digit Angka</p>
+                                                    )}
+                                                    <span className={`text-[9px] font-black tracking-widest ${data.customer_nik?.length === 16 ? 'text-primary' : data.customer_nik?.length > 0 ? 'text-dark/40' : 'text-dark/10'}`}>
+                                                        {data.customer_nik?.length || 0}/16
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -229,9 +243,10 @@ export default function AudienceBookingModal({ isOpen, onClose, category, auth, 
                                                     placeholder={t.modalPlaceholderEmail}
                                                     value={data.customer_email}
                                                     onChange={e => setData('customer_email', e.target.value)}
-                                                    className="w-full bg-light border-2 border-dark/5 rounded-2xl pl-11 pr-4 py-4 text-sm font-bold outline-none focus:border-primary focus:bg-white transition-all"
+                                                    className={`w-full bg-light border-2 rounded-2xl pl-11 pr-4 py-4 text-sm font-bold outline-none transition-all ${errors.customer_email ? 'border-red-500 bg-red-50/10' : 'border-dark/5 focus:border-primary focus:bg-white'}`}
                                                     required
                                                 />
+                                                {errors.customer_email && <p className="mt-2 ml-1 text-[10px] font-bold text-red-500 uppercase tracking-widest leading-none">{errors.customer_email}</p>}
                                             </div>
                                             <div className="relative group">
                                                 <PhoneIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-dark/20 group-focus-within:text-primary transition-colors" />
@@ -240,9 +255,10 @@ export default function AudienceBookingModal({ isOpen, onClose, category, auth, 
                                                     placeholder={t.modalPlaceholderWA}
                                                     value={data.customer_phone}
                                                     onChange={e => setData('customer_phone', e.target.value)}
-                                                    className="w-full bg-light border-2 border-dark/5 rounded-2xl pl-11 pr-4 py-4 text-sm font-bold outline-none focus:border-primary focus:bg-white transition-all"
+                                                    className={`w-full bg-light border-2 rounded-2xl pl-11 pr-4 py-4 text-sm font-bold outline-none transition-all ${errors.customer_phone ? 'border-red-500 bg-red-50/10' : 'border-dark/5 focus:border-primary focus:bg-white'}`}
                                                     required
                                                 />
+                                                {errors.customer_phone && <p className="mt-2 ml-1 text-[10px] font-bold text-red-500 uppercase tracking-widest leading-none">{errors.customer_phone}</p>}
                                             </div>
                                         </div>
                                     </div>

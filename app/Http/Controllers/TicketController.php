@@ -89,21 +89,27 @@ class TicketController extends Controller
     {
         $validated = $request->validate([
             'customer_name'  => 'required|string|max:255',
-            'customer_nik'   => 'required|string|max:20',
+            'customer_nik'   => 'required|string|size:16|regex:/^[0-9]+$/',
             'customer_email' => 'required|email|max:255',
             'customer_phone' => 'required|string|max:20',
             'quantity'       => 'sometimes|integer|min:1|max:1',
             'payment_proof'  => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+        ], [
+            'customer_nik.size'  => 'NIK harus berjumlah tepat 16 digit.',
+            'customer_nik.regex' => 'NIK hanya boleh berisi angka.',
         ]);
 
-        // Pencegahan Calo: 1 NIK = 1 Tiket (Total untuk kategori Audience)
+        // Pencegahan Calo: 1 NIK = 1 Tiket per KATEGORI UTAMA (MainAudienceCategory)
         $existing = Booking::where('customer_nik', $validated['customer_nik'])
             ->where('booking_type', 'audience')
             ->whereIn('status', ['pending', 'confirmed'])
+            ->whereHas('audienceTicket', function ($q) use ($audienceTicket) {
+                $q->where('main_audience_category_id', $audienceTicket->main_audience_category_id);
+            })
             ->first();
 
         if ($existing) {
-            return back()->withErrors(['customer_nik' => 'Satu NIK hanya diperbolehkan memiliki satu tiket penonton. Anda sudah terdaftar atau memiliki pesanan yang sedang diproses.']);
+            return back()->withErrors(['customer_nik' => 'NIK ini sudah terdaftar untuk kategori ini. Setiap NIK hanya diperbolehkan memiliki 1 tiket per kategori utama.']);
         }
 
         $bookingData = [
@@ -128,7 +134,7 @@ class TicketController extends Controller
         // Kurangi stok tiket (selalu 1)
         $audienceTicket->decrement('stock', 1);
 
-        return back()->with('successBooking', $booking->load('audienceTicket'));
+        return back()->with('successBooking', $booking->load(['audienceTicket.mainCategory']));
     }
 
     public function checkStatus()
@@ -143,7 +149,7 @@ class TicketController extends Controller
             'booking_code' => 'required|string',
         ]);
 
-        $booking = Booking::with('ticket.event')
+        $booking = Booking::with(['ticket.event', 'audienceTicket.mainCategory', 'attendeeTickets'])
             ->where(function ($query) use ($validated) {
                 $query->where('customer_email', $validated['email'])
                     ->orWhere('customer_phone', $validated['email']);
@@ -170,7 +176,9 @@ class TicketController extends Controller
             return redirect()->route('eventprogram.checkStatus');
         }
 
-        return Inertia::render('Tickets/Dashboard', [
+        $view = $booking->booking_type === 'audience' ? 'Tickets/AudienceDashboard' : 'Tickets/Dashboard';
+
+        return Inertia::render($view, [
             'booking' => $booking->load(['ticket.event', 'audienceTicket', 'attendeeTickets'])
         ]);
     }

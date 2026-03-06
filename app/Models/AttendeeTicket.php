@@ -16,6 +16,10 @@ class AttendeeTicket extends Model
         'attended_at',
     ];
 
+    protected $casts = [
+        'attended_at' => 'datetime',
+    ];
+
     public function booking()
     {
         return $this->belongsTo(Booking::class);

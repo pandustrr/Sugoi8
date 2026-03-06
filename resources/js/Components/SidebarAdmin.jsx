@@ -73,6 +73,7 @@ const SidebarDropdown = ({ icon: Icon, label, active, children }) => {
 // ── Sidebar inner content (shared for desktop & mobile drawer) ─────────────────
 function SidebarContent({ activePage, onLogout }) {
     const isTicketSectionActive = ['tickets', 'bookings', 'programs', 'program-clicks'].includes(activePage);
+    const isAudienceSectionActive = ['audience-tickets', 'audience-bookings', 'scanner'].includes(activePage);
 
     return (
         <div className="p-6 flex flex-col h-full">
@@ -101,12 +102,11 @@ function SidebarContent({ activePage, onLogout }) {
                     <SidebarLink href={route('admin.bookings.index')} label="Data Pemesanan" active={activePage === 'bookings'} isSubItem />
                 </SidebarDropdown>
 
-                <SidebarLinkIcon
-                    href={route('admin.audience-tickets.index')}
-                    icon={TicketIcon}
-                    label="Kelola Tiket"
-                    active={activePage === 'audience-tickets'}
-                />
+                <SidebarDropdown icon={TicketIcon} label="Kelola Tiket" active={isAudienceSectionActive}>
+                    <SidebarLink href={route('admin.audience-tickets.index')} label="Kategori Tiket" active={activePage === 'audience-tickets'} isSubItem />
+                    <SidebarLink href={route('admin.audience-bookings.index')} label="Data Tiket Penonton" active={activePage === 'audience-bookings'} isSubItem />
+                    <SidebarLink href={route('admin.scanner.index')} label="Scanner Tiket" active={activePage === 'scanner'} isSubItem />
+                </SidebarDropdown>
 
                 <SidebarLinkIcon
                     href={route('admin.siteSettings')}

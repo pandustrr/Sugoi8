@@ -159,6 +159,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/audience-tickets/{audienceTicket}', [\App\Http\Controllers\Admin\AdminAudienceTicketController::class, 'update'])->name('admin.audience-tickets.update');
     Route::delete('/admin/audience-tickets/{audienceTicket}', [\App\Http\Controllers\Admin\AdminAudienceTicketController::class, 'destroy'])->name('admin.audience-tickets.destroy');
 
+    // Admin Audience Bookings (Data Tiket Penonton)
+    Route::get('/admin/audience-bookings', [\App\Http\Controllers\Admin\AdminAudienceBookingController::class, 'index'])->name('admin.audience-bookings.index');
+    Route::patch('/admin/audience-bookings/{booking}/status', [\App\Http\Controllers\Admin\AdminAudienceBookingController::class, 'updateStatus'])->name('admin.audience-bookings.updateStatus');
+    Route::delete('/admin/audience-bookings/{booking}', [\App\Http\Controllers\Admin\AdminAudienceBookingController::class, 'destroy'])->name('admin.audience-bookings.destroy');
+    Route::get('/admin/scanner', [\App\Http\Controllers\Admin\AdminAudienceBookingController::class, 'scanner'])->name('admin.scanner.index');
+    Route::post('/admin/scanner/verify', [\App\Http\Controllers\Admin\AdminAudienceBookingController::class, 'scanRecord'])->name('admin.scanner.verify');
+
     // Admin Booking Management
     Route::get('/admin/bookings', [AdminTicketController::class, 'bookings'])->name('admin.bookings.index');
     Route::patch('/admin/bookings/{booking}/status', [AdminTicketController::class, 'updateBookingStatus'])->name('admin.bookings.updateStatus');

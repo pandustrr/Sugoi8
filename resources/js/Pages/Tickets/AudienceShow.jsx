@@ -3,7 +3,7 @@ import { Head, usePage, router } from '@inertiajs/react';
 import { Dialog, Transition } from '@headlessui/react';
 import MainLayout from '../../Layouts/MainLayout';
 import Container from '../../Components/UI/Container';
-import SuccessModal from '../../Components/SuccessModal';
+import AudienceSuccessModal from '../../Components/AudienceSuccessModal';
 import TextRun from '../../Components/UI/TextRun';
 import Button from '../../Components/UI/Button';
 import {
@@ -333,24 +333,28 @@ export default function AudienceShow({ category, settings, auth }) {
                 onPreview={setPreviewSrc}
                 t={{
                     modalChoice: 'Pilihan Tiket',
-                    modalSummary: 'Ringkasan',
+                    modalSummary: 'Ringkasan Biaya',
+                    modalNote: '* Pastikan data diri benar. E-Ticket akan dikirim setelah verifikasi pembayaran.',
                     modalTicket: 'Tiket',
-                    modalFormTitle: 'Informasi Personal',
-                    modalFormName: 'Nama Lengkap',
-                    modalFormNIK: 'Nomor Induk Kependudukan (NIK)',
-                    modalFormEmail: 'Email',
-                    modalFormPhone: 'Nomor WhatsApp',
-                    modalPaymentTitle: 'Pembayaran',
-                    modalPaymentSubtitle: 'Pilih salah satu metode pembayaran di bawah ini:',
-                    modalPaymentAmount: 'Total Pembayaran',
+                    modalFillData: 'Lengkapi Data Diri',
+                    modalSelectTkt: 'Pilih Kategori Tiket',
+                    modalPersonalInfo: 'Informasi Personal',
+                    modalPlaceholderName: 'Nama Lengkap',
+                    modalNIK: 'NIK (Nomor Induk Kependudukan)',
+                    modalPlaceholderEmail: 'Alamat Email',
+                    modalPlaceholderWA: 'No. WhatsApp (Aktif)',
+                    modalPaymentInst: 'Instruksi Transfer',
+                    modalScanQRIS: 'Atau Scan QRIS',
                     modalUploadProof: 'Unggah Bukti Pembayaran',
-                    modalBtnSubmit: 'BAYAR & PESAN SEKARANG'
+                    modalChooseFile: 'Pilih Gambar Bukti Transfer',
+                    modalPayNow: 'Bayar & Pesan Sekarang',
+                    modalSeatsLeft: 'Kursi Tersisa',
+                    modalSoldOut: 'Habis',
                 }}
             />
 
             <ImagePreview src={previewSrc} onClose={() => setPreviewSrc(null)} />
-
-            <SuccessModal
+            <AudienceSuccessModal
                 booking={successBooking}
                 onClose={() => {
                     setSuccessBooking(null);
