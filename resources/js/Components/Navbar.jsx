@@ -245,7 +245,7 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                     </div>
                     <button
                         type="button"
-                        className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white active:scale-90 transition-transform"
+                        className="-m-2.5 inline-flex lg:hidden items-center justify-center rounded-md p-2.5 text-white active:scale-90 transition-transform"
                         onClick={() => setMobileMenuOpen(true)}
                     >
                         <Bars3Icon className="h-6 w-6" aria-hidden="true" />
