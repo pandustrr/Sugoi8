@@ -13,7 +13,8 @@ class SitemapController extends Controller
     {
         $urls = [
             ['loc' => url('/'), 'lastmod' => date('Y-m-d'), 'changefreq' => 'weekly', 'priority' => '1.0'],
-            ['loc' => route('tickets.index'), 'lastmod' => date('Y-m-d'), 'changefreq' => 'weekly', 'priority' => '0.9'],
+            ['loc' => route('eventprogram.index'), 'lastmod' => date('Y-m-d'), 'changefreq' => 'weekly', 'priority' => '0.9'],
+            ['loc' => route('eventprogram.checkStatus'), 'lastmod' => date('Y-m-d'), 'changefreq' => 'monthly', 'priority' => '0.7'],
             ['loc' => url('/about'), 'lastmod' => date('Y-m-d'), 'changefreq' => 'monthly', 'priority' => '0.8'],
             ['loc' => url('/services'), 'lastmod' => date('Y-m-d'), 'changefreq' => 'monthly', 'priority' => '0.8'],
             ['loc' => url('/portfolio'), 'lastmod' => date('Y-m-d'), 'changefreq' => 'weekly', 'priority' => '0.9'],
@@ -25,7 +26,7 @@ class SitemapController extends Controller
         $events = Event::orderBy('date', 'desc')->get();
         foreach ($events as $event) {
             $urls[] = [
-                'loc' => route('tickets.event.show', $event->slug),
+                'loc' => route('eventprogram.show', $event->slug),
                 'lastmod' => $event->updated_at->format('Y-m-d'),
                 'changefreq' => 'weekly',
                 'priority' => '0.9',
@@ -39,7 +40,7 @@ class SitemapController extends Controller
             ->get();
         foreach ($audienceCategories as $cat) {
             $urls[] = [
-                'loc' => url('/eventprogram/ticket/' . $cat->slug),
+                'loc' => route('eventprogram.audience-show', $cat->slug),
                 'lastmod' => $cat->updated_at->format('Y-m-d'),
                 'changefreq' => 'weekly',
                 'priority' => '0.85',
