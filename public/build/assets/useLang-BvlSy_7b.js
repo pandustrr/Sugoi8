@@ -1,0 +1,1 @@
+import{r as s}from"./app-C7dHEC1L.js";const r="sugoi_lang";function u(t="en"){const a=()=>{try{return localStorage.getItem(r)||t}catch{return t}},[n,o]=s.useState(a);return[n,e=>{try{localStorage.setItem(r,e)}catch{}o(e)}]}export{u};
