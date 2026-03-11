@@ -250,15 +250,33 @@ class AdminTicketController extends Controller
     public function bookings()
     {
         return Inertia::render('Admin/Bookings/Index', [
-            'bookings' => Booking::with('ticket.event')->latest()->get()
+            'bookings' => Booking::with(['ticket.event', 'audienceTicket'])->latest()->get()
         ]);
     }
 
     public function updateBookingStatus(Request $request, Booking $booking)
     {
-        $booking->update($request->validate([
+        $validated = $request->validate([
             'status' => 'required|in:pending,confirmed,cancelled'
-        ]));
+        ]);
+
+        $oldStatus = $booking->status;
+        $booking->update($validated);
+
+        // Jika baru di-confirm dan tipe-nya audience, generate barcode individual
+        if ($booking->status === 'confirmed' && $oldStatus !== 'confirmed' && $booking->booking_type === 'audience') {
+            // Hapus barcode lama jika ada (mencegah duplikasi jika status di-flip-flop)
+            $booking->attendeeTickets()->delete();
+
+            for ($i = 0; $i < $booking->quantity; $i++) {
+                \App\Models\AttendeeTicket::create([
+                    'booking_id' => $booking->id,
+                    'barcode'    => 'AUD-' . strtoupper(bin2hex(random_bytes(6))) . '-' . ($i + 1),
+                    'is_attended' => false,
+                ]);
+            }
+        }
+
         return back()->with('success', 'Status berhasil diperbarui.');
     }
 

@@ -12,6 +12,8 @@
     <meta name="keywords" content="event organizer, show management, MICE, event production, sugoi 8, sugoi 8 management, jember, bali, jakarta, manajemen acara">
     <meta name="author" content="Sugoi 8 Management">
     <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ url()->current() }}">
+
 
     <!-- Open Graph / Social Media (Facebook, WA, LinkedIn) -->
     <meta property="og:type" content="website">

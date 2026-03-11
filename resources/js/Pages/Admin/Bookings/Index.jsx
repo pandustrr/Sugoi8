@@ -33,10 +33,10 @@ export default function Index({ bookings }) {
     const [selectedBooking, setSelectedBooking] = useState(null);
 
     const divisions = [...new Set(bookings.map(b => b.division).filter(Boolean))];
-    const events = [...new Map(bookings.map(b => [b.ticket.event.id, b.ticket.event])).values()];
+    const events = [...new Map(bookings.filter(b => b.ticket?.event).map(b => [b.ticket.event.id, b.ticket.event])).values()];
 
     const availableCategories = [...new Set(bookings
-        .filter(b => eventFilter === 'all' || b.ticket.event.id === parseInt(eventFilter))
+        .filter(b => b.ticket?.event && (eventFilter === 'all' || b.ticket.event.id === parseInt(eventFilter)))
         .map(b => b.ticket.title)
     )];
 
@@ -98,8 +98,8 @@ export default function Index({ bookings }) {
     const filteredBookings = bookings.filter(b => {
         const matchStatus = filter === 'all' || b.status === filter;
         const matchDivision = divisionFilter === 'all' || b.division === divisionFilter;
-        const matchEvent = eventFilter === 'all' || b.ticket.event.id === parseInt(eventFilter);
-        const matchCategory = categoryFilter === 'all' || b.ticket.title === categoryFilter;
+        const matchEvent = eventFilter === 'all' || b.ticket?.event?.id === parseInt(eventFilter);
+        const matchCategory = categoryFilter === 'all' || b.ticket?.title === categoryFilter;
         return matchStatus && matchDivision && matchEvent && matchCategory;
     });
 
@@ -242,8 +242,8 @@ export default function Index({ bookings }) {
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-5 align-middle">
-                                                    <p className="text-xs font-black text-dark truncate max-w-[200px]">{booking.ticket.title}</p>
-                                                    <p className="text-[10px] font-bold text-dark/40 mt-1 uppercase truncate max-w-[200px]">{booking.ticket.event.title}</p>
+                                                    <p className="text-xs font-black text-dark truncate max-w-[200px]">{booking.ticket?.title || 'Unknown Category'}</p>
+                                                    <p className="text-[10px] font-bold text-dark/40 mt-1 uppercase truncate max-w-[200px]">{booking.ticket?.event?.title || 'Unknown Event'}</p>
                                                 </td>
                                                 <td className="px-6 py-5 align-middle">
                                                     <p className="text-sm font-black text-secondary italic">Rp {new Intl.NumberFormat('id-ID').format(booking.total_price)}</p>
@@ -421,8 +421,8 @@ export default function Index({ bookings }) {
                                                     <div>
                                                         <p className="text-[9px] font-black uppercase tracking-widest text-dark/40 mb-3 px-1">Detail Tiket</p>
                                                         <div className="bg-primary/5 p-4 rounded-3xl border border-primary/10">
-                                                            <p className="text-[10px] font-black uppercase tracking-widest text-primary/60 mb-1">{selectedBooking.ticket.event.title}</p>
-                                                            <h4 className="text-base font-black text-dark italic">{selectedBooking.ticket.title}</h4>
+                                                            <p className="text-[10px] font-black uppercase tracking-widest text-primary/60 mb-1">{selectedBooking.ticket?.event?.title || 'Unknown Event'}</p>
+                                                            <h4 className="text-base font-black text-dark italic">{selectedBooking.ticket?.title || 'Unknown Category'}</h4>
                                                             <div className="flex items-center justify-between border-t border-primary/10 pt-4 mt-4">
                                                                 <p className="text-xs font-bold text-dark/60">{selectedBooking.quantity} Tiket</p>
                                                                 <p className="text-xl font-black text-dark italic">Rp {new Intl.NumberFormat('id-ID').format(selectedBooking.total_price)}</p>
@@ -458,20 +458,34 @@ export default function Index({ bookings }) {
                                                                         <DocumentArrowUpIcon className="w-5 h-5 text-emerald-500" />
                                                                     </div>
                                                                     <div>
-                                                                        <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Terkumpul</p>
-                                                                        <p className="text-[10px] text-emerald-500 font-bold mt-0.5">
-                                                                            {new Date(selectedBooking.submission_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })} • {new Date(selectedBooking.submission_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}
+                                                                        <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">
+                                                                            {selectedBooking.submission_file === 'manually_uploaded_to_gdrive' ? 'Pendaftar Sudah Mengumpulkan' : 'Terkumpul (Sistem)'}
+                                                                        </p>
+                                                                        <p className="text-[10px] text-emerald-500 font-bold mt-1 uppercase italic">
+                                                                            {new Date(selectedBooking.submission_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })} • {new Date(selectedBooking.submission_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.', ':')}
                                                                         </p>
                                                                     </div>
                                                                 </div>
-                                                                <a
-                                                                    href={route('admin.bookings.downloadSubmission', selectedBooking.id)}
-                                                                    target="_blank"
-                                                                    className="w-10 h-10 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl flex items-center justify-center transition-all shadow-lg shadow-emerald-500/20"
-                                                                    title="Download File"
-                                                                >
-                                                                    <ArrowDownTrayIcon className="w-5 h-5" />
-                                                                </a>
+                                                                {selectedBooking.submission_file === 'manually_uploaded_to_gdrive' ? (
+                                                                    <a
+                                                                        href={selectedBooking.gdrive_link || selectedBooking.ticket.gdrive_link}
+                                                                        target="_blank"
+                                                                        rel="noopener noreferrer"
+                                                                        className="w-10 h-10 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl flex items-center justify-center transition-all shadow-lg shadow-emerald-500/20"
+                                                                        title="Lihat di GDrive"
+                                                                    >
+                                                                        <CloudArrowUpIcon className="w-5 h-5" />
+                                                                    </a>
+                                                                ) : (
+                                                                    <a
+                                                                        href={route('admin.bookings.downloadSubmission', selectedBooking.id)}
+                                                                        target="_blank"
+                                                                        className="w-10 h-10 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl flex items-center justify-center transition-all shadow-lg shadow-emerald-500/20"
+                                                                        title="Download File"
+                                                                    >
+                                                                        <ArrowDownTrayIcon className="w-5 h-5" />
+                                                                    </a>
+                                                                )}
                                                             </div>
                                                         ) : (
                                                             <div className="bg-light p-4 rounded-3xl border border-dark/5 flex flex-col items-center justify-center text-dark/20 py-8">

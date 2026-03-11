@@ -31,7 +31,7 @@ export default function Dashboard({ booking }) {
 
     const handleUpload = (e) => {
         e.preventDefault();
-        post(route('tickets.submitWork', booking.id), {
+        post(route('eventprogram.submitWork', booking.id), {
             forceFormData: true,
         });
     };
@@ -95,7 +95,7 @@ export default function Dashboard({ booking }) {
                             </p>
                         </div>
                         <Link
-                            href={route('tickets.logout')}
+                            href={route('eventprogram.logout')}
                             method="post"
                             as="button"
                             className="flex items-center gap-2 text-rose-500 hover:text-rose-600 transition-colors text-[10px] font-black uppercase tracking-widest group"
@@ -118,7 +118,7 @@ export default function Dashboard({ booking }) {
                                 </div>
 
                                 {booking.status === 'confirmed' ? (
-                                    (booking.gdrive_link || booking.ticket.gdrive_link) ? (
+                                    (booking.gdrive_link || booking.ticket?.gdrive_link) ? (
                                         booking.submission_file ? (
                                             <div className="p-6 bg-emerald-500/5 rounded-[32px] border border-emerald-500/20 text-center">
                                                 <div className="w-16 h-16 bg-emerald-500 rounded-3xl shadow-lg shadow-emerald-500/20 flex items-center justify-center mx-auto mb-4 text-white">
@@ -286,23 +286,23 @@ export default function Dashboard({ booking }) {
                                             <div className="flex gap-4">
                                                 <div className="w-16 h-16 rounded-2xl bg-light border border-dark/5 p-1 overflow-hidden shrink-0">
                                                     <img
-                                                        src={booking.ticket.event?.image_url ? (booking.ticket.event.image_url.startsWith('http') ? booking.ticket.event.image_url : `/storage/${booking.ticket.event.image_url}`) : '/images/placeholder.jpg'}
+                                                        src={booking.ticket?.event?.image_url ? (booking.ticket.event.image_url.startsWith('http') ? booking.ticket.event.image_url : `/storage/${booking.ticket.event.image_url}`) : '/images/placeholder.jpg'}
                                                         className="w-full h-full object-cover rounded-xl"
                                                     />
                                                 </div>
                                                 <div>
-                                                    <p className="text-sm font-black text-dark uppercase italic leading-tight">{booking.ticket.event.title}</p>
-                                                    <p className="text-[11px] font-bold text-primary mt-1 uppercase italic">Paket: {booking.ticket.title}</p>
+                                                    <p className="text-sm font-black text-dark uppercase italic leading-tight">{booking.ticket?.event?.title || 'Lomba Sugoi'}</p>
+                                                    <p className="text-[11px] font-bold text-primary mt-1 uppercase italic">Paket: {booking.ticket?.title}</p>
                                                 </div>
                                             </div>
                                             <div className="space-y-3">
                                                 <div className="flex items-center gap-3 text-dark/40 font-bold text-xs uppercase italic">
                                                     <CalendarIcon className="w-4 h-4 text-primary" />
-                                                    {new Date(booking.ticket.event.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+                                                    {booking.ticket?.event?.date ? new Date(booking.ticket.event.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '-'}
                                                 </div>
                                                 <div className="flex items-center gap-3 text-dark/40 font-bold text-xs uppercase italic">
                                                     <MapPinIcon className="w-4 h-4 text-primary" />
-                                                    {booking.ticket.event.location}
+                                                    {booking.ticket?.event?.location || '-'}
                                                 </div>
                                             </div>
                                         </div>

@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { Head, Link, usePage } from '@inertiajs/react';
 import MainLayout from '../Layouts/MainLayout';
+import { useLang } from '../hooks/useLang';
 import Container from '../Components/UI/Container';
 import Button from '../Components/UI/Button';
 import TextRun from '../Components/UI/TextRun';
@@ -18,7 +19,7 @@ import {
 
 export default function About() {
     const { settings } = usePage().props;
-    const [lang, setLang] = useState('en');
+    const [lang, setLang] = useLang('en');
     const [darkMode, setDarkMode] = useState(false);
     const contactRef = useRef(null);
 

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Head, usePage } from '@inertiajs/react';
 import MainLayout from '../Layouts/MainLayout';
+import { useLang } from '../hooks/useLang';
 import Container from '../Components/UI/Container';
 import Button from '../Components/UI/Button';
 import TextRun from '../Components/UI/TextRun';
@@ -17,7 +18,7 @@ import {
 
 export default function Services() {
     const { settings } = usePage().props;
-    const [lang, setLang] = useState('en');
+    const [lang, setLang] = useLang('en');
     const [darkMode, setDarkMode] = useState(false);
 
     const heroImage = settings?.services_hero_bg || "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&q=80&w=2000";
@@ -108,7 +109,7 @@ export default function Services() {
         }
     };
 
-    const t = content[lang];
+    const t = content[lang] || content['en'];
     const [selectedItem, setSelectedItem] = useState(null);
     const [itemCatId, setItemCatId] = useState(null);
     const [isCategoryView, setIsCategoryView] = useState(false);

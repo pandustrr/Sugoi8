@@ -4,7 +4,7 @@ import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 import WhatsAppWidget from '../Components/UI/WhatsAppWidget';
 
-export default function MainLayout({ children, lang = 'en', onLangChange, darkMode, onDarkModeToggle }) {
+export default function MainLayout({ children, lang = 'id', onLangChange, darkMode, onDarkModeToggle }) {
     const [isMounted, setIsMounted] = useState(false);
     const { settings } = usePage().props;
 

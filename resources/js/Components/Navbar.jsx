@@ -225,23 +225,33 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                         </div>
                     </nav>
 
-                    <div className="flex lg:hidden gap-4 items-center">
-                        <button
-                            onClick={() => onLangChange(lang === 'en' ? 'id' : 'en')}
-                            className="text-[10px] font-black text-white/70 border border-white/20 px-2 py-1 rounded uppercase"
-                        >
-                            {lang}
-                        </button>
-                        <button
-                            type="button"
-                            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white active:scale-90 transition-transform"
-                            onClick={() => setMobileMenuOpen(true)}
-                        >
-                            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-                        </button>
+                    <div className="flex lg:hidden gap-1 items-center bg-white/5 p-1 rounded-xl border border-white/5">
+                        {[
+                            { code: 'id', label: 'ID' },
+                            { code: 'en', label: 'EN' },
+                            { code: 'jp', label: 'JP' },
+                        ].map(({ code, label }) => (
+                            <button
+                                key={code}
+                                onClick={() => onLangChange(code)}
+                                className={`text-[9px] font-black px-2 py-1.5 rounded-lg transition-all duration-300 ${lang === code
+                                    ? 'text-secondary bg-secondary/10'
+                                    : 'text-white/40'
+                                    }`}
+                            >
+                                {label}
+                            </button>
+                        ))}
                     </div>
+                    <button
+                        type="button"
+                        className="-m-2.5 inline-flex lg:hidden items-center justify-center rounded-md p-2.5 text-white active:scale-90 transition-transform"
+                        onClick={() => setMobileMenuOpen(true)}
+                    >
+                        <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+                    </button>
                 </div>
-            </header >
+            </header>
 
             <Transition show={mobileMenuOpen} as={Fragment}>
                 <Disclosure as="div" className="lg:hidden">

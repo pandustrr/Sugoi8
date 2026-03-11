@@ -78,8 +78,13 @@ Route::post('/eventprogram/logout', [TicketController::class, 'logout'])->name('
 // User Ticket Routes (Event Program)
 Route::get('/eventprogram', [TicketController::class, 'index'])->name('eventprogram.index');
 Route::get('/eventprogram/{event:slug}', [TicketController::class, 'showEvent'])->name('eventprogram.show');
-Route::get('/eventprogram/ticket/{ticket}', [TicketController::class, 'show'])->name('eventprogram.ticket.show');
+
 Route::post('/eventprogram/ticket/{ticket}/purchase', [TicketController::class, 'purchase'])->name('eventprogram.purchase');
+
+// User Ticket Routes (Audience)
+Route::get('/eventprogram/ticket/{mainCategory:slug}', [TicketController::class, 'showAudience'])->name('eventprogram.audience-show');
+Route::post('/eventprogram/audience-purchase/{audienceTicket}', [TicketController::class, 'purchaseAudience'])->name('eventprogram.audience-purchase');
+
 
 // Public Program Click Tracker → logs click then redirects to external link
 Route::get('/programs/{program}/join', [AdminProgramController::class, 'trackClick'])->name('programs.join');
@@ -141,9 +146,25 @@ Route::middleware('auth')->group(function () {
     Route::patch('/admin/categories/{ticket}', [AdminTicketController::class, 'updateCategory'])->name('admin.categories.update');
     Route::delete('/admin/categories/{ticket}', [AdminTicketController::class, 'deleteCategory'])->name('admin.categories.destroy');
 
-    // Event Content Management
+    // Admin Event Content Management
     Route::post('/admin/events/{event}/contents', [AdminTicketController::class, 'addContent'])->name('admin.eventcontents.store');
     Route::delete('/admin/event-contents/{content}', [AdminTicketController::class, 'deleteContent'])->name('admin.eventcontents.destroy');
+
+    // Admin Audience Ticket Management
+    Route::get('/admin/audience-tickets', [\App\Http\Controllers\Admin\AdminAudienceTicketController::class, 'index'])->name('admin.audience-tickets.index');
+    Route::post('/admin/audience-tickets/main', [\App\Http\Controllers\Admin\AdminAudienceTicketController::class, 'storeMainCategory'])->name('admin.audience-tickets.main.store');
+    Route::post('/admin/audience-tickets/main/{mainCategory:id}', [\App\Http\Controllers\Admin\AdminAudienceTicketController::class, 'updateMainCategory'])->name('admin.audience-tickets.main.update');
+    Route::delete('/admin/audience-tickets/main/{mainCategory:id}', [\App\Http\Controllers\Admin\AdminAudienceTicketController::class, 'destroyMainCategory'])->name('admin.audience-tickets.main.destroy');
+    Route::post('/admin/audience-tickets', [\App\Http\Controllers\Admin\AdminAudienceTicketController::class, 'store'])->name('admin.audience-tickets.store');
+    Route::post('/admin/audience-tickets/{audienceTicket}', [\App\Http\Controllers\Admin\AdminAudienceTicketController::class, 'update'])->name('admin.audience-tickets.update');
+    Route::delete('/admin/audience-tickets/{audienceTicket}', [\App\Http\Controllers\Admin\AdminAudienceTicketController::class, 'destroy'])->name('admin.audience-tickets.destroy');
+
+    // Admin Audience Bookings (Data Tiket Penonton)
+    Route::get('/admin/audience-bookings', [\App\Http\Controllers\Admin\AdminAudienceBookingController::class, 'index'])->name('admin.audience-bookings.index');
+    Route::patch('/admin/audience-bookings/{booking}/status', [\App\Http\Controllers\Admin\AdminAudienceBookingController::class, 'updateStatus'])->name('admin.audience-bookings.updateStatus');
+    Route::delete('/admin/audience-bookings/{booking}', [\App\Http\Controllers\Admin\AdminAudienceBookingController::class, 'destroy'])->name('admin.audience-bookings.destroy');
+    Route::get('/admin/scanner', [\App\Http\Controllers\Admin\AdminAudienceBookingController::class, 'scanner'])->name('admin.scanner.index');
+    Route::post('/admin/scanner/verify', [\App\Http\Controllers\Admin\AdminAudienceBookingController::class, 'scanRecord'])->name('admin.scanner.verify');
 
     // Admin Booking Management
     Route::get('/admin/bookings', [AdminTicketController::class, 'bookings'])->name('admin.bookings.index');

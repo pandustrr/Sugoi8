@@ -1,6 +1,7 @@
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useState, useEffect, useRef } from 'react';
 import MainLayout from '../Layouts/MainLayout';
+import { useLang } from '../hooks/useLang';
 import Container from '../Components/UI/Container';
 import TextRun from '../Components/UI/TextRun';
 import Button from '../Components/UI/Button';
@@ -89,7 +90,7 @@ const translations = {
         heroTag: "Mewujudkan Mimpi & Merancang Pengalaman",
         heroTitle1: "SUGOI 8",
         heroTitle2: "MANAGEMENT",
-        heroDesc: "Kreativitas yang inovatif, layanan terintegritas dan profesional, dengan plaman dan portofolio yang kuat, efisien dalam eksekusi, kolaborasi yang berberpusat pada klien.",
+        heroDesc: "Kreativitas yang inovatif, layanan terintegrasi dan profesional, dengan pengalaman dan portofolio yang kuat, efisien dalam eksekusi, kolaborasi yang berpusat pada klien.",
         heroBtn: "MULAI SEKARANG",
         // heroShowreel: "Lihat Showreel",
         aboutTag: "Apa itu",
@@ -198,7 +199,7 @@ const translations = {
 
 export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [] }) {
     const { settings } = usePage().props;
-    const [lang, setLang] = useState('en');
+    const [lang, setLang] = useLang('en');
     const [darkMode, setDarkMode] = useState(false);
     const [visible, setVisible] = useState({});
     const sectionRefs = useRef({});
@@ -457,7 +458,7 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
                                 </p>
                                 <p className="text-dark/50 text-sm md:text-base font-medium mt-3 leading-relaxed">
                                     {lang === 'id'
-                                        ? 'Kreativitas yang inovatif, layanan terintegritas dan profesional, dengan plaman dan portofolio yang kuat, efisien dalam eksekusi, kolaborasi yang berberpusat pada klien.'
+                                        ? 'Kreativitas yang inovatif, layanan terintegrasi dan profesional, dengan pengalaman dan portofolio yang kuat, efisien dalam eksekusi, kolaborasi yang berpusat pada klien.'
                                         : 'Innovative creativity, integrated and professional services, with strong planning and portfolio, efficient in execution, client-centered collaboration.'}
                                 </p>
                             </div>

@@ -10,7 +10,15 @@ import {
     LinkIcon,
     ArrowUpTrayIcon,
     MagnifyingGlassPlusIcon,
-    PencilSquareIcon
+    PencilSquareIcon,
+    TicketIcon,
+    UserGroupIcon,
+    ClipboardDocumentListIcon,
+    ArrowTopRightOnSquareIcon,
+    ChevronRightIcon,
+    ShareIcon,
+    CheckIcon,
+    CursorArrowRaysIcon,
 } from '@heroicons/react/24/outline';
 
 const imgSrc = (url) => url ? (url.startsWith('http') ? url : `/storage/${url}`) : null;
@@ -22,6 +30,7 @@ export default function Index({ programs }) {
     const [editingProgram, setEditingProgram] = useState(null);
     const [formPreviewUrl, setFormPreviewUrl] = useState(null);
     const [editPreviewUrl, setEditPreviewUrl] = useState(null);
+    const [copiedId, setCopiedId] = useState(null);
 
     // ── Add form ──
     const addForm = useForm({ title: '', registration_link: '', image: null });
@@ -78,131 +87,174 @@ export default function Index({ programs }) {
         }
     };
 
+    // ── Copy link ──
+    const copyLink = (program) => {
+        navigator.clipboard.writeText(program.registration_link).then(() => {
+            setCopiedId(program.id);
+            setTimeout(() => setCopiedId(null), 2000);
+        });
+    };
+
     return (
-        <div className="min-h-screen bg-light flex">
-            <Head title="Program Lainnya | Sugoi 8 Admin" />
-            <SidebarAdmin activePage="programs" />
+        <>
+            <div className="min-h-screen bg-light flex">
+                <Head title="Program Lainnya | Sugoi 8 Admin" />
+                <SidebarAdmin activePage="programs" />
 
-            <main className="grow min-w-0 pt-[52px] lg:pt-0">
-                {/* ── Header ── */}
-                <header className="bg-white px-4 md:px-8 py-4 md:py-6 border-b border-dark/5 flex items-center justify-between gap-4">
-                    <div className="min-w-0">
-                        <h1 className="text-base md:text-xl font-black text-dark uppercase tracking-tight leading-none mb-1">Program Lainnya</h1>
-                        <p className="text-dark/30 text-[9px] md:text-[10px] font-bold uppercase tracking-widest">
-                            Total {programs.length} Program
-                        </p>
-                    </div>
-                    <button
-                        onClick={() => setIsAdding(true)}
-                        className="shrink-0 bg-primary text-white px-4 md:px-6 py-3 md:py-4 rounded-2xl flex items-center gap-2 hover:scale-105 transition-all shadow-lg shadow-primary/20 font-black text-[9px] md:text-[10px] uppercase tracking-widest"
-                    >
-                        <PlusIcon className="w-4 h-4" />
-                        <span className="hidden sm:inline">Add Content</span>
-                    </button>
-                </header>
-
-                {/* ── Grid ── */}
-                <div className="p-4 md:p-8">
-                    {flash?.success && (
-                        <div className="mb-6 p-4 bg-green-100 border border-green-200 text-green-700 rounded-2xl font-bold text-sm">
-                            {flash.success}
+                <main className="grow min-w-0 pt-[52px] lg:pt-0">
+                    {/* ── Header ── */}
+                    <header className="bg-white px-4 md:px-8 py-4 md:py-6 border-b border-dark/5 flex items-center justify-between gap-4">
+                        <div className="min-w-0">
+                            <h1 className="text-base md:text-xl font-black text-dark uppercase tracking-tight leading-none mb-1">Program Lainnya</h1>
+                            <p className="text-dark/30 text-[9px] md:text-[10px] font-bold uppercase tracking-widest">
+                                Total {programs.length} Program
+                            </p>
                         </div>
-                    )}
+                        <button
+                            onClick={() => setIsAdding(true)}
+                            className="shrink-0 bg-primary text-white px-4 md:px-6 py-3 md:py-4 rounded-2xl flex items-center gap-2 hover:scale-105 transition-all shadow-lg shadow-primary/20 font-black text-[9px] md:text-[10px] uppercase tracking-widest"
+                        >
+                            <PlusIcon className="w-4 h-4" />
+                            <span className="hidden sm:inline">Add Content</span>
+                        </button>
+                    </header>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
-                        {programs.map((program) => {
-                            const src = imgSrc(program.image_url);
-                            return (
-                                <div key={program.id} className="bg-white rounded-[24px] md:rounded-[32px] border border-dark/5 overflow-hidden shadow-sm flex flex-col">
-                                    {/* Poster — klik untuk preview */}
-                                    <button
-                                        type="button"
-                                        onClick={() => src && setLightboxSrc(src)}
-                                        className="aspect-4/5 relative overflow-hidden group/img block w-full"
-                                        title="Klik untuk perbesar"
-                                    >
-                                        {src ? (
-                                            <img src={src} className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-105" alt={program.title} />
-                                        ) : (
-                                            <div className="w-full h-full bg-light flex items-center justify-center">
-                                                <PhotoIcon className="w-10 h-10 text-dark/10" />
-                                            </div>
-                                        )}
-                                        {src && (
-                                            <div className="absolute top-2 right-2 w-8 h-8 bg-dark/40 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity">
-                                                <MagnifyingGlassPlusIcon className="w-4 h-4 text-white" />
-                                            </div>
-                                        )}
-                                    </button>
-
-                                    {/* Info */}
-                                    <div className="p-4 flex flex-col grow gap-2">
-                                        <h3 className="font-black text-dark uppercase text-[10px] md:text-xs italic line-clamp-2 leading-snug">{program.title}</h3>
-                                        <a
-                                            href={program.registration_link}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="flex items-center gap-1.5 text-[9px] font-bold text-primary hover:underline truncate"
-                                        >
-                                            <LinkIcon className="w-3 h-3 shrink-0" />
-                                            <span className="truncate">Lihat Link</span>
-                                        </a>
-
-                                        {/* Click count indicator */}
-                                        <div className="flex items-center gap-1.5 text-[9px] font-bold text-dark/40 bg-dark/5 w-fit px-2 py-1 rounded-md mt-1">
-                                            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
-                                            </svg>
-                                            <span>{program.clicks_count || 0} Klik</span>
-                                        </div>
-
-                                        {/* Action buttons — always visible */}
-                                        <div className="flex items-center gap-2 mt-auto pt-3 border-t border-dark/5">
-                                            {/* Preview */}
-                                            <button
-                                                type="button"
-                                                onClick={() => src && setLightboxSrc(src)}
-                                                disabled={!src}
-                                                className="flex-1 flex items-center justify-center gap-1 py-2 rounded-xl bg-light hover:bg-dark/5 text-dark/40 hover:text-dark transition-all text-[8px] font-black uppercase tracking-wider disabled:opacity-30"
-                                            >
-                                                <MagnifyingGlassPlusIcon className="w-3.5 h-3.5" />
-                                                <span className="hidden sm:inline">Preview</span>
-                                            </button>
-                                            {/* Edit */}
-                                            <button
-                                                type="button"
-                                                onClick={() => openEdit(program)}
-                                                className="flex-1 flex items-center justify-center gap-1 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-400 hover:text-blue-600 transition-all text-[8px] font-black uppercase tracking-wider"
-                                            >
-                                                <PencilSquareIcon className="w-3.5 h-3.5" />
-                                                <span className="hidden sm:inline">Edit</span>
-                                            </button>
-                                            {/* Delete */}
-                                            <button
-                                                type="button"
-                                                onClick={() => handleDelete(program.id)}
-                                                className="flex-1 flex items-center justify-center gap-1 py-2 rounded-xl bg-red-50 hover:bg-red-100 text-red-400 hover:text-red-600 transition-all text-[8px] font-black uppercase tracking-wider"
-                                            >
-                                                <TrashIcon className="w-3.5 h-3.5" />
-                                                <span className="hidden sm:inline">Hapus</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            );
-                        })}
-
-                        {programs.length === 0 && (
-                            <div className="col-span-full py-16 md:py-24 text-center bg-white rounded-[32px] md:rounded-[40px] border-2 border-dashed border-dark/5">
-                                <PhotoIcon className="w-12 h-12 md:w-16 md:h-16 text-dark/5 mx-auto mb-4" />
-                                <p className="text-dark/20 font-black uppercase tracking-widest text-[9px] md:text-[10px]">
-                                    Belum ada program. Klik "Add Content" untuk mulai.
-                                </p>
+                    {/* ── Content ── */}
+                    <div className="p-4 md:p-8">
+                        {flash?.success && (
+                            <div className="mb-6 p-4 bg-green-100 border border-green-200 text-green-700 rounded-2xl font-bold text-sm flex items-center gap-2">
+                                <CheckIcon className="w-5 h-5 shrink-0" />
+                                {flash.success}
                             </div>
                         )}
+
+                        <div className="grid grid-cols-1 gap-6">
+                            {programs.length === 0 ? (
+                                <div className="bg-white rounded-[40px] border border-dark/5 p-16 md:p-20 text-center shadow-sm">
+                                    <PhotoIcon className="w-16 h-16 text-dark/5 mx-auto mb-6" />
+                                    <h3 className="text-xl font-black text-dark uppercase tracking-tight mb-2">Belum Ada Program</h3>
+                                    <p className="text-dark/40 font-medium text-sm">Klik "Add Content" untuk memulai.</p>
+                                </div>
+                            ) : (
+                                programs.map((program) => {
+                                    const src = imgSrc(program.image_url);
+                                    return (
+                                        <div key={program.id} className="bg-white rounded-[40px] border border-dark/5 overflow-hidden shadow-sm hover:shadow-xl hover:shadow-dark/5 transition-shadow duration-300">
+                                            <div className="p-6 md:p-8 flex flex-col md:flex-row gap-6 md:gap-8 items-start">
+
+                                                {/* ── Poster ── */}
+                                                <div className="w-full md:w-48 flex flex-col gap-3 shrink-0">
+                                                    <div
+                                                        className="aspect-square rounded-3xl bg-light overflow-hidden border border-dark/5 group relative cursor-zoom-in"
+                                                        onClick={() => src && setLightboxSrc(src)}
+                                                    >
+                                                        {src ? (
+                                                            <img
+                                                                src={src}
+                                                                alt={program.title}
+                                                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                                            />
+                                                        ) : (
+                                                            <div className="w-full h-full flex items-center justify-center text-dark/10">
+                                                                <PhotoIcon className="w-12 h-12" />
+                                                            </div>
+                                                        )}
+                                                        {src && (
+                                                            <div className="absolute inset-0 bg-dark/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                                <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full border border-white/30 flex items-center justify-center text-white">
+                                                                    <MagnifyingGlassPlusIcon className="w-5 h-5" />
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    {/* Quick image replace */}
+                                                    <label className="cursor-pointer bg-dark text-white text-[9px] font-black uppercase tracking-widest py-2.5 px-4 rounded-xl text-center hover:bg-primary transition-all">
+                                                        Ganti Poster
+                                                        <input
+                                                            type="file"
+                                                            className="hidden"
+                                                            accept="image/*"
+                                                            onChange={(e) => {
+                                                                const file = e.target.files[0];
+                                                                if (!file) return;
+                                                                openEdit(program);
+                                                            }}
+                                                        />
+                                                    </label>
+                                                </div>
+
+                                                {/* ── Content ── */}
+                                                <div className="grow min-w-0">
+                                                    <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-5">
+                                                        <div className="min-w-0">
+                                                            <h3 className="text-xl md:text-2xl font-black text-dark uppercase tracking-tighter leading-tight mb-2 truncate">{program.title}</h3>
+                                                            <a
+                                                                href={program.registration_link}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="flex items-center gap-2 text-[10px] font-bold text-primary hover:underline truncate max-w-sm"
+                                                            >
+                                                                <LinkIcon className="w-3.5 h-3.5 shrink-0" />
+                                                                <span className="truncate">{program.registration_link}</span>
+                                                                <ArrowTopRightOnSquareIcon className="w-3 h-3 shrink-0" />
+                                                            </a>
+                                                        </div>
+
+                                                        {/* Action buttons */}
+                                                        <div className="flex gap-2 shrink-0">
+                                                            <button
+                                                                onClick={() => copyLink(program)}
+                                                                className={`px-4 py-2.5 rounded-2xl flex items-center gap-2 transition-all font-black text-[9px] uppercase tracking-widest ${copiedId === program.id ? 'bg-green-500 text-white shadow-lg shadow-green-500/20' : 'bg-light text-dark/60 hover:bg-dark hover:text-white'}`}
+                                                            >
+                                                                {copiedId === program.id ? <CheckIcon className="w-4 h-4" /> : <ShareIcon className="w-4 h-4" />}
+                                                                <span className="hidden sm:inline">{copiedId === program.id ? 'Tersalin' : 'Salin Link'}</span>
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => openEdit(program)}
+                                                                className="p-2.5 bg-light text-dark/60 rounded-2xl hover:bg-primary/10 hover:text-primary transition-all border border-dark/5 shadow-sm"
+                                                                title="Edit Program"
+                                                            >
+                                                                <PencilSquareIcon className="w-5 h-5" />
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => handleDelete(program.id)}
+                                                                className="p-2.5 bg-light text-dark/60 rounded-2xl hover:bg-red-500/10 hover:text-red-500 transition-all border border-dark/5 shadow-sm"
+                                                                title="Hapus Program"
+                                                            >
+                                                                <TrashIcon className="w-5 h-5" />
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Stats row */}
+                                                    <div className="bg-light/60 rounded-[24px] p-4 md:p-5 border border-dark/5 flex items-center gap-6">
+                                                        <div className="flex items-center gap-3">
+                                                            <div className="w-10 h-10 bg-white rounded-xl shadow-sm border border-dark/5 flex items-center justify-center shrink-0">
+                                                                <CursorArrowRaysIcon className="w-5 h-5 text-primary" />
+                                                            </div>
+                                                            <div>
+                                                                <p className="text-[9px] font-black uppercase tracking-widest text-dark/30">Total Klik</p>
+                                                                <p className="text-lg font-black text-dark leading-none">{program.clicks_count || 0}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="h-8 w-px bg-dark/5" />
+                                                        <div>
+                                                            <p className="text-[9px] font-black uppercase tracking-widest text-dark/30 mb-0.5">Link Pendaftaran</p>
+                                                            <p className="text-[10px] font-bold text-dark/40 truncate max-w-[200px] md:max-w-xs">{program.registration_link}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })
+                            )}
+                        </div>
                     </div>
-                </div>
-            </main>
+                </main>
+            </div>
 
             {/* ── Lightbox ── */}
             <Transition show={!!lightboxSrc} as={Fragment}>
@@ -249,7 +301,7 @@ export default function Index({ programs }) {
                 submitLabel={editForm.processing ? 'Menyimpan...' : 'Simpan Perubahan'}
                 imageRequired={false}
             />
-        </div>
+        </>
     );
 }
 

@@ -11,6 +11,7 @@ import {
     UserCircleIcon,
     BanknotesIcon,
     PhotoIcon,
+    ExclamationTriangleIcon,
 } from '@heroicons/react/24/outline';
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
@@ -70,7 +71,7 @@ export default function BookingModal({ isOpen, onClose, event, selectedTicket, s
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!selectedTicket) return;
-        post(route('tickets.purchase', selectedTicket.id), {
+        post(route('eventprogram.purchase', selectedTicket.id), {
             onSuccess: handleClose,
         });
     };
@@ -452,7 +453,7 @@ export default function BookingModal({ isOpen, onClose, event, selectedTicket, s
                                             {/* Disclaimer Pembayaran */}
                                             {(!data.payment_proof && !processing) && (
                                                 <div className="bg-red-50 border border-red-100 rounded-xl p-3 flex items-center gap-3 animate-pulse">
-                                                    <span className="text-base">⚠️</span>
+                                                    <ExclamationTriangleIcon className="w-5 h-5 text-red-500 shrink-0" />
                                                     <p className="text-[10px] font-black text-red-600 uppercase tracking-widest leading-relaxed">
                                                         Wajib unggah bukti pembayaran.
                                                     </p>
