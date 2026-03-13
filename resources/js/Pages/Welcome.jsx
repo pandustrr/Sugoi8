@@ -90,7 +90,7 @@ const translations = {
         heroTag: "Mewujudkan Mimpi & Merancang Pengalaman",
         heroTitle1: "SUGOI 8",
         heroTitle2: "MANAGEMENT",
-        heroDesc: "Kreativitas yang inovatif, layanan terintegrasi dan profesional, dengan pengalaman dan portofolio yang kuat, efisien dalam eksekusi, kolaborasi yang berpusat pada klien.",
+        heroDesc: "Kreativitas inovatif, layanan profesional terintegrasi dengan portofolio kuat. Efisien dalam eksekusi dan kolaborasi yang berpusat pada kepuasan klien.",
         heroBtn: "MULAI SEKARANG",
         // heroShowreel: "Lihat Showreel",
         aboutTag: "Apa itu",
@@ -364,9 +364,9 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
                             />
                             {/* Tagline below image */}
                             <div className="mt-3 md:mt-6 flex flex-col items-start translate-x-1 w-fit">
-                                <p className="text-sm md:text-2xl lg:text-3xl font-black italic text-white tracking-tight leading-none mb-2 md:mb-3 whitespace-nowrap">
+                                <h1 className="text-sm md:text-2xl lg:text-3xl font-black italic text-white tracking-tight leading-none mb-2 md:mb-3 whitespace-nowrap">
                                     Designing Dreams, Crafting Experiences
-                                </p>
+                                </h1>
                                 <div className="w-full flex items-center">
                                     <div className="w-1 h-1 md:w-2 md:h-2 rounded-full bg-white shrink-0" />
                                     <div className="h-px md:h-[2px] bg-white grow" />
