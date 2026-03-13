@@ -8,7 +8,7 @@
     <title inertia>{{ config('app.name', 'Sugoi 8 Management') }}</title>
 
     <!-- Meta SEO Dasar -->
-    <meta name="description" content="Sugoi 8 Management - Mewujudkan Mimpi & Merancang Pengalaman. Solusi total event organizer, MICE, dan produksi panggung profesional terbaik di Indonesia.">
+
     <meta name="keywords" content="event organizer, show management, MICE, event production, sugoi 8, sugoi 8 management, jember, bali, jakarta, manajemen acara">
     <meta name="author" content="Sugoi 8 Management">
     <meta name="robots" content="index, follow">
