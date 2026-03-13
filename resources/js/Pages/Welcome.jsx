@@ -265,13 +265,24 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
             {/* 1. Hero Section */}
             <section className="relative min-h-[60vh] md:min-h-[75vh] flex items-center pt-16 md:pt-20 overflow-hidden bg-primary">
 
-                {/* Background Image with Parallax */}
+                {/* Background Media with Parallax */}
                 <div className="absolute inset-0 z-0">
-                    <img
-                        src={heroImage}
-                        className="w-full h-full object-cover opacity-90 grayscale-0"
-                        alt="Hero"
-                    />
+                    {heroImage?.match(/\.(mp4|webm|ogg|mov)$/i) ? (
+                        <video
+                            src={heroImage}
+                            className="w-full h-full object-cover opacity-90"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                        />
+                    ) : (
+                        <img
+                            src={heroImage}
+                            className="w-full h-full object-cover opacity-90 grayscale-0"
+                            alt="Hero"
+                        />
+                    )}
                     <div className="absolute inset-0 bg-linear-to-br from-white/10 via-transparent to-transparent" />
                 </div>
 

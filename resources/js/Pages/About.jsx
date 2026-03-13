@@ -200,12 +200,23 @@ export default function About() {
             {/* ── 1. HERO ── */}
             <section className="relative min-h-[600px] pt-52 pb-24 bg-primary text-white overflow-hidden">
                 <div className="absolute inset-0 z-0">
-                    <img
-                        src={heroImage}
-                        className="w-full h-full object-cover opacity-70 grayscale-0 scale-110 motion-safe:animate-[pulse_12s_ease-in-out_infinite] transform-gpu will-change-transform"
-                        style={{ transform: `scale(1.1) translate3d(0, ${scrollY * 0.15}px, 0)` }}
-                        alt="Hero"
-                    />
+                    {heroImage?.match(/\.(mp4|webm|ogg|mov)$/i) ? (
+                        <video
+                            src={heroImage}
+                            className="w-full h-full object-cover opacity-70 scale-110"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                        />
+                    ) : (
+                        <img
+                            src={heroImage}
+                            className="w-full h-full object-cover opacity-70 grayscale-0 scale-110 motion-safe:animate-[pulse_12s_ease-in-out_infinite] transform-gpu will-change-transform"
+                            style={{ transform: `scale(1.1) translate3d(0, ${scrollY * 0.15}px, 0)` }}
+                            alt="Hero"
+                        />
+                    )}
                     <div className="absolute inset-0 bg-linear-to-b from-primary/60 via-primary/25 to-transparent" />
                 </div>
 

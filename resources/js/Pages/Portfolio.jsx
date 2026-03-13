@@ -231,11 +231,22 @@ export default function Portfolio({ portfolioItems: dbItems }) {
             {/* ── 1. HERO ── */}
             <section className="relative min-h-[600px] pt-52 pb-24 bg-primary overflow-hidden">
                 <div className="absolute inset-0 z-0">
-                    <img
-                        src={heroImage}
-                        className="w-full h-full object-cover opacity-70 grayscale-0 scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
-                        alt="Hero Background"
-                    />
+                    {heroImage?.match(/\.(mp4|webm|ogg|mov)$/i) ? (
+                        <video
+                            src={heroImage}
+                            className="w-full h-full object-cover opacity-70 scale-110"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                        />
+                    ) : (
+                        <img
+                            src={heroImage}
+                            className="w-full h-full object-cover opacity-70 grayscale-0 scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
+                            alt="Hero Background"
+                        />
+                    )}
                     <div className="absolute inset-0 bg-linear-to-b from-primary/60 via-primary/25 to-transparent" />
                 </div>
                 <div className="absolute inset-0 z-0 pointer-events-none">

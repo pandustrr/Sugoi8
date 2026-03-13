@@ -492,12 +492,28 @@ export default function Ticket({ auth, events = [], programs = [], audienceCateg
             <section className="relative min-h-[600px] pt-52 pb-24 bg-primary overflow-hidden">
                 {/* BG photo */}
                 <div className="absolute inset-0 z-0">
-                    <img
-                        src={settings?.ticket_hero_bg || "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=2000"}
-                        className="w-full h-full object-cover opacity-70 grayscale-0 scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
-
-                        alt="Hero Background"
-                    />
+                    {(() => {
+                        const heroImage = settings?.ticket_hero_bg || "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=2000";
+                        if (heroImage?.match(/\.(mp4|webm|ogg|mov)$/i)) {
+                            return (
+                                <video
+                                    src={heroImage}
+                                    className="w-full h-full object-cover opacity-70"
+                                    autoPlay
+                                    muted
+                                    loop
+                                    playsInline
+                                />
+                            );
+                        }
+                        return (
+                            <img
+                                src={heroImage}
+                                className="w-full h-full object-cover opacity-70 grayscale-0 scale-110 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
+                                alt="Hero Background"
+                            />
+                        );
+                    })()}
                     <div className="absolute inset-0 bg-linear-to-b from-primary/60 via-primary/25 to-transparent" />
                 </div>
 
