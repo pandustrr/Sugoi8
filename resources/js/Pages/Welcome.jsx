@@ -376,7 +376,7 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
                             {/* Tagline below image */}
                             <div className="mt-3 md:mt-6 flex flex-col items-start translate-x-1 w-fit">
                                 <h1 className="text-sm md:text-2xl lg:text-3xl font-black italic text-white tracking-tight leading-none mb-2 md:mb-3 whitespace-nowrap">
-                                    Designing Dreams, Crafting Experiences
+                                    Sugoi 8 Management — Designing Dreams, Crafting Experiences
                                 </h1>
                                 <div className="w-full flex items-center">
                                     <div className="w-1 h-1 md:w-2 md:h-2 rounded-full bg-white shrink-0" />
