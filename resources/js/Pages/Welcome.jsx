@@ -90,7 +90,7 @@ const translations = {
         heroTag: "Mewujudkan Mimpi & Merancang Pengalaman",
         heroTitle1: "SUGOI 8",
         heroTitle2: "MANAGEMENT",
-        heroDesc: "Kreativitas yang inovatif, layanan terintegrasi dan profesional, dengan pengalaman dan portofolio yang kuat, efisien dalam eksekusi, kolaborasi yang berpusat pada klien.",
+        heroDesc: "Kreativitas inovatif, layanan profesional terintegrasi dengan portofolio kuat. Efisien dalam eksekusi dan kolaborasi yang berpusat pada kepuasan klien.",
         heroBtn: "MULAI SEKARANG",
         // heroShowreel: "Lihat Showreel",
         aboutTag: "Apa itu",
@@ -265,13 +265,24 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
             {/* 1. Hero Section */}
             <section className="relative min-h-[60vh] md:min-h-[75vh] flex items-center pt-16 md:pt-20 overflow-hidden bg-primary">
 
-                {/* Background Image with Parallax */}
+                {/* Background Media with Parallax */}
                 <div className="absolute inset-0 z-0">
-                    <img
-                        src={heroImage}
-                        className="w-full h-full object-cover opacity-90 grayscale-0"
-                        alt="Hero"
-                    />
+                    {heroImage?.match(/\.(mp4|webm|ogg|mov)$/i) ? (
+                        <video
+                            src={heroImage}
+                            className="w-full h-full object-cover opacity-90"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                        />
+                    ) : (
+                        <img
+                            src={heroImage}
+                            className="w-full h-full object-cover opacity-90 grayscale-0"
+                            alt="Hero"
+                        />
+                    )}
                     <div className="absolute inset-0 bg-linear-to-br from-white/10 via-transparent to-transparent" />
                 </div>
 
@@ -364,9 +375,9 @@ export default function Welcome({ portfolioItems: dbPortfolio = [], partners = [
                             />
                             {/* Tagline below image */}
                             <div className="mt-3 md:mt-6 flex flex-col items-start translate-x-1 w-fit">
-                                <p className="text-sm md:text-2xl lg:text-3xl font-black italic text-white tracking-tight leading-none mb-2 md:mb-3 whitespace-nowrap">
-                                    Designing Dreams, Crafting Experiences
-                                </p>
+                                <h1 className="text-sm md:text-2xl lg:text-3xl font-black italic text-white tracking-tight leading-none mb-2 md:mb-3 whitespace-nowrap">
+                                    Sugoi 8 Management — Designing Dreams, Crafting Experiences
+                                </h1>
                                 <div className="w-full flex items-center">
                                     <div className="w-1 h-1 md:w-2 md:h-2 rounded-full bg-white shrink-0" />
                                     <div className="h-px md:h-[2px] bg-white grow" />

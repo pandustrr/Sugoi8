@@ -131,19 +131,29 @@ class AdminController extends Controller
     public function updateSiteSettings(Request $request)
     {
         $request->validate([
-            'image' => ['nullable', 'image', 'max:2048'],
+            'image' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,mp4,mov,ogg,webm', 'max:10240'],
             'key' => ['required', 'string'],
         ]);
 
         if ($request->hasFile('image')) {
-            // Hero BG: 1920×1080, quality 85
-            $storedPath = ImageResizer::resizeAndStore(
-                $request->file('image'),
-                'site',
-                1920,
-                1080,
-                85
-            );
+            $file = $request->file('image');
+            $mimeType = $file->getMimeType();
+
+            if (str_starts_with($mimeType, 'image/')) {
+                // Hero BG: 1920×1080, quality 85
+                $storedPath = ImageResizer::resizeAndStore(
+                    $file,
+                    'site',
+                    1920,
+                    1080,
+                    85
+                );
+            } else {
+                // Handle video upload
+                $path = $file->store('site/videos', 'public');
+                $storedPath = '/storage/' . $path;
+            }
+
             \App\Models\SiteSetting::updateOrCreate(
                 ['key' => $request->key],
                 ['value' => $storedPath]

@@ -31,9 +31,17 @@ export default function PageSettings() {
 
     const getPreview = (pageId) => {
         if (activePageTab === pageId && data.image) {
-            return URL.createObjectURL(data.image);
+            return {
+                url: URL.createObjectURL(data.image),
+                isVideo: data.image.type.startsWith('video/')
+            };
         }
-        return settings[`${pageId}_hero_bg`] || settings['hero_background_image'];
+        const currentPath = settings[`${pageId}_hero_bg`] || settings['hero_background_image'];
+        const isVideo = currentPath?.match(/\.(mp4|webm|ogg|mov)$/i);
+        return {
+            url: currentPath,
+            isVideo: !!isVideo
+        };
     };
 
     const handleFileChange = (e) => {
@@ -113,18 +121,36 @@ export default function PageSettings() {
 
                         {/* Preview */}
                         <div className="relative aspect-video rounded-[32px] overflow-hidden bg-light border border-dark/5 flex items-center justify-center group shadow-inner">
-                            {getPreview(activePageTab) ? (
-                                <img
-                                    src={getPreview(activePageTab)}
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                    alt="Preview"
-                                />
-                            ) : (
-                                <div className="text-center opacity-20">
-                                    <PhotoIcon className="w-12 h-12 mx-auto mb-3" />
-                                    <p className="text-xs font-black uppercase tracking-widest">Belum Ada Gambar</p>
-                                </div>
-                            )}
+                            {(() => {
+                                const preview = getPreview(activePageTab);
+                                if (preview.url) {
+                                    if (preview.isVideo) {
+                                        return (
+                                            <video
+                                                src={preview.url}
+                                                className="w-full h-full object-cover"
+                                                autoPlay
+                                                muted
+                                                loop
+                                                playsInline
+                                            />
+                                        );
+                                    }
+                                    return (
+                                        <img
+                                            src={preview.url}
+                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                            alt="Preview"
+                                        />
+                                    );
+                                }
+                                return (
+                                    <div className="text-center opacity-20">
+                                        <PhotoIcon className="w-12 h-12 mx-auto mb-3" />
+                                        <p className="text-xs font-black uppercase tracking-widest">Belum Ada Media</p>
+                                    </div>
+                                );
+                            })()}
                         </div>
 
                         {/* Upload */}
@@ -133,11 +159,11 @@ export default function PageSettings() {
                                 <div className="grow w-full">
                                     <p className="text-[11px] font-bold text-dark/40 uppercase tracking-widest mb-1.5">Rekomendasi Ukuran</p>
                                     <p className="text-[10px] text-dark/20 font-bold uppercase tracking-widest leading-relaxed">
-                                        1920x1080px (16:9). Maks 2MB.
+                                        Gambar (1920x1080px) atau Video (MP4/WebM). Maks 10MB.
                                     </p>
                                 </div>
                                 <div className="shrink-0 w-full sm:w-auto">
-                                    <input type="file" id="hero-image" className="hidden" accept="image/*" onChange={handleFileChange} />
+                                    <input type="file" id="hero-image" className="hidden" accept="image/*,video/*" onChange={handleFileChange} />
                                     <label
                                         htmlFor="hero-image"
                                         className="block w-full px-10 py-4 bg-white border border-dark/10 rounded-2xl text-center cursor-pointer hover:border-primary transition-all shadow-sm"

@@ -158,13 +158,13 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
             <header
                 className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out glass-navbar shadow-lg border-b border-white/5 py-1 md:py-2"
             >
-                <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between">
-                    <div className="flex shrink-0 lg:mr-12">
+                <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 flex items-center justify-between gap-2">
+                    <div className="flex shrink-0 lg:mr-4 xl:mr-12">
                         <Link href="/" className="flex items-center group">
                             <img
                                 src="/logo-putih.png"
                                 alt="Sugoi Management 8"
-                                className="transition-all duration-300 object-contain group-hover:scale-105 h-9 md:h-14 lg:h-12"
+                                className="transition-all duration-300 object-contain group-hover:scale-105 h-9 md:h-10 lg:h-12"
                             />
                         </Link>
                     </div>
@@ -175,7 +175,7 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                                 <Link
                                     key={link.name}
                                     href={link.href}
-                                    className={`px-4 py-2 text-[12px] font-bold uppercase tracking-[0.2em] transition-all duration-300 relative group ${isActive(link.href) ? 'text-secondary' : 'text-white/80 hover:text-white'
+                                    className={`px-2 xl:px-4 py-2 text-[10px] xl:text-[12px] font-bold uppercase tracking-[0.1em] xl:tracking-[0.2em] transition-all duration-300 relative group ${isActive(link.href) ? 'text-secondary' : 'text-white/80 hover:text-white'
                                         }`}
                                 >
                                     {link.name}
@@ -209,14 +209,14 @@ export default function Navbar({ lang = 'en', onLangChange, darkMode, onDarkMode
                         <div className="flex items-center gap-3">
                             <Link
                                 href="/tickets/check-status"
-                                className="px-6 py-2.5 text-[11px] font-black tracking-[0.2em] transition-all hover:text-secondary text-white flex items-center gap-2"
+                                className="px-2 xl:px-6 py-2.5 text-[10px] xl:text-[11px] font-black tracking-[0.1em] xl:tracking-[0.2em] transition-all hover:text-secondary text-white flex items-center gap-1 xl:gap-2"
                             >
                                 {cur.login}
                             </Link>
                             <Button
                                 variant="secondary"
                                 href="/about#contact"
-                                className="px-6 py-2.5 text-[11px] font-black tracking-[0.2em] transition-all hover:scale-105 active:scale-95 flex items-center gap-2 group relative overflow-hidden rounded-md"
+                                className="px-3 xl:px-6 py-2.5 text-[10px] xl:text-[11px] font-black tracking-[0.1em] xl:tracking-[0.2em] transition-all hover:scale-105 active:scale-95 flex items-center gap-1 xl:gap-2 group relative overflow-hidden rounded-md"
                             >
                                 <span className="relative z-10 flex items-center gap-2">
                                     {cur.contact} <span className="text-sm transition-transform group-hover:translate-x-1">→</span>

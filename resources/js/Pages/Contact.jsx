@@ -54,11 +54,28 @@ export default function Contact() {
 
             <section className="relative pt-48 pb-24 bg-primary text-white overflow-hidden text-center">
                 <div className="absolute inset-0 z-0">
-                    <img
-                        src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=2000"
-                        className="w-full h-full object-cover opacity-60 grayscale-0 scale-110 motion-safe:animate-[pulse_15s_ease-in-out_infinite]"
-                        alt="Hero Background"
-                    />
+                    {(() => {
+                        const heroImage = settings?.contact_hero_bg || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=2000";
+                        if (heroImage?.match(/\.(mp4|webm|ogg|mov)$/i)) {
+                            return (
+                                <video
+                                    src={heroImage}
+                                    className="w-full h-full object-cover opacity-60"
+                                    autoPlay
+                                    muted
+                                    loop
+                                    playsInline
+                                />
+                            );
+                        }
+                        return (
+                            <img
+                                src={heroImage}
+                                className="w-full h-full object-cover opacity-60 grayscale-0 scale-110 motion-safe:animate-[pulse_15s_ease-in-out_infinite]"
+                                alt="Hero Background"
+                            />
+                        );
+                    })()}
                     <div className="absolute inset-0 bg-linear-to-b from-primary/75 via-primary/50 to-primary/20" />
                 </div>
 
