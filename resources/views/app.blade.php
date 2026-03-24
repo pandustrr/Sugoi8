@@ -47,27 +47,39 @@
     @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "name": "Sugoi 8 Management",
-            "url": "https://sugoi8management.com",
-            "logo": "https://sugoi8management.com/8-sugoi-trans.png",
-            "description": "Designing Dreams & Crafting Experiences. Sugoi 8 Management adalah penyedia solusi total untuk event organizer, MICE, dan manajemen pertunjukan profesional.",
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "Jl. Piere Tendean, Karangrejo, Sumbersari",
-                "addressLocality": "Jember",
-                "addressRegion": "Jawa Timur",
-                "postalCode": "68124",
-                "addressCountry": "ID"
+        [
+            {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "name": "Sugoi 8 Management",
+                "url": "https://sugoi8management.com",
+                "logo": "https://sugoi8management.com/8-sugoi-trans.png",
+                "description": "Designing Dreams & Crafting Experiences. Sugoi 8 Management adalah penyedia solusi total untuk event organizer, MICE, dan manajemen pertunjukan profesional.",
+                "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "Jl. Piere Tendean, Karangrejo, Sumbersari",
+                    "addressLocality": "Jember",
+                    "addressRegion": "Jawa Timur",
+                    "postalCode": "68124",
+                    "addressCountry": "ID"
+                },
+                "contactPoint": {
+                    "@type": "ContactPoint",
+                    "telephone": "+6285954464539",
+                    "contactType": "customer service"
+                }
             },
-            "contactPoint": {
-                "@type": "ContactPoint",
-                "telephone": "+6285954464539",
-                "contactType": "customer service"
+            {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Sugoi 8 Management",
+                    "item": "https://sugoi8management.com"
+                }]
             }
-        }
+        ]
     </script>
 
     @inertiaHead
