@@ -1,58 +1,33 @@
 import { useState, useMemo } from 'react';
 import { useForm, router } from '@inertiajs/react';
-import {
-    CheckCircleIcon,
-    PhotoIcon,
-    ArrowPathIcon,
-    XMarkIcon,
-    PlusIcon,
-} from '@heroicons/react/24/outline';
+import { CheckCircleIcon, PhotoIcon, ArrowPathIcon, XMarkIcon, PlusIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
+import { SERVICE_CATEGORIES, SERVICE_SUB_ITEMS } from '@/constants/serviceItems';
 
-export const SERVICE_IMAGES = [
-    {
-        id: 'eo',
-        key: 'service_img_event_organizer',
-        label: 'Event Organizer',
-        default: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=800',
-    },
-    {
-        id: 'show',
-        key: 'service_img_show_management',
-        label: 'Show Management',
-        default: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&q=80&w=800',
-    },
-    {
-        id: 'mice',
-        key: 'service_img_mice',
-        label: 'Service MICE',
-        default: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&q=80&w=800',
-    },
-    {
-        id: 'production',
-        key: 'service_img_production',
-        label: 'Production & Equipment',
-        default: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&q=80&w=800',
-    },
-    {
-        id: 'digital',
-        key: 'service_img_digital',
-        label: 'Digital Solutions',
-        default: 'https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=800',
-    },
-];
+// Clean up old SERVICE_IMAGES as we use the constant file now
+const SERVICE_IMAGES = SERVICE_CATEGORIES;
 
-function ServiceItemModal({ categoryId, item, onBlur, settings }) {
-    const slug = item?.toLowerCase().replace(/\s+/g, '_');
+
+function ServiceItemModal({ categoryId, itemObject, onBlur, settings }) {
+    const slug = itemObject.id;
     const mainKey = `service_item_${categoryId}_${slug}_main`;
+    const labelKeyEn = `service_item_label_${categoryId}_${slug}_en`;
+    const labelKeyId = `service_item_label_${categoryId}_${slug}_id`;
+
     const { data, setData, post, processing, reset } = useForm({
         image: null,
         key: mainKey,
     });
 
+    const { data: labelData, setData: setLabelData, post: postLabel, processing: labeling } = useForm({
+        [labelKeyEn]: settings[labelKeyEn] || itemObject.en,
+        [labelKeyId]: settings[labelKeyId] || itemObject.id_label,
+        type: 'label_update' // just a hint for backend if needed, though siteSettings.update is generic
+    });
+
     const [isSuccess, setIsSuccess] = useState(false);
+    const [isLabelSuccess, setIsLabelSuccess] = useState(false);
     const [extraSlots, setExtraSlots] = useState(0);
 
-    // Count how many sub images already exist in settings
     const existingCount = useMemo(() => {
         let count = 0;
         while (settings[`service_item_${categoryId}_${slug}_sub_${count + 1}`]) {
@@ -61,7 +36,7 @@ function ServiceItemModal({ categoryId, item, onBlur, settings }) {
         return count;
     }, [settings, categoryId, slug]);
 
-    const totalSlots = existingCount + 1 + extraSlots; // existing + 1 empty + extras
+    const totalSlots = existingCount + 1 + extraSlots;
 
     const handleFile = (e, key) => {
         const file = e.target.files[0];
@@ -82,20 +57,31 @@ function ServiceItemModal({ categoryId, item, onBlur, settings }) {
         });
     };
 
+    const handleLabelSubmit = (e) => {
+        e.preventDefault();
+        router.post(route('admin.siteSettings.text.update'), {
+            settings: {
+                [labelKeyEn]: labelData[labelKeyEn],
+                [labelKeyId]: labelData[labelKeyId],
+            }
+        }, {
+            onSuccess: () => {
+                setIsLabelSuccess(true);
+                setTimeout(() => setIsLabelSuccess(false), 3000);
+            }
+        });
+    };
 
     return (
         <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
-            <div
-                className="absolute inset-0 bg-dark/60 backdrop-blur-sm transition-opacity duration-500"
-                onClick={onBlur}
-            />
+            <div className="absolute inset-0 bg-dark/60 backdrop-blur-sm transition-opacity duration-500" onClick={onBlur} />
 
-            <div className="relative z-10 w-full max-w-md bg-white rounded-[40px] shadow-2xl border border-dark/5 flex flex-col animate-in zoom-in-95 duration-300" style={{ height: '90vh', overflow: 'hidden' }}>
+            <div className="relative z-10 w-full max-w-xl bg-white rounded-[40px] shadow-2xl border border-dark/5 flex flex-col animate-in zoom-in-95 duration-300" style={{ height: '90vh', overflow: 'hidden' }}>
                 {/* Static Header */}
                 <div className="p-8 pb-4 border-b border-dark/5 flex items-center justify-between shrink-0">
                     <div className="flex items-center gap-3">
                         <div className="w-2 h-2 bg-secondary rounded-full animate-pulse" />
-                        <h4 className="text-xs font-black text-dark uppercase tracking-widest leading-none">GALLERY: {item}</h4>
+                        <h4 className="text-xs font-black text-dark uppercase tracking-widest leading-none">Settings: {labelData[labelKeyEn]}</h4>
                     </div>
                     <button onClick={onBlur} className="p-2.5 bg-light hover:bg-dark text-dark/40 hover:text-white rounded-full transition-all group shadow-sm">
                         <XMarkIcon className="w-5 h-5" />
@@ -104,6 +90,41 @@ function ServiceItemModal({ categoryId, item, onBlur, settings }) {
 
                 {/* Scrollable Content */}
                 <div className="p-8 space-y-8" style={{ overflowY: 'auto', flex: 1, minHeight: 0 }}>
+                    {/* Label Editing Section */}
+                    <div className="p-6 bg-dark/[0.02] rounded-[32px] border border-dark/5 space-y-4">
+                        <div className="flex items-center justify-between">
+                            <p className="text-[10px] font-black uppercase text-dark/30 tracking-widest">Edit Labels</p>
+                            {isLabelSuccess && <span className="text-[9px] font-bold text-emerald-500 uppercase tracking-widest">Labels Saved</span>}
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-1.5">
+                                <label className="text-[9px] font-bold text-dark/40 uppercase tracking-wider ml-1">English Name</label>
+                                <input
+                                    type="text"
+                                    value={labelData[labelKeyEn]}
+                                    onChange={e => setLabelData(labelKeyEn, e.target.value)}
+                                    className="w-full bg-white border border-dark/10 rounded-xl px-4 py-2.5 text-xs font-bold text-dark focus:ring-2 focus:ring-primary/20 transition-all"
+                                />
+                            </div>
+                            <div className="space-y-1.5">
+                                <label className="text-[9px] font-bold text-dark/40 uppercase tracking-wider ml-1">Nama Indonesia</label>
+                                <input
+                                    type="text"
+                                    value={labelData[labelKeyId]}
+                                    onChange={e => setLabelData(labelKeyId, e.target.value)}
+                                    className="w-full bg-white border border-dark/10 rounded-xl px-4 py-2.5 text-xs font-bold text-dark focus:ring-2 focus:ring-primary/20 transition-all"
+                                />
+                            </div>
+                        </div>
+                        <button
+                            onClick={handleLabelSubmit}
+                            disabled={labeling}
+                            className="w-full py-3 bg-dark text-white rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-primary transition-all disabled:opacity-50"
+                        >
+                            {labeling ? 'SAVING...' : 'UPDATE NAMES'}
+                        </button>
+                    </div>
+
                     {isSuccess && (
                         <div className="bg-emerald-50 text-emerald-600 p-3 rounded-2xl text-center text-[10px] font-black uppercase tracking-widest border border-emerald-100 flex items-center justify-center gap-2">
                             <CheckCircleIcon className="w-4 h-4" /> Updated Successfully
@@ -115,9 +136,9 @@ function ServiceItemModal({ categoryId, item, onBlur, settings }) {
                         <p className="text-[10px] font-black uppercase text-dark/30 tracking-widest">Display Photo</p>
                         <div className="aspect-video bg-light rounded-3xl overflow-hidden border border-dark/5 relative group">
                             <img
-                                src={(data.image && data.key === mainKey) ? URL.createObjectURL(data.image) : (settings[mainKey] || "https://placehold.co/800x450/f8f8f8/dark?text=" + item)}
+                                src={(data.image && data.key === mainKey) ? URL.createObjectURL(data.image) : (settings[mainKey] || "https://placehold.co/800x450/f8f8f8/dark?text=" + slug)}
                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                                alt={item}
+                                alt={slug}
                             />
                         </div>
                         <div className="flex gap-2">
@@ -191,7 +212,6 @@ function ServiceItemModal({ categoryId, item, onBlur, settings }) {
 function ServiceImageCard({ service, currentImage, settings }) {
     const [activeItem, setActiveItem] = useState(null);
     const [isSuccess, setIsSuccess] = useState(false);
-
     const { data, setData, post, processing, reset } = useForm({
         image: null,
         key: service.key,
@@ -216,14 +236,7 @@ function ServiceImageCard({ service, currentImage, settings }) {
         });
     };
 
-    // Items list (mirrored from frontend content for consistency)
-    const items = {
-        eo: ["Event Planning", "Kreator", "Team Show", "Koreografer", "Event Branding", "Team Production", "Marketing Agency", "Others"],
-        show: ["Talent Handling", "Stage Manager", "Precise Rundown Control", "Show Director"],
-        mice: ["Corporate Meetings", "Incentive Trips", "Conventions", "Exhibitions & Expos"],
-        production: ["Sound System", "Lighting Design", "LED Visuals", "Stage Construction"],
-        digital: ["Web Development", "Landing Pages", "Digital Systems", "UI/UX Design", "E-Commerce", "Digital Marketing"]
-    };
+    const items = SERVICE_SUB_ITEMS[service.id] || [];
 
     return (
         <div className="relative bg-white rounded-[40px] border border-dark/5 p-8 shadow-sm group text-left transition-all duration-300 hover:shadow-xl">
@@ -270,25 +283,32 @@ function ServiceImageCard({ service, currentImage, settings }) {
             </div>
 
             <div className="pt-8 border-t border-dark/5">
-                <p className="text-[10px] font-black text-dark/30 uppercase tracking-[0.2em] mb-6 text-center">Manage Sub-Item Galleries</p>
+                <div className="flex flex-col gap-4 mb-6">
+                    <p className="text-[10px] font-black text-dark/30 uppercase tracking-[0.2em]">Manage Gallery Items</p>
+                </div>
+
                 <div className="flex flex-wrap gap-2 justify-center">
-                    {items[service.id].map((item, idx) => (
-                        <button
-                            key={idx}
-                            onClick={() => setActiveItem(item)}
-                            className={`px-5 py-3 rounded-2xl text-[9px] font-black uppercase tracking-widest transition-all border ${activeItem === item ? 'bg-primary text-white border-primary shadow-xl shadow-primary/30' : 'bg-light/40 text-dark/50 border-dark/5 hover:border-primary/40 hover:text-dark hover:bg-white'
-                                }`}
-                        >
-                            {item}
-                        </button>
-                    ))}
+                    {items.map((item, idx) => {
+                        const labelEn = settings[`service_item_label_${service.id}_${item.id}_en`] || item.en;
+                        return (
+                            <button
+                                key={idx}
+                                onClick={() => setActiveItem(item)}
+                                className={`px-5 py-3 rounded-2xl text-[9px] font-black uppercase tracking-widest transition-all border flex items-center gap-2 ${activeItem?.id === item.id ? 'bg-primary text-white border-primary shadow-xl shadow-primary/30' : 'bg-light/40 text-dark/50 border-dark/5 hover:border-primary/40 hover:text-dark hover:bg-white'
+                                    }`}
+                            >
+                                <PencilSquareIcon className="w-3.5 h-3.5 opacity-50" />
+                                {labelEn}
+                            </button>
+                        );
+                    })}
                 </div>
             </div>
 
             {activeItem && (
                 <ServiceItemModal
                     categoryId={service.id}
-                    item={activeItem}
+                    itemObject={activeItem}
                     onBlur={() => setActiveItem(null)}
                     settings={settings}
                 />
@@ -310,7 +330,7 @@ export default function ServiceImagesPanel({ settings }) {
                 </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {SERVICE_IMAGES.map((service) => (
+                {SERVICE_CATEGORIES.map((service) => (
                     <ServiceImageCard
                         key={service.key}
                         service={service}
