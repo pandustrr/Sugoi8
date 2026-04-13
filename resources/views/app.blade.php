@@ -47,8 +47,7 @@
     @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
-        [
-            {
+        [{
                 "@context": "https://schema.org",
                 "@type": "Organization",
                 "name": "Sugoi 8 Management",
@@ -64,10 +63,14 @@
                     "addressCountry": "ID"
                 },
                 "contactPoint": {
-                    "@type": "ContactPoint",
                     "telephone": "+6285954464539",
                     "contactType": "customer service"
-                }
+                },
+                "sameAs": [
+                    "https://www.instagram.com/sugoi8_management/",
+                    "https://www.youtube.com/@sugoi8management",
+                    "https://www.linkedin.com/company/sugoi-8-management/"
+                ]
             },
             {
                 "@context": "https://schema.org",
